@@ -55,9 +55,3 @@ export { default as nextSitemap, createSitemapConfig } from './next-sitemap/inde
  * @type {import('stylelint').Config}
  */
 export { default as stylelint } from './stylelint/index.js';
-
-/**
- * TypeScript base configuration.
- * @type {import('typescript').CompilerOptions}
- */
-export { default as typescriptBase } from './typescript/base.json';
