@@ -24,8 +24,7 @@
     "./commitlint": "./src/commitlint/index.js",
     "./stylelint": "./src/stylelint/index.js",
     "./next-sitemap": "./src/next-sitemap/index.js",
-    "./typescript/base": "./src/typescript/base.json",
-    "./typescript/tsconfig": "./src/typescript/tsconfig.json",
+    "./typescript": "./src/typescript/base.json",
     "./jsconfig": "./src/jsconfig/index.json"
   },
   "files": [
