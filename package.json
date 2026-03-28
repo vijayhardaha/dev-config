@@ -1,6 +1,6 @@
 {
   "name": "@vijayhardaha/dev-config",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Reusable development configurations for Next.js + TypeScript projects",
   "author": "Vijay Hardaha",
   "license": "MIT",
@@ -37,6 +37,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "release": "release-it",
+    "release:dry": "release-it --dry-run",
     "prepare": "husky"
   },
   "keywords": [
@@ -85,6 +87,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "release-it": "^19.2.4"
   }
 }
