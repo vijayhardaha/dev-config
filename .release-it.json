@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/release-it@19.2.4/schema/release-it.json",
+  "git": {
+    "requireCleanWorkingDir": true,
+    "commitMessage": "build(release): bump version to ${version}",
+    "tagAnnotation": "v${version}",
+    "tagName": "v${version}"
+  },
+  "npm": { "publish": true, "publishArgs": ["--access=public"], "ignoreVersion": true },
+  "github": { "releaseName": "Release v${version}" },
+  "hooks": {
+    "before:init": ["npm run format:check", "npm run lint"],
+    "after:release": "echo \"Released v${version} successfully!\""
+  }
+}
