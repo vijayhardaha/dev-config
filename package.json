@@ -75,18 +75,94 @@
     "stylelint-order": "^8",
     "typescript": "^5"
   },
+  "peerDependenciesMeta": {
+    "@commitlint/cli": {
+      "optional": false
+    },
+    "@commitlint/config-conventional": {
+      "optional": false
+    },
+    "@eslint/compat": {
+      "optional": false
+    },
+    "@eslint/eslintrc": {
+      "optional": false
+    },
+    "@eslint/js": {
+      "optional": false
+    },
+    "@next/eslint-plugin-next": {
+      "optional": true
+    },
+    "@typescript-eslint/eslint-plugin": {
+      "optional": true
+    },
+    "@typescript-eslint/parser": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": false
+    },
+    "eslint-config-next": {
+      "optional": true
+    },
+    "eslint-config-prettier": {
+      "optional": false
+    },
+    "eslint-plugin-import": {
+      "optional": true
+    },
+    "eslint-plugin-jsx-a11y": {
+      "optional": true
+    },
+    "eslint-plugin-prettier": {
+      "optional": false
+    },
+    "eslint-plugin-react": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "globals": {
+      "optional": false
+    },
+    "prettier": {
+      "optional": false
+    },
+    "stylelint": {
+      "optional": true
+    },
+    "stylelint-config-property-sort-order-smacss": {
+      "optional": true
+    },
+    "stylelint-config-standard-scss": {
+      "optional": true
+    },
+    "stylelint-order": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": false
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@eslint/compat": "^2.0.3",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.39.4",
+    "@typescript-eslint/parser": "^8.57.2",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "prettier": "^3.8.1",
     "release-it": "^19.2.4"
+  },
+  "overrides": {
+    "undici": "^7.0.0"
   }
 }
