@@ -1,0 +1,13 @@
+// =====================================================================
+// jsconfig.json
+// =====================================================================
+// Purpose: JavaScript configuration for module resolution and path
+//          mapping.
+// Docs: https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler#jsconfigjson
+// =====================================================================
+
+{
+  // ---- Configuration Inheritance ----
+  // Extend the base configuration from the src directory
+  "extends": "./src/jsconfig/index.json"
+}
