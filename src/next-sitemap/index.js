@@ -37,7 +37,7 @@ export function createSitemapConfig(options = {}) {
 
     // ---- Transform Function ----
     // Add last modified timestamp to each entry
-    transform: (_config, path) => {
+    transform: async (_config, path) => {
       return { loc: path, changefreq: _config.changefreq, priority: _config.priority, lastmod: lastModified };
     },
 
