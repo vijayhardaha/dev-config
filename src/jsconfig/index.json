@@ -1,0 +1,24 @@
+// =====================================================================
+// JavaScript Configuration
+// =====================================================================
+// Purpose: JavaScript configuration for module resolution and path mapping.
+// Docs: https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler#jsconfigjson
+// =====================================================================
+
+{
+  // ---- Compiler Options ----
+  // Use React's modern JSX transform for better performance
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    // Allow importing JSON modules
+    "resolveJsonModule": true,
+    // Base directory for non-relative imports
+    "baseUrl": ".",
+    // Map @/* to ./src/* for cleaner imports
+    "paths": { "@/*": ["./src/*"] }
+  },
+
+  // ---- Excluded Files ----
+  // Skip directories that don't need type checking
+  "exclude": ["node_modules", ".next", "out"]
+}
