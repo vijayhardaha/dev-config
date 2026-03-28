@@ -43,8 +43,13 @@ export const createConfig = (options = {}) => {
       // Apply to JavaScript files without TypeScript
       files: files.withoutTs,
 
+      // ---- Language Options ----
       languageOptions: commonLanguageOptions,
 
+      // ---- Settings ----
+      settings: { ...(importOrder && { 'import/resolver': { typescript: {} } }) },
+
+      // ---- Rules ----
       rules: {
         // ---- Unused Variables Rule ----
         // Report unused variables for JavaScript files

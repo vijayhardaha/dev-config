@@ -45,6 +45,7 @@ export const createConfig = (options = {}) => {
       // Apply to TypeScript files
       files: files.withTs,
 
+      // ---- Language Options ----
       languageOptions: {
         ...commonLanguageOptions,
         ...commonParser,
@@ -53,6 +54,10 @@ export const createConfig = (options = {}) => {
         parserOptions: { tsconfigRootDir: process.cwd() },
       },
 
+      // ---- Settings ----
+      settings: { ...(importOrder && { 'import/resolver': { typescript: {} } }) },
+
+      // ---- Rules ----
       rules: commonRules({ prettier, importOrder }),
     },
   ]);

@@ -50,6 +50,7 @@ export const createConfig = (options = {}) => {
       // Apply to TypeScript files
       files: files.withTs,
 
+      // ---- Language Options ----
       languageOptions: {
         ...commonLanguageOptions,
         ...commonParser,
@@ -58,9 +59,10 @@ export const createConfig = (options = {}) => {
         parserOptions: { ecmaFeatures: { jsx: true }, tsconfigRootDir: process.cwd() },
       },
 
-      // ---- React Settings ----
-      settings: { react: { version: 'detect' } },
+      // ---- Settings ----
+      settings: { react: { version: 'detect' }, ...(importOrder && { 'import/resolver': { typescript: {} } }) },
 
+      // ---- Rules ----
       rules: {
         // ---- React Rules ----
         // Disable React import requirement (Next.js handles this)
