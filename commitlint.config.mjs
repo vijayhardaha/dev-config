@@ -10,4 +10,14 @@
  */
 
 /** @type {import('@commitlint/types').UserConfig} */
-export { default } from './src/commitlint/index.js';
+const config = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'header-max-length': [2, 'always', 50],
+    'body-max-line-length': [2, 'always', 72],
+    'body-case': [2, 'always', ['sentence-case', 'lower-case']],
+    'subject-case': [0],
+  },
+};
+
+export default config;
