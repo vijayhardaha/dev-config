@@ -18,6 +18,38 @@ Reusable development configuration package for Next.js + TypeScript projects.
 npm install @vijayhardaha/dev-config --save-dev
 ```
 
+### Install Required Packages
+
+```bash
+npm install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals prettier typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+```
+
+### Install Optional Packages
+
+#### Stylelint
+
+```bash
+npm install --save-dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
+```
+
+#### React
+
+```bash
+npm install --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-plugin-import
+```
+
+#### Next.js
+
+```bash
+npm install --save-dev @next/eslint-plugin-next eslint-config-next
+```
+
+#### Commitlint
+
+```bash
+npm install --save-dev @commitlint/cli @commitlint/config-conventional
+```
+
 ## Quick Start
 
 ### ESLint
