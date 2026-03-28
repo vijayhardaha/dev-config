@@ -7,7 +7,6 @@ Reusable development configuration package for Next.js + TypeScript projects.
 - **ESLint** - Modular flat config with support for JavaScript, TypeScript, React, and Next.js
 - **Prettier** - Consistent code formatting with language-specific rules
 - **Commitlint** - Enforces conventional commit messages
-- **Husky** - Git hooks for pre-commit quality checks
 - **TypeScript** - Base configuration for type checking
 - **JSConfig** - IntelliSense support for JavaScript projects
 - **Stylelint** - CSS/SCSS linting configuration
