@@ -1,0 +1,81 @@
+{
+  "name": "@vijayhardaha/dev-config",
+  "version": "1.0.0",
+  "description": "Reusable development configurations for Next.js + TypeScript projects",
+  "author": "Vijay Hardaha",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./eslint": "./src/eslint/index.js",
+    "./eslint/ts": "./src/eslint/ts.js",
+    "./eslint/react": "./src/eslint/react.js",
+    "./eslint/next": "./src/eslint/next.js",
+    "./prettier": "./src/prettier/index.js",
+    "./commitlint": "./src/commitlint/index.js",
+    "./stylelint": "./src/stylelint/index.js",
+    "./next-sitemap": "./src/next-sitemap/index.js",
+    "./typescript/base": "./src/typescript/base.json",
+    "./typescript/tsconfig": "./src/typescript/tsconfig.json",
+    "./jsconfig": "./src/jsconfig/index.json"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "config",
+    "devtools",
+    "eslint",
+    "prettier",
+    "commitlint",
+    "stylelint",
+    "next-sitemap",
+    "typescript"
+  ],
+  "peerDependencies": {
+    "@commitlint/cli": "^20",
+    "@commitlint/config-conventional": "^20",
+    "@eslint/compat": "^2",
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9",
+    "@next/eslint-plugin-next": "^15",
+    "@typescript-eslint/eslint-plugin": "^8",
+    "@typescript-eslint/parser": "^8",
+    "eslint": "^9",
+    "eslint-config-next": "^15",
+    "eslint-config-prettier": "^10",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-jsx-a11y": "^6",
+    "eslint-plugin-prettier": "^5",
+    "eslint-plugin-react": "^7",
+    "eslint-plugin-react-hooks": "^7",
+    "globals": "^17",
+    "prettier": "^3",
+    "stylelint": "^17",
+    "stylelint-config-property-sort-order-smacss": "^11",
+    "stylelint-config-standard-scss": "^17",
+    "stylelint-order": "^8",
+    "typescript": "^5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@eslint/compat": "^2.0.3",
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.39.4",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.8.1"
+  }
+}
