@@ -1,1 +1,0 @@
-../src/eslint/index.js
