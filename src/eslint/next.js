@@ -13,7 +13,7 @@ import { defineConfig } from 'eslint/config';
 
 import { setup, commonIgnores, commonParser, commonRules, commonLanguageOptions, files } from './common.js';
 
-const { compat, __dirname } = setup();
+const { compat } = setup();
 
 /**
  * Creates an ESLint configuration object for Next.js projects with TypeScript
@@ -58,7 +58,7 @@ export const createConfig = (options = {}) => {
         ...commonParser,
         // ---- Parser Options ----
         // Configure TypeScript parser with React JSX support
-        parserOptions: { ecmaFeatures: { jsx: true }, tsconfigRootDir: __dirname },
+        parserOptions: { ecmaFeatures: { jsx: true }, tsconfigRootDir: process.cwd() },
       },
 
       // ---- React Settings ----

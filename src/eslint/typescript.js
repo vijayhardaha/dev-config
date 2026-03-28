@@ -13,7 +13,7 @@ import { defineConfig } from 'eslint/config';
 
 import { setup, commonIgnores, commonParser, commonRules, commonLanguageOptions, files } from './common.js';
 
-const { compat, __dirname } = setup();
+const { compat } = setup();
 
 /**
  * Creates an ESLint configuration object for TypeScript projects.
@@ -50,7 +50,7 @@ export const createConfig = (options = {}) => {
         ...commonParser,
         // ---- Parser Options ----
         // Configure TypeScript parser
-        parserOptions: { tsconfigRootDir: __dirname },
+        parserOptions: { tsconfigRootDir: process.cwd() },
       },
 
       rules: commonRules({ prettier, importOrder }),
