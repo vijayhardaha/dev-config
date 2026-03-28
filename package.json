@@ -1,6 +1,6 @@
 {
   "name": "@vijayhardaha/dev-config",
-  "version": "1.0.2-rc.0",
+  "version": "1.0.2-rc.1",
   "description": "Reusable development configurations for Next.js + TypeScript projects",
   "author": "Vijay Hardaha",
   "license": "MIT",
