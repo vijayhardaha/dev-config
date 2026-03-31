@@ -17,7 +17,7 @@ const config = {
   // ---- Rules ----
   // Maximum length for the commit header (first line)
   rules: {
-    'header-max-length': [2, 'always', 50],
+    'header-max-length': [2, 'always', 60],
 
     // Maximum length for any line in the commit body
     'body-max-line-length': [2, 'always', 72],
