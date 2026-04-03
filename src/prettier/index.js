@@ -60,6 +60,9 @@ const config = {
       files: ['*.json', '*.jsonc', '*.yml', '*.yaml', '*.md', '*.mdx'],
       options: { tabWidth: 2, trailingComma: 'none' },
     },
+    // ---- YAML ----
+    // Use yaml parser with 2-space indentation
+    { files: ['*.yml', '*.yaml'], options: { parser: 'yaml', tabWidth: 2 } },
   ],
 };
 
