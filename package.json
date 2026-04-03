@@ -17,7 +17,7 @@
   "exports": {
     ".": "./src/index.js",
     "./eslint": "./src/eslint/index.js",
-    "./eslint/ts": "./src/eslint/ts.js",
+    "./eslint/ts": "./src/eslint/typescript.js",
     "./eslint/react": "./src/eslint/react.js",
     "./eslint/next": "./src/eslint/next.js",
     "./prettier": "./src/prettier/index.js",
