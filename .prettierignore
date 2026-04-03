@@ -1,57 +1,135 @@
-# ======================================================================
+# =======================================================================
 # Prettier Ignore
-# ======================================================================
+# =======================================================================
 # Purpose: Tell Prettier which files to skip to avoid formatting
 #          generated or binary files (keeps diffs small and fast).
-# Docs: https://prettier.io/docs/ignore
-# ======================================================================
+# Docs:    https://prettier.io/docs/ignore
+# =======================================================================
 
 # ----------------------------------------------------------------------
-# Project & Build Artifacts
+# Dependencies
 # ----------------------------------------------------------------------
-.next/
-.idea/
-.husky/
-.vercel/
-.git/
+# Large binary folders — never format.
+.bun/
+.pnp/
+.pnp.*
+.pnpm-store/
 node_modules/
+vendor/
+
+# ----------------------------------------------------------------------
+# Build & Compilation Output
+# ----------------------------------------------------------------------
+# Next.js / React
+.next/
+out/
+
+# Svelte
+.svelte-kit/
+
+# Bundler output
 build/
 dist/
-out/
+
+# ----------------------------------------------------------------------
+# Cache Directories
+# ----------------------------------------------------------------------
+.cache/
+.eslintcache
+.stylelintcache
+.turbo/
+.vite/
+
+# ----------------------------------------------------------------------
+# Testing & Coverage
+# ----------------------------------------------------------------------
+.jest/
+.nyc_output/
+blob-report/
+coverage/
+playwright-report/
+test-results/
+vitest-results/
+
+# ----------------------------------------------------------------------
+# Configuration & Ide
+# ----------------------------------------------------------------------
+.idea/
+.vscode-insiders/
+
+# ----------------------------------------------------------------------
+# Deployment
+# ----------------------------------------------------------------------
+.netlify/
+.vercel/
+.wrangler/
+
+# ----------------------------------------------------------------------
+# Ai Coding Tools
+# ----------------------------------------------------------------------
+.claude/
+.codex/
+.droid/
+.kilo/
+.opencode/
+.qoder/
+.vibe/
+
+# ----------------------------------------------------------------------
+# Temporary Files
+# ----------------------------------------------------------------------
+.tmp/
+tmp/
 
 # ----------------------------------------------------------------------
 # Package Manager Lockfiles
 # ----------------------------------------------------------------------
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# Formatting these can cause massive, merge-breaking diffs.
 bun.lock
+composer.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
 
 # ----------------------------------------------------------------------
-# Static Assets & Public Data
+# Common Auto-Generated YAML
 # ----------------------------------------------------------------------
-public/
-vendor/
-assets/
-static/
+# These are typically generated or CI-related - not meant to be formatted.
+.gitlab/
+._circleci/
+*.kubeconfig
+.gitlab-ci.yml
+docker-compose.yml
+azure-pipelines.yml
+docker-compose.yaml
+bitbucket-pipelines.yml
+
+# ----------------------------------------------------------------------
+# Generated & Typings Files
+# ----------------------------------------------------------------------
+*.tsbuildinfo
+next-env.d.ts
 
 # ----------------------------------------------------------------------
 # Minified & Generated Files
 # ----------------------------------------------------------------------
-*.min.js
+# Never format minified code; it breaks the "minified" purpose.
 *.min.css
+*.min.js
 *.min.map
 
 # ----------------------------------------------------------------------
-# Environment & Config
+# Environment & Secrets
 # ----------------------------------------------------------------------
 .env
 .env.*
-.editorconfig
+*.pem
 
 # ----------------------------------------------------------------------
-# Logs & Cache
+# Logs
 # ----------------------------------------------------------------------
 *.log
 npm-debug.log*
-.cache
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
