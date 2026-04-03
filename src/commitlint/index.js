@@ -4,7 +4,7 @@
  * =====================================================================
  * Purpose: Enforce conventional commit message standards for consistent
  *          and meaningful Git commit history.
- * Docs: https://commitlint.js.org/#/
+ * Docs:    https://commitlint.js.org/#/
  * =====================================================================
  */
 
