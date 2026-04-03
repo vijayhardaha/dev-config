@@ -2,7 +2,10 @@
   "name": "@vijayhardaha/dev-config",
   "version": "1.0.7",
   "description": "Reusable development configurations for Next.js + TypeScript projects",
-  "author": "Vijay Hardaha",
+  "author": {
+    "name": "Vijay Hardaha",
+    "url": "https://github.com/vijayhardaha"
+  },
   "license": "MIT",
   "type": "module",
   "main": "./src/index.js",
