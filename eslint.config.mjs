@@ -1,11 +1,11 @@
 /**
  * =====================================================================
- * eslint.config.mjs
+ * Eslint Configuration (Flat)
  * =====================================================================
- * Purpose: ESLint configuration for linting JavaScript/TypeScript
- *          files.
- * Docs: https://eslint.org/docs/latest/use/configure/configuration-files-new
- * Usage: npx eslint .
+ * Purpose: Project-wide ESLint configuration for Next.js, TypeScript, and
+ *          React. Enforces code quality, accessibility, and consistent styling.
+ * Docs:    https://eslint.org/docs/latest/use/configure/configuration-files-new
+ * Usage:   npx eslint .
  * =====================================================================
  */
 
