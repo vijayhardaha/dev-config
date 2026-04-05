@@ -19,7 +19,8 @@
   },
   "files": [
     "src",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "main": "./src/index.js",
   "homepage": "https://github.com/vijayhardaha/dev-config#readme",
