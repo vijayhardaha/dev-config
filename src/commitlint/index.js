@@ -15,18 +15,11 @@ const config = {
   extends: ['@commitlint/config-conventional'],
 
   // ---- Rules ----
-  // Maximum length for the commit header (first line)
   rules: {
-    'header-max-length': [2, 'always', 60],
-
-    // Maximum length for any line in the commit body
-    'body-max-line-length': [2, 'always', 72],
-
-    // Commit body must be in sentence case or lower case
-    'body-case': [2, 'always', ['sentence-case', 'lower-case']],
-
-    // Subject case is not enforced (allows flexibility)
-    'subject-case': [0],
+    // Enforce a maximum header length of 72 characters
+    'header-max-length': [2, 'always', 72],
+    // Enforce lowercase for the scope of the commit message
+    'scope-case': [2, 'always', 'lower-case'],
   },
 };
 
