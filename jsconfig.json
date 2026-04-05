@@ -1,9 +1,9 @@
 // =====================================================================
-// jsconfig.json
+// JavaScript Configuration
 // =====================================================================
 // Purpose: JavaScript configuration for module resolution and path
 //          mapping.
-// Docs: https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler#jsconfigjson
+// Docs:    https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler#jsconfigjson
 // =====================================================================
 
 {
