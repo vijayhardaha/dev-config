@@ -1,10 +1,12 @@
-# Dev Config - Agent Instructions
+# AGENTS.md
+
+> **This file serves as the authoritative reference for AI agents (Cursor, Claude Code, etc.) working on the `vdo` codebase.**
 
 ## Project Overview
 
 This is a reusable development configuration package (`@vijayhardaha/dev-config`) for Next.js + TypeScript projects. It provides modular, configurable presets for linting, formatting, and commit standards.
 
-## Key Commands
+## Development Commands
 
 | Command                | Description                        |
 | ---------------------- | ---------------------------------- |
@@ -22,7 +24,15 @@ This is a reusable development configuration package (`@vijayhardaha/dev-config`
 - Use `@typescript-eslint/parser` for TypeScript files
 - Use `createConfig(options)` for flexible configuration
 
-## File Structure
+### Naming Conventions
+
+- Components: `PascalCase`
+- Functions/variables: `camelCase`
+- Files: `kebab-case`
+- Constants: `SCREAMING_SNAKE_CASE`
+-
+
+## Architecture
 
 ```
 src/
