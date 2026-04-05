@@ -22,20 +22,6 @@ This is a reusable development configuration package (`@vijayhardaha/dev-config`
 - Use `@typescript-eslint/parser` for TypeScript files
 - Use `createConfig(options)` for flexible configuration
 
-### Prettier
-
-- Print width: 120 characters
-- Tab width: 2 spaces (JS/TS), 4 spaces (Python/PHP)
-- Single quotes for JS/TS files
-- Trailing commas: es5 (JS/TS), none (JSON/YAML/MD)
-
-### Git Commits
-
-- Follow conventional commit format
-- Header max: 50 characters
-- Body max: 72 characters per line
-- Types: feat, fix, docs, style, refactor, test, chore
-
 ## File Structure
 
 ```
@@ -94,3 +80,36 @@ These are entry points that use the modular configs:
 2. Export default config and `createConfig` function if applicable
 3. Update `src/index.js` with new exports
 4. Update `package.json` exports field
+
+## Git Workflow
+
+Pre-commit hooks automatically run type check, lint, and format checks.
+
+**Before preparing git.md (after each task):**
+
+1. Run `npm run format:check` - Format check
+2. Run `npm run lint` - ESLint check
+
+**After completing a task:**
+
+1. Check unstaged changes: `git status --porcelain`
+2. Stage files: `git add <files>`
+3. Create `.tmp/git.md` containing the staged files and commit command
+
+Example `.tmp/git.md`:
+
+```bash
+git add src/content/index.tsx
+git commit -m "feat: add version dropdown selector
+
+- fetch versions from npm registry
+- render dropdown with recent versions"
+```
+
+## Commit Conventions
+
+**Format:** `<type>(<scope>): <summary>`
+
+**Types:** `feat`, `fix`, `docs`, `test`, `refactor`, `style`, `build`, `chore`
+
+**Rules:** Subject line ≤72 chars, blank line after subject, body wrapped at 100 chars.
