@@ -8,6 +8,19 @@
   },
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "release": "release-it",
+    "release:dry": "release-it --dry-run",
+    "prepare": "husky"
+  },
+  "files": [
+    "src",
+    "LICENSE"
+  ],
   "main": "./src/index.js",
   "homepage": "https://github.com/vijayhardaha/dev-config#readme",
   "repository": {
@@ -29,19 +42,6 @@
     "./next-sitemap": "./src/next-sitemap/index.js",
     "./tsconfig": "./src/tsconfig/index.json",
     "./jsconfig": "./src/jsconfig/index.json"
-  },
-  "files": [
-    "src",
-    "LICENSE"
-  ],
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "release": "release-it",
-    "release:dry": "release-it --dry-run",
-    "prepare": "husky"
   },
   "keywords": [
     "config",
