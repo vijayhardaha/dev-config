@@ -10,6 +10,8 @@
   "github": { "releaseName": "Release v${version}" },
   "hooks": {
     "before:init": ["npm run format:check", "npm run lint"],
-    "after:release": "echo \"Released v${version} successfully!\""
+    "before:release": "echo \"Publishing v${version}...\"",
+    "after:release": "echo \"Released v${version} successfully! 🎉\"",
+    "after:git:release": "echo \"Git tag v${version} pushed!\""
   }
 }
