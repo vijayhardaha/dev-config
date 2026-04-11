@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2024-12-09
+
+### Added
+
+- ESLint JSDoc rules support with `jsdoc` option in all eslint configs
+- Add `eslint-plugin-jsdoc` as peer dependency
+- Extract `tsRules`, `prettierRules`, `importOrderRules` functions from `commonRules`
+- Add `jsdocRules` function for public/exported API documentation
+
+### Changed
+
+- Format config files with prettier (jsdoc comment formatting in header separators)
+- Update AGENTS.md documentation with jsdoc option
+
 ## [1.0.10] - 2024-04-06
 
 ### Changed
@@ -119,6 +133,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[1.0.11]: https://github.com/vijayhardaha/dev-config/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/vijayhardaha/dev-config/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/vijayhardaha/dev-config/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/vijayhardaha/dev-config/compare/v1.0.7...v1.0.8
