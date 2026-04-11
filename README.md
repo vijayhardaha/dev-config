@@ -25,7 +25,7 @@ npm install @vijayhardaha/dev-config --save-dev
 ### Install Required Packages
 
 ```bash
-npm install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals prettier typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-import eslint-import-resolver-typescript
+npm install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals prettier typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript
 ```
 
 ### Install Optional Packages
@@ -98,6 +98,7 @@ export default createConfig({
   importOrder: true, // Enable import ordering
   react: true, // Enable React rules
   a11y: true // Enable accessibility rules
+  jsdoc: true // Enable JSDoc rules
 });
 ```
 
