@@ -68,10 +68,11 @@
     "eslint-config-prettier": "^10",
     "eslint-import-resolver-typescript": "^4",
     "eslint-plugin-import": "^2",
+    "eslint-plugin-jsdoc": "^62",
     "eslint-plugin-jsx-a11y": "^6",
     "eslint-plugin-prettier": "^5",
-    "eslint-plugin-react-hooks": "^7",
     "eslint-plugin-react": "^7",
+    "eslint-plugin-react-hooks": "^7",
     "globals": "^17",
     "prettier": "^3",
     "stylelint": "^17",
@@ -123,6 +124,9 @@
     "eslint-plugin-jsx-a11y": {
       "optional": true
     },
+    "eslint-plugin-jsdoc": {
+      "optional": true
+    },
     "eslint-plugin-prettier": {
       "optional": false
     },
@@ -165,6 +169,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsdoc": "^62.9.0",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
     "husky": "^9.1.7",

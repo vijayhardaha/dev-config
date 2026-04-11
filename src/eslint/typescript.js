@@ -1,12 +1,12 @@
 /**
- * =====================================================================
+ * =====================================================================.
  * Eslint Configuration (Flat)
- * =====================================================================
+ * =====================================================================.
  * Purpose: Project-wide ESLint configuration for TypeScript.
  *          Enforces code quality and consistent styling.
- * Docs: https://eslint.org/docs/latest/use/configure/configuration-files-new
- * Usage: npx eslint .
- * =====================================================================
+ * Docs:    https://eslint.org/docs/latest/use/configure/configuration-files-new
+ * Usage:   npx eslint .
+ * =====================================================================.
  */
 
 import { defineConfig } from 'eslint/config';
@@ -17,19 +17,23 @@ const { compat } = setup();
 
 /**
  * Creates an ESLint configuration object for TypeScript projects.
- * @param {Object} [options] - Configuration options
- * @param {boolean} [options.prettier=true] - Enable Prettier integration
- * @param {boolean} [options.importOrder=true] - Enable import order rules
- * @returns {import('eslint').Linter.Config[]} ESLint configuration array
+ *
+ * @param {object} [options] - Configuration options.
+ * @param {boolean} [options.prettier] - Enable Prettier integration.
+ * @param {boolean} [options.importOrder] - Enable import order rules.
+ * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ *
+ * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
-  const { prettier = true, importOrder = true } = options;
+  const { prettier = true, importOrder = true, jsdoc = true } = options;
 
   // ---- Extends Configs ----
   // Build the extends array based on enabled features
   const extendsConfigs = [
     'plugin:@typescript-eslint/recommended',
     importOrder && 'plugin:import/recommended',
+    jsdoc && 'plugin:jsdoc/recommended',
     prettier && 'plugin:prettier/recommended',
   ].filter(Boolean);
 
@@ -58,7 +62,7 @@ export const createConfig = (options = {}) => {
       settings: { ...(importOrder && { 'import/resolver': { typescript: {} } }) },
 
       // ---- Rules ----
-      rules: commonRules({ prettier, importOrder }),
+      rules: commonRules({ prettier, importOrder, jsdoc }),
     },
   ]);
 };

@@ -1,12 +1,12 @@
 /**
- * =====================================================================
+ * =====================================================================.
  * Eslint Configuration (Flat)
- * =====================================================================
+ * =====================================================================.
  * Purpose: Project-wide ESLint configuration for JavaScript.
  *          Enforces code quality and consistent styling.
- * Docs: https://eslint.org/docs/latest/use/configure/configuration-files-new
- * Usage: npx eslint .
- * =====================================================================
+ * Docs:    https://eslint.org/docs/latest/use/configure/configuration-files-new
+ * Usage:   npx eslint .
+ * =====================================================================.
  */
 
 import { defineConfig } from 'eslint/config';
@@ -17,19 +17,24 @@ const { compat } = setup();
 
 /**
  * Creates an ESLint configuration object with optional features.
- * @param {Object} [options] - Configuration options
- * @param {boolean} [options.prettier=true] - Enable Prettier integration
- * @param {boolean} [options.importOrder=true] - Enable import order rules
- * @returns {import('eslint').Linter.Config[]} ESLint configuration array
+ *
+ * @param {object} [options] - Configuration options.
+ * @param {boolean} [options.prettier] - Enable Prettier integration.
+ * @param {boolean} [options.importOrder] - Enable import order rules.
+ * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ *
+ * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
-  const { prettier = true, importOrder = true } = options;
+  const { prettier = true, importOrder = true, jsdoc = true } = options;
 
   // ---- Extends Configs ----
   // Build the extends array based on enabled features
-  const extendsConfigs = [importOrder && 'plugin:import/recommended', prettier && 'plugin:prettier/recommended'].filter(
-    Boolean
-  );
+  const extendsConfigs = [
+    importOrder && 'plugin:import/recommended',
+    jsdoc && 'plugin:jsdoc/recommended',
+    prettier && 'plugin:prettier/recommended',
+  ].filter(Boolean);
 
   return defineConfig([
     // ---- Global Ignores ----
@@ -66,7 +71,7 @@ export const createConfig = (options = {}) => {
         ],
         // ---- Common Rules ----
         // Apply shared rules based on options
-        ...commonRules({ prettier, importOrder, typescript: false }),
+        ...commonRules({ prettier, importOrder, typescript: false, jsdoc }),
       },
     },
   ]);
