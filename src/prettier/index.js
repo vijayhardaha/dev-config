@@ -1,12 +1,12 @@
 /**
- * =====================================================================
+ * =====================================================================.
  * Prettier Configuration
- * =====================================================================
+ * =====================================================================.
  * Purpose: Code formatting configuration for consistent style across
  *          the project.
- * Docs: https://prettier.io/docs/en/configuration.html
- * Usage: npx prettier --write .
- * =====================================================================
+ * Docs:    https://prettier.io/docs/en/configuration.html
+ * Usage:   npx prettier --write .
+ * =====================================================================.
  */
 
 /** @type {import("prettier").Config} */

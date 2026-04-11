@@ -1,20 +1,22 @@
 /**
- * =====================================================================
+ * =====================================================================.
  * Next Sitemap Configuration
- * =====================================================================
+ * =====================================================================.
  * Purpose: Next.js sitemap configuration for generating SEO-friendly
  *          sitemaps with robots.txt support.
- * Docs: https://github.com/iamvishnusankar/next-sitemap
- * =====================================================================
+ * Docs:    https://github.com/iamvishnusankar/next-sitemap
+ * =====================================================================.
  */
 
 /**
  * Creates a sitemap configuration object for next-sitemap.
- * @param {Object} [options] - Configuration options
- * @param {string} [options.siteUrl='https://example.com'] - Site base URL
- * @param {string} [options.outDir='./public'] - Output directory for sitemap files
- * @param {string[]} [options.exclude=['/404', '/500']] - Paths to exclude from sitemap
- * @returns {import('next-sitemap').IConfig} Sitemap configuration object
+ *
+ * @param {object} [options] - Configuration options.
+ * @param {string} [options.siteUrl] - Site base URL.
+ * @param {string} [options.outDir] - Output directory for sitemap files.
+ * @param {string[]} [options.exclude] - Paths to exclude from sitemap.
+ *
+ * @returns {import('next-sitemap').IConfig} Sitemap configuration object.
  */
 export function createSitemapConfig(options = {}) {
   const { siteUrl = 'https://example.com', outDir = './public', exclude = ['/404', '/500'] } = options;

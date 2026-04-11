@@ -58,19 +58,19 @@ src/
 ```javascript
 // Available options with defaults (all true):
 {
-  (prettier, importOrder);
+  (prettier, importOrder, jsdoc);
 }
 // TypeScript config:
 {
-  (prettier, importOrder);
+  (prettier, importOrder, jsdoc);
 }
 // React config:
 {
-  (prettier, a11y, importOrder);
+  (prettier, a11y, importOrder, jsdoc);
 }
 // Next.js config:
 {
-  (prettier, react, a11y, importOrder);
+  (prettier, react, a11y, importOrder, jsdoc);
 }
 ```
 
@@ -102,9 +102,13 @@ Pre-commit hooks automatically run type check, lint, and format checks.
 
 **After completing a task:**
 
-1. Check unstaged changes: `git status --porcelain`
+1. Check unstaged changes: `git status --porcelain` && `git diff`
 2. Stage files: `git add <files>`
 3. Create `.tmp/git.md` containing the staged files and commit command
+4. Create separate commits for each logical change
+5. Do NOT run git commands directly — only write to `.tmp/git.md`
+6. Wait for user to verify and commit
+7. Do NOT restore `.tmp/git.md` after it's cleared — clearing is intentional
 
 Example `.tmp/git.md`:
 
@@ -122,4 +126,4 @@ git commit -m "feat: add version dropdown selector
 
 **Types:** `feat`, `fix`, `docs`, `test`, `refactor`, `style`, `build`, `chore`
 
-**Rules:** Subject line ≤72 chars, blank line after subject, body wrapped at 100 chars.
+**Rules:** Subject line ≤50 chars, lowercase. Body: normal case, max 72 chars per line. Blank line after subject.

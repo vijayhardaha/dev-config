@@ -1,12 +1,12 @@
 /**
- * =====================================================================
+ * =====================================================================.
  * Stylelint Configuration
- * =====================================================================
+ * =====================================================================.
  * Purpose: CSS/SCSS linting configuration for consistent styling and
  *          proper property ordering.
- * Docs: https://stylelint.io/user-guide/configure
- * Usage: npx stylelint .
- * =====================================================================
+ * Docs:    https://stylelint.io/user-guide/configure
+ * Usage:   npx stylelint .
+ * =====================================================================.
  */
 
 /** @type {import("stylelint").Config} */
