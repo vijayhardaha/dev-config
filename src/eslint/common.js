@@ -150,7 +150,7 @@ export const jsdocRules = (jsdoc = true) =>
 
         // Avoid useless docs
         'jsdoc/no-types': 'off',
-        'jsdoc/informative-docs': 'warn',
+        'jsdoc/informative-docs': 'off',
 
         // Enforce property docs in typedef-style (optional)
         'jsdoc/require-property-description': 'warn',
