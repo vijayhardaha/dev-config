@@ -15,7 +15,8 @@
     "format:check": "prettier --check .",
     "release": "release-it",
     "release:dry": "release-it --dry-run",
-    "prepare": "husky"
+    "prepare": "husky",
+    "gc": "source .tmp/git.md"
   },
   "files": [
     "src",
