@@ -9,9 +9,7 @@
  * =====================================================================.
  */
 
-import { defineConfig } from 'eslint/config';
-
-import { setup, commonIgnores, commonParser, commonRules, commonLanguageOptions, files } from './common.js';
+import { setup, buildConfig, files } from './lib/index.js';
 
 const { compat } = setup();
 
@@ -25,66 +23,39 @@ const { compat } = setup();
  * @param {boolean} [options.a11y] - Enable accessibility rules.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ * @param {string[]} [options.ignores] - Additional ignore patterns.
+ * @param {object} [options.rules] - Additional or overridden rules.
+ * @param {object} [options.settings] - Additional settings.
+ * @param {string[]} [options.files] - Additional file patterns to lint.
+ * @param {object} [options.languageOptions] - Additional language options.
+ * @param {string[]} [options.plugins] - Additional plugin configs to extend.
+ * @param {string[]} [options.globalIgnores] - Additional global ignore patterns.
+ * @param {object} [options.extend] - Additional config properties to extend.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
   const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true } = options;
 
-  // ---- Extends Configs ----
-  // Build the extends array based on enabled features
-  const extendsConfigs = [
-    'next/core-web-vitals',
-    'next/typescript',
-    react && 'plugin:react/recommended',
-    react && 'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:import/recommended',
-    a11y && 'plugin:jsx-a11y/recommended',
-    jsdoc && 'plugin:jsdoc/recommended',
-    prettier && 'plugin:prettier/recommended',
-  ].filter(Boolean);
-
-  return defineConfig([
-    // ---- Global Ignores ----
-    ...commonIgnores,
-
-    // ---- Extends Configs ----
-    ...compat.extends(...extendsConfigs),
-
-    {
-      // ---- TypeScript Files Configuration ----
-      // Apply to TypeScript files
-      files: files.withTs,
-
-      // ---- Language Options ----
-      languageOptions: {
-        ...commonLanguageOptions,
-        ...commonParser,
-        // ---- Parser Options ----
-        // Configure TypeScript parser with React JSX support
-        parserOptions: { ecmaFeatures: { jsx: true }, tsconfigRootDir: process.cwd() },
-      },
-
-      // ---- Settings ----
-      settings: {
-        ...(react && { react: { version: 'detect' } }),
-        ...(importOrder && { 'import/resolver': { typescript: {} } }),
-      },
-
-      // ---- Rules ----
-      rules: {
-        // ---- React Rules ----
-        // Disable React import requirement (Next.js handles this)
-        ...(react && { 'react/react-in-jsx-scope': 'off' }),
-        // Allow JSX and global attributes
-        ...(react && { 'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }] }),
-        // ---- Common Rules ----
-        // Apply shared rules
-        ...commonRules({ prettier, importOrder, jsdoc }),
-      },
+  return buildConfig({
+    compat,
+    files: files.withTs,
+    builtinPlugins: ['next/core-web-vitals', 'next/typescript', 'plugin:@typescript-eslint/recommended'],
+    conditionalPlugins: {
+      react: ['plugin:react/recommended', 'plugin:react-hooks/recommended'],
+      a11y: 'plugin:jsx-a11y/recommended',
     },
-  ]);
+    parserOptions: { ecmaFeatures: { jsx: true } },
+    settings: { react: { version: 'detect' } },
+    rules: {
+      ...(react && {
+        'react/react-in-jsx-scope': 'off',
+        'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }],
+      }),
+    },
+    typescript: true,
+    options: { ...options, prettier, react, a11y, importOrder, jsdoc },
+  });
 };
 
 export default createConfig();

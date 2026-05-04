@@ -9,9 +9,7 @@
  * =====================================================================.
  */
 
-import { defineConfig } from 'eslint/config';
-
-import { setup, commonIgnores, commonParser, commonRules, commonLanguageOptions, files } from './common.js';
+import { setup, buildConfig, files } from './lib/index.js';
 
 const { compat } = setup();
 
@@ -22,49 +20,27 @@ const { compat } = setup();
  * @param {boolean} [options.prettier] - Enable Prettier integration.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ * @param {string[]} [options.ignores] - Additional ignore patterns.
+ * @param {object} [options.rules] - Additional or overridden rules.
+ * @param {object} [options.settings] - Additional settings.
+ * @param {string[]} [options.files] - Additional file patterns to lint.
+ * @param {object} [options.languageOptions] - Additional language options.
+ * @param {string[]} [options.plugins] - Additional plugin configs to extend.
+ * @param {string[]} [options.globalIgnores] - Additional global ignore patterns.
+ * @param {object} [options.extend] - Additional config properties to extend.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
   const { prettier = true, importOrder = true, jsdoc = true } = options;
 
-  // ---- Extends Configs ----
-  // Build the extends array based on enabled features
-  const extendsConfigs = [
-    'plugin:@typescript-eslint/recommended',
-    importOrder && 'plugin:import/recommended',
-    jsdoc && 'plugin:jsdoc/recommended',
-    prettier && 'plugin:prettier/recommended',
-  ].filter(Boolean);
-
-  return defineConfig([
-    // ---- Global Ignores ----
-    ...commonIgnores,
-
-    // ---- Extends Configs ----
-    ...compat.extends(...extendsConfigs),
-
-    {
-      // ---- TypeScript Files Configuration ----
-      // Apply to TypeScript files
-      files: files.withTs,
-
-      // ---- Language Options ----
-      languageOptions: {
-        ...commonLanguageOptions,
-        ...commonParser,
-        // ---- Parser Options ----
-        // Configure TypeScript parser
-        parserOptions: { tsconfigRootDir: process.cwd() },
-      },
-
-      // ---- Settings ----
-      settings: { ...(importOrder && { 'import/resolver': { typescript: {} } }) },
-
-      // ---- Rules ----
-      rules: commonRules({ prettier, importOrder, jsdoc }),
-    },
-  ]);
+  return buildConfig({
+    compat,
+    files: files.withTs,
+    builtinPlugins: ['plugin:@typescript-eslint/recommended'],
+    typescript: true,
+    options: { ...options, prettier, importOrder, jsdoc },
+  });
 };
 
 export default createConfig();

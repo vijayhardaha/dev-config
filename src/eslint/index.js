@@ -9,9 +9,7 @@
  * =====================================================================.
  */
 
-import { defineConfig } from 'eslint/config';
-
-import { setup, commonIgnores, commonRules, commonLanguageOptions, files } from './common.js';
+import { setup, buildConfig, files } from './lib/index.js';
 
 const { compat } = setup();
 
@@ -22,59 +20,25 @@ const { compat } = setup();
  * @param {boolean} [options.prettier] - Enable Prettier integration.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ * @param {string[]} [options.ignores] - Additional ignore patterns.
+ * @param {object} [options.rules] - Additional or overridden rules.
+ * @param {object} [options.settings] - Additional settings.
+ * @param {string[]} [options.files] - Additional file patterns to lint.
+ * @param {object} [options.languageOptions] - Additional language options.
+ * @param {string[]} [options.plugins] - Additional plugin configs to extend.
+ * @param {string[]} [options.globalIgnores] - Additional global ignore patterns.
+ * @param {object} [options.extend] - Additional config properties to extend.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
   const { prettier = true, importOrder = true, jsdoc = true } = options;
 
-  // ---- Extends Configs ----
-  // Build the extends array based on enabled features
-  const extendsConfigs = [
-    importOrder && 'plugin:import/recommended',
-    jsdoc && 'plugin:jsdoc/recommended',
-    prettier && 'plugin:prettier/recommended',
-  ].filter(Boolean);
-
-  return defineConfig([
-    // ---- Global Ignores ----
-    ...commonIgnores,
-
-    // ---- Extends Configs ----
-    ...compat.extends(...extendsConfigs),
-
-    {
-      // ---- JavaScript Files Configuration ----
-      // Apply to JavaScript files without TypeScript
-      files: files.withoutTs,
-
-      // ---- Language Options ----
-      languageOptions: commonLanguageOptions,
-
-      // ---- Settings ----
-      settings: { ...(importOrder && { 'import/resolver': { typescript: {} } }) },
-
-      // ---- Rules ----
-      rules: {
-        // ---- Unused Variables Rule ----
-        // Report unused variables for JavaScript files
-        'no-unused-vars': [
-          'error',
-          {
-            vars: 'all',
-            args: 'after-used',
-            varsIgnorePattern: '^_',
-            argsIgnorePattern: '^_',
-            ignoreRestSiblings: true,
-            caughtErrors: 'all',
-          },
-        ],
-        // ---- Common Rules ----
-        // Apply shared rules based on options
-        ...commonRules({ prettier, importOrder, typescript: false, jsdoc }),
-      },
-    },
-  ]);
+  return buildConfig({
+    compat,
+    files: [...files.withoutTs, ...(options.files || [])],
+    options: { ...options, prettier, importOrder, jsdoc },
+  });
 };
 
 export default createConfig();

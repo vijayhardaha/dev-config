@@ -1,102 +1,11 @@
 /**
- * =====================================================================.
- * Eslint Common Configuration
- * =====================================================================.
- * Purpose: Shared setup for all ESLint configurations including common
- *          ignores, parser setup, and rule definitions.
- * Docs:    https://eslint.org/docs/latest/use/configure/configuration-files-new
- * =====================================================================.
- */
-
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import { globalIgnores } from 'eslint/config';
-import globals from 'globals';
-
-/**
- * Global ignore patterns for ESLint to skip build artifacts, dependencies,
- * and generated files during linting.
- */
-export const ignores = [
-  '**/.git/',
-  '**/.idea/',
-  '**/.vscode/',
-  '**/.husky/',
-  '**/node_modules/',
-  '**/.next/',
-  '**/dist/',
-  '**/build/',
-  '**/out/',
-  '**/.vercel/',
-  '**/.cache/',
-  '**/.turbo/',
-  '**/*.tsbuildinfo',
-  '**/coverage/',
-  '**/test-results/',
-  '**/.playwright-report/',
-  '**/public/',
-  '**/.env*',
-  '**/next-env.d.ts',
-  '**/*.log',
-  '**/.DS_Store',
-  '**/Thumbs.db',
-  '**/*.tmp',
-];
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-/**
- * Creates a FlatCompat instance for using flat config format with older
- * ESLint configurations.
- */
-const compat = new FlatCompat({ baseDirectory: __dirname, recommendedConfig: js.configs.recommended });
-
-/**
- * Returns the setup object containing shared utilities for ESLint configs.
- *
- * @returns {{ compat: FlatCompat, tsParser: typeof tsParser, __dirname: string }} Reusable setup utilities for ESLint configurations.
- */
-export const setup = () => ({ compat, tsParser, __dirname });
-
-/**
- * Global ignores configuration using ESLint's globalIgnores helper.
- *
- * @type {import('eslint').Linter.Config}
- */
-export const commonIgnores = [globalIgnores(ignores)];
-
-/**
- * Common parser configuration for TypeScript files.
- *
- * @type {{ parser: typeof tsParser }}
- */
-export const commonParser = { parser: tsParser };
-
-/**
- * Common language options for ESLint including ECMAScript version,
- * source type, and global variables.
- *
- * @type {import('eslint').Linter.LanguageOptions}
- */
-export const commonLanguageOptions = {
-  ecmaVersion: 'latest',
-  sourceType: 'module',
-  globals: { ...globals.browser, ...globals.node },
-};
-
-/**
  * Creates JSDoc rules for enforcing documentation on public/exported APIs.
  *
  * @param {boolean} [jsdoc] - Enable JSDoc rules.
  *
  * @returns {object} JSDoc ESLint rules object.
  */
-export const jsdocRules = (jsdoc = true) =>
+const jsdocRules = (jsdoc = true) =>
   jsdoc
     ? {
         // ---- JSDoc Rules for PUBLIC / EXPORTED APIs ----
@@ -164,7 +73,7 @@ export const jsdocRules = (jsdoc = true) =>
  *
  * @returns {object} TypeScript ESLint rules object.
  */
-export const tsRules = (typescript = true) =>
+const tsRules = (typescript = true) =>
   typescript
     ? {
         '@typescript-eslint/no-unused-vars': [
@@ -188,7 +97,7 @@ export const tsRules = (typescript = true) =>
  *
  * @returns {object} Prettier ESLint rules object.
  */
-export const prettierRules = (prettier = true) => (prettier ? { 'prettier/prettier': 'warn' } : {});
+const prettierRules = (prettier = true) => (prettier ? { 'prettier/prettier': 'warn' } : {});
 
 /**
  * Creates import order rules.
@@ -197,7 +106,7 @@ export const prettierRules = (prettier = true) => (prettier ? { 'prettier/pretti
  *
  * @returns {object} Import order ESLint rules object.
  */
-export const importOrderRules = (importOrder = true) =>
+const importOrderRules = (importOrder = true) =>
   importOrder
     ? {
         'import/order': [
@@ -245,10 +154,3 @@ export const commonRules = (options = {}) => {
     ...jsdocRules(jsdoc),
   };
 };
-
-/**
- * File patterns for ESLint configuration.
- *
- * @type {{ withTs: string[], withoutTs: string[] }}
- */
-export const files = { withTs: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'], withoutTs: ['**/*.{js,jsx,mjs,cjs}'] };
