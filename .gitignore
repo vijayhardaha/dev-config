@@ -30,6 +30,7 @@ node_modules/
 # ----------------------------------------------------------------------
 # Composer dependencies for WordPress / Laravel projects.
 vendor/
+languages/
 
 # ----------------------------------------------------------------------
 # Secrets & Credentials
@@ -73,6 +74,9 @@ build/
 # Linter / Formatter caches
 .eslintcache
 .stylelintcache
+
+# Phpcs
+.phpcs-cache
 
 # ----------------------------------------------------------------------
 # Testing & Coverage
@@ -154,15 +158,22 @@ tmp/
 # Local state, conversation history, and caches from AI agents.
 .claude/
 .codex/
+.copilot/
+.deepseek/
+.droid/
+.fallow/
+.gemini/
 .kilo/
+.kilocode/
+.mistral/
 .opencode/
 .qoder/
+.qwen/
 .vibe/
-.droid/
 
 # ----------------------------------------------------------------------
 # Ai Instruction Files (Track These)
 # ----------------------------------------------------------------------
 # Project-level instruction files should be COMMITTED, not ignored.
-# CLAUDE.md, AGENTS.md, .cursorrules, .kilocode/ (config only)
+# CLAUDE.md, AGENTS.md, .cursorrules, .kilocode/, .qoder/ (config only)
 # Do NOT add these to .gitignore.

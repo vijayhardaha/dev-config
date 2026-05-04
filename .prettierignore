@@ -69,10 +69,17 @@ vitest-results/
 # ----------------------------------------------------------------------
 .claude/
 .codex/
+.copilot/
+.deepseek/
 .droid/
+.fallow/
+.gemini/
 .kilo/
+.kilocode/
+.mistral/
 .opencode/
 .qoder/
+.qwen/
 .vibe/
 
 # ----------------------------------------------------------------------
