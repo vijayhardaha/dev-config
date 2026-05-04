@@ -48,14 +48,16 @@ export const buildConfig = ({
   } = options;
 
   // ---- Build extends configs ----
+  const conditionalPluginList = Object.entries(conditionalPlugins)
+    .filter(([key]) => options[key])
+    .flatMap(([, value]) => (Array.isArray(value) ? value : [value]));
+
   const builtPlugins = [
     ...builtinPlugins,
     importOrder && 'plugin:import/recommended',
     jsdoc && 'plugin:jsdoc/recommended',
     prettier && 'plugin:prettier/recommended',
-    ...Object.entries(conditionalPlugins)
-      .filter(([key]) => options[key])
-      .map(([, value]) => value),
+    ...conditionalPluginList,
   ].filter(Boolean);
 
   const plugins = [...builtPlugins, ...(userPlugins || [])];
