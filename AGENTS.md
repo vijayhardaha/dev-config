@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> **This file serves as the authoritative reference for AI agents (Cursor, Claude Code, etc.) working on the `vdo` codebase.**
+> **This file serves as the authoritative reference for AI agents (Cursor, Claude Code, etc.) working on the `@vijayhardaha/dev-config` codebase.**
 
 ## Project Overview
 
@@ -8,12 +8,15 @@ This is a reusable development configuration package (`@vijayhardaha/dev-config`
 
 ## Development Commands
 
-| Command                | Description                        |
-| ---------------------- | ---------------------------------- |
-| `npm run lint`         | Run ESLint                         |
-| `npm run lint:fix`     | Run ESLint with auto-fix           |
-| `npm run format`       | Format all files with Prettier     |
-| `npm run format:check` | Check formatting without modifying |
+| Command                 | Description                        |
+| ----------------------- | ---------------------------------- |
+| `bun run lint`          | Run ESLint                         |
+| `bun run lint:fix`      | Run ESLint with auto-fix           |
+| `bun run format`        | Format all files with Prettier     |
+| `bun run format:check`  | Check formatting without modifying |
+| `bun run test`          | Run tests with Vitest              |
+| `bun run test:watch`    | Run tests in watch mode            |
+| `bun run test:coverage` | Run tests with coverage            |
 
 ## Code Style Guidelines
 
@@ -30,25 +33,56 @@ This is a reusable development configuration package (`@vijayhardaha/dev-config`
 - Functions/variables: `camelCase`
 - Files: `kebab-case`
 - Constants: `SCREAMING_SNAKE_CASE`
--
+- Test files: Same name as source with `.test.js` extension
 
 ## Architecture
 
 ```
 src/
   index.js         - Main exports
+  index.test.js     - Tests for main exports
   eslint/
-    common.js      - Shared ESLint setup
-    index.js       - JavaScript config
-    typescript.js  - TypeScript config
-    react.js       - React config
-    next.js        - Next.js config
-  prettier/        - Prettier config
-  commitlint/      - Commitlint config
-  stylelint/       - Stylelint config
-  next-sitemap/    - Next sitemap config
-  typescript/      - TypeScript base config
-  jsconfig/        - JSConfig for IntelliSense
+    index.js        - JavaScript config
+    index.test.js    - Tests for JavaScript config
+    typescript.js    - TypeScript config
+    typescript.test.js - Tests for TypeScript config
+    react.js         - React config
+    react.test.js    - Tests for React config
+    next.js          - Next.js config
+    next.test.js      - Tests for Next.js config
+    lib/
+      index.js       - Shared lib exports
+      index.test.js   - Tests for lib exports
+      setup.js        - ESLint setup utilities
+      setup.test.js   - Tests for setup
+      files.js        - File patterns
+      files.test.js   - Tests for files
+      build-config.js - Config builder
+      build-config.test.js - Tests for build-config
+      ignores.js      - Global ignores
+      ignores.test.js - Tests for ignores
+      language-options.js - Language options
+      language-options.test.js - Tests for language-options
+      rules.js        - Rules configuration
+      rules.test.js   - Tests for rules
+  prettier/
+    index.js         - Prettier config
+    index.test.js    - Tests for Prettier config
+  commitlint/
+    index.js         - Commitlint config
+    index.test.js    - Tests for Commitlint config
+  stylelint/
+    index.js         - Stylelint config
+    index.test.js    - Tests for Stylelint config
+  next-sitemap/
+    index.js         - Next sitemap config
+    index.test.js    - Tests for Next sitemap config
+  tsconfig/
+    index.json       - TypeScript base config
+    index.test.js    - Tests for TSConfig
+  jsconfig/
+    index.json       - JSConfig for IntelliSense
+    index.test.js    - Tests for JSConfig
 ```
 
 ## Configuration Options
@@ -56,21 +90,33 @@ src/
 ### ESLint createConfig Options
 
 ```javascript
-// Available options with defaults (all true):
+// Base ESLint config (for JavaScript):
 {
-  (prettier, importOrder, jsdoc);
+  ((prettier = true), // Enable Prettier integration
+    (importOrder = true), // Enable import order rules
+    (jsdoc = true)); // Enable JSDoc rules
 }
+
 // TypeScript config:
 {
-  (prettier, importOrder, jsdoc);
+  ((prettier = true), (importOrder = true), (jsdoc = true));
 }
+
 // React config:
 {
-  (prettier, a11y, importOrder, jsdoc);
+  ((prettier = true),
+    (a11y = true), // Enable accessibility rules
+    (importOrder = true),
+    (jsdoc = true));
 }
+
 // Next.js config:
 {
-  (prettier, react, a11y, importOrder, jsdoc);
+  ((prettier = true),
+    (react = true), // Enable React-specific rules
+    (a11y = true),
+    (importOrder = true),
+    (jsdoc = true));
 }
 ```
 
@@ -91,39 +137,31 @@ These are entry points that use the modular configs:
 3. Update `src/index.js` with new exports
 4. Update `package.json` exports field
 
-## Git Workflow
+## Peer Dependencies
 
-Pre-commit hooks automatically run type check, lint, and format checks.
+Required packages (must be installed by consumer):
 
-**Before preparing git.md (after each task):**
+- `eslint` (>=9)
+- `prettier` (>=3)
+- `vitest` (>=4)
+- `husky` (>=9)
+- `@eslint/compat` (>=2)
+- `@eslint/eslintrc` (>=3)
+- `@eslint/js` (>=9)
+- `@typescript-eslint/eslint-plugin` (>=8)
+- `@typescript-eslint/parser` (>=8)
+- `typescript` (>=6)
+- `eslint-plugin-import` (>=2)
+- `eslint-import-resolver-typescript` (>=4)
+- `eslint-config-prettier` (>=10)
+- `eslint-plugin-prettier` (>=5)
+- `eslint-plugin-jsdoc` (>=62)
+- `globals` (>=17)
 
-1. Run `npm run format:check` - Format check
-2. Run `npm run lint` - ESLint check
+Optional packages (only if using specific configs):
 
-**After completing a task:**
-
-1. Check unstaged changes: `git status --porcelain` && `git diff`
-2. Stage files: `git add <files>`
-3. Create `.tmp/git.md` containing the staged files and commit command
-4. Create separate commits for each logical change
-5. Do NOT run git commands directly — only write to `.tmp/git.md`
-6. Wait for user to verify and commit
-7. Do NOT restore `.tmp/git.md` after it's cleared — clearing is intentional
-
-Example `.tmp/git.md`:
-
-```bash
-git add src/content/index.tsx
-git commit -m "feat: add version dropdown selector
-
-- fetch versions from npm registry
-- render dropdown with recent versions"
-```
-
-## Commit Conventions
-
-**Format:** `<type>(<scope>): <summary>`
-
-**Types:** `feat`, `fix`, `docs`, `test`, `refactor`, `style`, `build`, `chore`
-
-**Rules:** Subject line ≤50 chars, lowercase. Body: normal case, max 72 chars per line. Blank line after subject.
+- React: `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`
+- Next.js: `@next/eslint-plugin-next`, `eslint-config-next`
+- Commitlint: `@commitlint/cli`, `@commitlint/config-conventional`, `@commitlint/types`
+- Stylelint: `stylelint`, `stylelint-config-property-sort-order-smacss`, `stylelint-config-standard-scss`, `stylelint-order`
+- Next Sitemap: `next-sitemap`

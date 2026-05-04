@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-05-04
+
+### Added
+
+- Add comprehensive test suite (18 test files, 55 tests)
+- Add tests for ESLint configs (index, typescript, react, next)
+- Add tests for ESLint lib modules (setup, files, build-config, ignores, language-options, rules)
+- Add tests for Prettier, Commitlint, Next-sitemap, Stylelint configs
+- Add tests for JSConfig and TSConfig JSON files
+- Add peerDependencies with required and optional packages
+- Add peerDependenciesMeta for optional packages
+- Update AGENTS.md with accurate architecture and test documentation
+- Update README.md with correct install commands using bun
+- Add exact versions for eslint, @eslint/js, @next/eslint-plugin-next, eslint-config-next
+
+### Changed
+
+- Restructure ESLint config with modular lib directory
+- Sort devDependencies, peerDependencies, peerDependenciesMeta alphabetically
+- Move @vitest/coverage-v8 to devDependencies
+- Update project config files for bun package manager
+- Update husky hooks and release config to use bun
+- Add vitest dependencies and scripts
+- Clean up unnecessary files
+
 ## [1.0.12] - 2026-04-29
 
 ### Changed
@@ -143,6 +168,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[1.1.0]: https://github.com/vijayhardaha/dev-config/compare/v1.0.12...v1.1.0
 [1.0.12]: https://github.com/vijayhardaha/dev-config/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/vijayhardaha/dev-config/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/vijayhardaha/dev-config/compare/v1.0.9...v1.0.10

@@ -19,13 +19,13 @@ Reusable development configuration package for Next.js + TypeScript projects.
 ## Installation
 
 ```bash
-npm install @vijayhardaha/dev-config --save-dev
+bun install @vijayhardaha/dev-config --save-dev
 ```
 
 ### Install Required Packages
 
 ```bash
-npm install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals prettier typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript
+bun install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15 prettier vitest husky @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals typescript@5.9.3 @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript
 ```
 
 ### Install Optional Packages
@@ -33,25 +33,55 @@ npm install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @eslint/compat @eslint/es
 #### Stylelint
 
 ```bash
-npm install --save-dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
+bun install --save-dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
 ```
 
 #### React
 
 ```bash
-npm install --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
+bun install --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
 ```
 
 #### Next.js
 
 ```bash
-npm install --save-dev @next/eslint-plugin-next eslint-config-next
+bun install --save-dev @next/eslint-plugin-next eslint-config-next
 ```
 
 #### Commitlint
 
 ```bash
-npm install --save-dev husky @commitlint/cli @commitlint/config-conventional
+bun install --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types
+```
+
+#### Next Sitemap
+
+```bash
+bun install --save-dev next-sitemap
+```
+
+#### React
+
+```bash
+bun install --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
+```
+
+#### Next.js
+
+```bash
+bun install --save-dev @next/eslint-plugin-next eslint-config-next
+```
+
+#### Commitlint
+
+```bash
+bun install --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types
+```
+
+#### Next Sitemap
+
+```bash
+bun install --save-dev next-sitemap
 ```
 
 ## Quick Start
@@ -86,6 +116,42 @@ import commitlintConfig from "@vijayhardaha/dev-config/commitlint";
 export default commitlintConfig;
 ```
 
+### Stylelint
+
+Create `stylelint.config.mjs` in your project root:
+
+```javascript
+import stylelintConfig from "@vijayhardaha/dev-config/stylelint";
+
+export default stylelintConfig;
+```
+
+### Next Sitemap
+
+Create `next-sitemap.config.mjs` in your project root:
+
+```javascript
+import { createSitemapConfig } from "@vijayhardaha/dev-config/next-sitemap";
+
+export default createSitemapConfig({ siteUrl: "https://yourdomain.com" });
+```
+
+### TypeScript
+
+Create `tsconfig.json` in your project root:
+
+```json
+{ "extends": "@vijayhardaha/dev-config/tsconfig" }
+```
+
+### JavaScript
+
+Create `jsconfig.json` in your project root:
+
+```json
+{ "extends": "@vijayhardaha/dev-config/jsconfig" }
+```
+
 ## Configuration Options
 
 ### ESLint
@@ -97,7 +163,7 @@ export default createConfig({
   prettier: true, // Enable Prettier integration
   importOrder: true, // Enable import ordering
   react: true, // Enable React rules
-  a11y: true // Enable accessibility rules
+  a11y: true, // Enable accessibility rules
   jsdoc: true // Enable JSDoc rules
 });
 ```
@@ -111,12 +177,30 @@ Available configs:
 
 ## Scripts
 
-| Command                | Description            |
-| ---------------------- | ---------------------- |
-| `npm run lint`         | Run ESLint             |
-| `npm run lint:fix`     | Auto-fix ESLint issues |
-| `npm run format`       | Format with Prettier   |
-| `npm run format:check` | Check formatting       |
+| Command                 | Description             |
+| ----------------------- | ----------------------- |
+| `bun run lint`          | Run ESLint              |
+| `bun run lint:fix`      | Auto-fix ESLint issues  |
+| `bun run format`        | Format with Prettier    |
+| `bun run format:check`  | Check formatting        |
+| `bun run test`          | Run tests with Vitest   |
+| `bun run test:watch`    | Run tests in watch mode |
+| `bun run test:coverage` | Run tests with coverage |
+
+## Testing
+
+This package includes comprehensive tests for all configuration modules:
+
+- ESLint configs (JavaScript, TypeScript, React, Next.js)
+- ESLint lib modules (setup, files, build-config, ignores, language-options, rules)
+- Prettier, Commitlint, Stylelint configs
+- Next Sitemap, TypeScript, and JavaScript configs
+
+Run tests with:
+
+```bash
+bun run test
+```
 
 ## License
 
