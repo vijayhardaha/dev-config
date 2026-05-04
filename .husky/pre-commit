@@ -1,2 +1,2 @@
-npm run format:check
-npm run lint
+bun run format:check
+bun run lint
