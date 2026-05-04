@@ -2,12 +2,6 @@
   "name": "@vijayhardaha/dev-config",
   "version": "1.0.12",
   "description": "Reusable development configurations for Next.js + TypeScript projects",
-  "author": {
-    "name": "Vijay Hardaha",
-    "url": "https://github.com/vijayhardaha"
-  },
-  "license": "MIT",
-  "type": "module",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -26,6 +20,12 @@
     "LICENSE",
     "README.md"
   ],
+  "author": {
+    "name": "Vijay Hardaha",
+    "url": "https://github.com/vijayhardaha"
+  },
+  "license": "MIT",
+  "type": "module",
   "main": "./src/index.js",
   "homepage": "https://github.com/vijayhardaha/dev-config#readme",
   "repository": {
@@ -58,86 +58,59 @@
     "next-sitemap",
     "typescript"
   ],
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
+    "@commitlint/types": "^20.5.0",
+    "@next/eslint-plugin-next": "^15.5.15",
+    "@vitest/coverage-v8": "^4.1.5",
+    "eslint-config-next": "^15.5.15",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "next-sitemap": "^4.2.3",
+    "release-it": "^20.0.1",
+    "stylelint": "^17.10.0",
+    "stylelint-config-property-sort-order-smacss": "^11.2.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-order": "^8.1.1"
+  },
   "peerDependencies": {
-    "@commitlint/cli": "^20",
-    "@commitlint/config-conventional": "^20",
-    "@commitlint/types": "^20",
-    "@eslint/compat": "^2",
-    "@eslint/eslintrc": "^3",
-    "@eslint/js": "^9",
-    "@next/eslint-plugin-next": "^15",
-    "@typescript-eslint/eslint-plugin": "^8",
-    "@typescript-eslint/parser": "^8",
-    "eslint": "^9",
-    "eslint-config-next": "^15",
-    "eslint-config-prettier": "^10",
-    "eslint-import-resolver-typescript": "^4",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-jsdoc": "^62",
-    "eslint-plugin-jsx-a11y": "^6",
-    "eslint-plugin-prettier": "^5",
-    "eslint-plugin-react": "^7",
-    "eslint-plugin-react-hooks": "^7",
-    "globals": "^17",
-    "next-sitemap": "^4",
-    "prettier": "^3",
-    "stylelint": "^17",
-    "stylelint-config-property-sort-order-smacss": "^11",
-    "stylelint-config-standard-scss": "^17",
-    "stylelint-order": "^8",
-    "typescript": "^5"
+    "@eslint/compat": ">=2",
+    "@eslint/eslintrc": ">=3",
+    "@eslint/js": ">=9",
+    "@typescript-eslint/eslint-plugin": ">=8",
+    "@typescript-eslint/parser": ">=8",
+    "eslint": ">=9",
+    "eslint-config-prettier": ">=10",
+    "eslint-import-resolver-typescript": ">=4",
+    "eslint-plugin-import": ">=2",
+    "eslint-plugin-jsdoc": ">=62",
+    "eslint-plugin-prettier": ">=5",
+    "globals": ">=17",
+    "husky": ">=9",
+    "prettier": ">=3",
+    "typescript": ">=5",
+    "vitest": ">=4"
   },
   "peerDependenciesMeta": {
     "@commitlint/cli": {
-      "optional": false
+      "optional": true
     },
     "@commitlint/config-conventional": {
-      "optional": false
+      "optional": true
     },
     "@commitlint/types": {
       "optional": true
     },
-    "@eslint/compat": {
-      "optional": false
-    },
-    "@eslint/eslintrc": {
-      "optional": false
-    },
-    "@eslint/js": {
-      "optional": false
-    },
     "@next/eslint-plugin-next": {
       "optional": true
-    },
-    "@typescript-eslint/eslint-plugin": {
-      "optional": true
-    },
-    "@typescript-eslint/parser": {
-      "optional": true
-    },
-    "eslint": {
-      "optional": false
     },
     "eslint-config-next": {
       "optional": true
     },
-    "eslint-config-prettier": {
-      "optional": false
-    },
-    "eslint-import-resolver-typescript": {
-      "optional": true
-    },
-    "eslint-plugin-import": {
-      "optional": true
-    },
     "eslint-plugin-jsx-a11y": {
       "optional": true
-    },
-    "eslint-plugin-jsdoc": {
-      "optional": true
-    },
-    "eslint-plugin-prettier": {
-      "optional": false
     },
     "eslint-plugin-react": {
       "optional": true
@@ -145,14 +118,8 @@
     "eslint-plugin-react-hooks": {
       "optional": true
     },
-    "globals": {
-      "optional": false
-    },
     "next-sitemap": {
       "optional": true
-    },
-    "prettier": {
-      "optional": false
     },
     "stylelint": {
       "optional": true
@@ -165,33 +132,12 @@
     },
     "stylelint-order": {
       "optional": true
-    },
-    "typescript": {
-      "optional": false
     }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^20.5.0",
-    "@commitlint/config-conventional": "^20.5.0",
-    "@commitlint/types": "^20.5.0",
-    "@eslint/compat": "^2.0.4",
-    "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^9.39.4",
-    "@typescript-eslint/parser": "^8.58.0",
-    "@vitest/coverage-v8": "^4.1.5",
-    "eslint": "^9.39.4",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jsdoc": "^62.9.0",
-    "eslint-plugin-prettier": "^5.5.5",
-    "globals": "^17.4.0",
-    "husky": "^9.1.7",
-    "prettier": "^3.8.1",
-    "release-it": "^19.2.4",
-    "vitest": "^4.1.5"
   },
   "overrides": {
     "undici": "^7.0.0"
-  }
+  },
+  "trustedDependencies": [
+    "unrs-resolver"
+  ]
 }
