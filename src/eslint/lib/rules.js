@@ -24,7 +24,6 @@ const jsdocRules = (jsdoc = true) =>
 
         // Descriptions must exist and be meaningful
         'jsdoc/require-description': 'error',
-        'jsdoc/require-description-complete-sentence': ['error', { tags: ['param', 'returns'] }],
 
         // Params must be fully documented
         'jsdoc/require-param': 'error',

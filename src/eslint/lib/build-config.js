@@ -1,9 +1,9 @@
 import { defineConfig } from 'eslint/config';
 
-import { commonLanguageOptions } from './language-options.js';
 import { globalIgnores } from './ignores.js';
-import { commonParser } from './setup.js';
+import { commonLanguageOptions } from './language-options.js';
 import { commonRules } from './rules.js';
+import { commonParser } from './setup.js';
 
 /**
  * Builds a common ESLint configuration with support for various options.

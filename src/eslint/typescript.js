@@ -1,12 +1,12 @@
 /**
- * =====================================================================.
+ * =====================================================================
  * Eslint Configuration (Flat)
- * =====================================================================.
+ * =====================================================================
  * Purpose: Project-wide ESLint configuration for TypeScript.
  *          Enforces code quality and consistent styling.
  * Docs:    https://eslint.org/docs/latest/use/configure/configuration-files-new
  * Usage:   npx eslint .
- * =====================================================================.
+ * =====================================================================
  */
 
 import { setup, buildConfig, files } from './lib/index.js';
