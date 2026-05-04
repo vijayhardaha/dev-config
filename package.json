@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint --fix .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "release": "release-it",
@@ -58,6 +58,7 @@
   "peerDependencies": {
     "@commitlint/cli": "^20",
     "@commitlint/config-conventional": "^20",
+    "@commitlint/types": "^20",
     "@eslint/compat": "^2",
     "@eslint/eslintrc": "^3",
     "@eslint/js": "^9",
@@ -75,6 +76,7 @@
     "eslint-plugin-react": "^7",
     "eslint-plugin-react-hooks": "^7",
     "globals": "^17",
+    "next-sitemap": "^4",
     "prettier": "^3",
     "stylelint": "^17",
     "stylelint-config-property-sort-order-smacss": "^11",
@@ -88,6 +90,9 @@
     },
     "@commitlint/config-conventional": {
       "optional": false
+    },
+    "@commitlint/types": {
+      "optional": true
     },
     "@eslint/compat": {
       "optional": false
@@ -140,6 +145,9 @@
     "globals": {
       "optional": false
     },
+    "next-sitemap": {
+      "optional": true
+    },
     "prettier": {
       "optional": false
     },
@@ -162,6 +170,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/types": "^20.5.0",
     "@eslint/compat": "^2.0.4",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.39.4",
