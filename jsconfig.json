@@ -9,5 +9,6 @@
 {
   // ---- Configuration Inheritance ----
   // Extend the base configuration from the src directory
-  "extends": "./src/jsconfig/index.json"
+  "extends": "./src/jsconfig/index.json",
+  "compilerOptions": { "ignoreDeprecations": "6.0" }
 }
