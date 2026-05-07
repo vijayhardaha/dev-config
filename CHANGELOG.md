@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Add `@prettier/plugin-xml` for XML file formatting support
+- Add XML plugin configuration to Prettier config
+- Add `xmlWhitespaceSensitivity: 'strict'` to preserve XML whitespace
+- Add XML file overrides (`.xml`, `.xsd`, `.xsl`, `.xslt`) with 2-space indentation
+- Add `@prettier/plugin-xml` to peerDependencies
+- Add `typescript@^6.0.3` to devDependencies
+- Add `ignoreDeprecations: "6.0"` to jsconfig.json for TypeScript 6 support
+
+### Changed
+
+- Update TypeScript peer dependency from `>=5` to `>=6`
+- Update stylelint from `^17.10.0` to `^17.11.0`
+- Update README.md installation commands from `bun install --save-dev` to `bun add --save-dev`
+- Reorder peerDependencies for better readability
+- Update format scripts to include `--log-level error` for cleaner output
+- Improve `gc` script with interactive prompt for git command execution
+
+### Fixed
+
+- Restore `@next/eslint-plugin-next` in devDependencies (was missing)
+
 ## [1.1.0] - 2026-05-04
 
 ### Added
@@ -168,6 +193,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[Unreleased]: https://github.com/vijayhardaha/dev-config/compare/v1.1.0...HEAD
 [1.1.0]: https://github.com/vijayhardaha/dev-config/compare/v1.0.12...v1.1.0
 [1.0.12]: https://github.com/vijayhardaha/dev-config/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/vijayhardaha/dev-config/compare/v1.0.10...v1.0.11
