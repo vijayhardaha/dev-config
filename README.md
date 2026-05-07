@@ -25,63 +25,45 @@ bun install @vijayhardaha/dev-config --save-dev
 ### Install Required Packages
 
 ```bash
-bun install --save-dev eslint@9.39.4 @eslint/js@9.39.4 @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15 prettier vitest husky @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals typescript@5.9.3 @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript
+bun add --save-dev eslint@9.39.4 @eslint/js@9.39.4 @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15 prettier @prettier/plugin-xml vitest husky @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript
 ```
 
 ### Install Optional Packages
 
+### Prettier
+
+```bash
+bun add --save-dev prettier @prettier/plugin-xml
+```
+
 #### Stylelint
 
 ```bash
-bun install --save-dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
+bun add --save-dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
 ```
 
 #### React
 
 ```bash
-bun install --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
+bun add --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
 ```
 
 #### Next.js
 
 ```bash
-bun install --save-dev @next/eslint-plugin-next eslint-config-next
+bun add --save-dev @next/eslint-plugin-next eslint-config-next
 ```
 
 #### Commitlint
 
 ```bash
-bun install --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types
+bun add --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types
 ```
 
 #### Next Sitemap
 
 ```bash
-bun install --save-dev next-sitemap
-```
-
-#### React
-
-```bash
-bun install --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
-```
-
-#### Next.js
-
-```bash
-bun install --save-dev @next/eslint-plugin-next eslint-config-next
-```
-
-#### Commitlint
-
-```bash
-bun install --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types
-```
-
-#### Next Sitemap
-
-```bash
-bun install --save-dev next-sitemap
+bun add --save-dev next-sitemap
 ```
 
 ## Quick Start
