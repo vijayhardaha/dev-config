@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.2] - 2026-05-07
+
+### Changed
+
+- Move `vitest` from peerDependencies to devDependencies (internal use only)
+- Remove `@next/eslint-plugin-next` and `eslint-config-next` from devDependencies
+- Restructure README installation instructions with separated TypeScript setup
+- Remove `vitest` from peer dependencies list in AGENTS.md
+
+## [1.1.1] - 2026-05-07
 
 ### Added
 
@@ -193,7 +202,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
-[Unreleased]: https://github.com/vijayhardaha/dev-config/compare/v1.1.0...HEAD
+[1.1.2]: https://github.com/vijayhardaha/dev-config/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/vijayhardaha/dev-config/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/vijayhardaha/dev-config/compare/v1.0.12...v1.1.0
 [1.0.12]: https://github.com/vijayhardaha/dev-config/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/vijayhardaha/dev-config/compare/v1.0.10...v1.0.11
