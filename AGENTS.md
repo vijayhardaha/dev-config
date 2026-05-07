@@ -143,7 +143,6 @@ Required packages (must be installed by consumer):
 
 - `eslint` (>=9)
 - `prettier` (>=3)
-- `vitest` (>=4)
 - `husky` (>=9)
 - `@eslint/compat` (>=2)
 - `@eslint/eslintrc` (>=3)

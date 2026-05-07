@@ -25,10 +25,16 @@ bun install @vijayhardaha/dev-config --save-dev
 ### Install Required Packages
 
 ```bash
-bun add --save-dev eslint@9.39.4 @eslint/js@9.39.4 @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15 prettier @prettier/plugin-xml vitest husky @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript
+bun add --save-dev eslint@9.39.4 @eslint/js@9.39.4 prettier @prettier/plugin-xml @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals  eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ### Install Optional Packages
+
+### Typescript
+
+```bash
+bun add --save-dev typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+```
 
 ### Prettier
 
@@ -51,13 +57,13 @@ bun add --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-j
 #### Next.js
 
 ```bash
-bun add --save-dev @next/eslint-plugin-next eslint-config-next
+bun add --save-dev @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15
 ```
 
 #### Commitlint
 
 ```bash
-bun add --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types
+bun add --save-dev husky @commitlint/cli @commitlint/config-conventional @commitlint/types
 ```
 
 #### Next Sitemap

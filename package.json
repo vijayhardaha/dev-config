@@ -62,10 +62,8 @@
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",
     "@commitlint/types": "^20.5.0",
-    "@next/eslint-plugin-next": "^15.5.15",
     "@prettier/plugin-xml": "^3.4.2",
     "@vitest/coverage-v8": "^4.1.5",
-    "eslint-config-next": "^15.5.15",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -75,7 +73,8 @@
     "stylelint-config-property-sort-order-smacss": "^11.2.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "stylelint-order": "^8.1.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
   },
   "peerDependencies": {
     "@eslint/compat": ">=2",
@@ -93,8 +92,7 @@
     "globals": ">=17",
     "husky": ">=9",
     "prettier": ">=3",
-    "typescript": ">=6",
-    "vitest": ">=4"
+    "typescript": ">=6"
   },
   "peerDependenciesMeta": {
     "@commitlint/cli": {
