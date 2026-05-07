@@ -5,15 +5,15 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "prettier --write --log-level error .",
+    "format:check": "prettier --check --log-level error .",
     "release": "release-it",
     "release:dry": "release-it --dry-run",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "prepare": "husky",
-    "gc": "source .tmp/git.md"
+    "gc": "read -p 'Execute git commands from .tmp/git.txt? [Y/n] ' ans; [ \"$ans\" = \"n\" ] || [ \"$ans\" = \"N\" ] && echo 'Aborted.' || source .tmp/git.txt",
+    "prepare": "husky"
   },
   "files": [
     "src",
@@ -63,6 +63,7 @@
     "@commitlint/config-conventional": "^20.5.3",
     "@commitlint/types": "^20.5.0",
     "@next/eslint-plugin-next": "^15.5.15",
+    "@prettier/plugin-xml": "^3.4.2",
     "@vitest/coverage-v8": "^4.1.5",
     "eslint-config-next": "^15.5.15",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -70,27 +71,29 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "next-sitemap": "^4.2.3",
     "release-it": "^20.0.1",
-    "stylelint": "^17.10.0",
+    "stylelint": "^17.11.0",
     "stylelint-config-property-sort-order-smacss": "^11.2.0",
     "stylelint-config-standard-scss": "^17.0.0",
-    "stylelint-order": "^8.1.1"
+    "stylelint-order": "^8.1.1",
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@eslint/compat": ">=2",
     "@eslint/eslintrc": ">=3",
     "@eslint/js": ">=9",
+    "@prettier/plugin-xml": ">=3",
     "@typescript-eslint/eslint-plugin": ">=8",
     "@typescript-eslint/parser": ">=8",
-    "eslint": ">=9",
     "eslint-config-prettier": ">=10",
     "eslint-import-resolver-typescript": ">=4",
     "eslint-plugin-import": ">=2",
     "eslint-plugin-jsdoc": ">=62",
     "eslint-plugin-prettier": ">=5",
+    "eslint": ">=9",
     "globals": ">=17",
     "husky": ">=9",
     "prettier": ">=3",
-    "typescript": ">=5",
+    "typescript": ">=6",
     "vitest": ">=4"
   },
   "peerDependenciesMeta": {
