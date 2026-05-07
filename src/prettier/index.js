@@ -38,6 +38,11 @@ const config = {
   experimentalOperatorPosition: 'start',
   // Collapse object literals
   objectWrap: 'collapse',
+  // Ensures that whitespace in XML is preserved as-is
+  xmlWhitespaceSensitivity: 'strict',
+
+  // ---- Plugins ----
+  plugins: ['@prettier/plugin-xml'],
 
   // ---- Overrides ----
   // Different formatting rules for different file types
@@ -63,6 +68,10 @@ const config = {
     // ---- YAML ----
     // Use yaml parser with 2-space indentation
     { files: ['*.yml', '*.yaml'], options: { parser: 'yaml', tabWidth: 2 } },
+
+    // ---- XML ----
+    // Use 2-space indentation for XML files
+    { files: ['.xml', '.xsd', '.xsl', '.xslt'], options: { tabWidth: 2 } },
   ],
 };
 
