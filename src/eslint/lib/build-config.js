@@ -73,7 +73,12 @@ export const buildConfig = ({
       ...languageOptions,
       ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
-    settings: { ...(importOrder && { 'import/resolver': { typescript: {} } }), ...extraSettings, ...settings },
+    settings: {
+      ...(importOrder && { 'import/resolver': { typescript: {} } }),
+      ...(jsdoc && { jsdoc: { mode: 'typescript' } }),
+      ...extraSettings,
+      ...settings,
+    },
     rules: { ...commonRules({ prettier, importOrder, typescript, jsdoc }), ...extraRules, ...rules },
     ...extend,
   };
