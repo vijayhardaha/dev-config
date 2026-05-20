@@ -53,7 +53,15 @@ const jsdocRules = (jsdoc = true) =>
         // Optional but powerful for large teams
         'jsdoc/sort-tags': [
           'warn',
-          { tagSequence: [{ tags: ['description'] }, { tags: ['param'] }, { tags: ['returns'] }] },
+          {
+            tagSequence: [
+              { tags: ['description'] },
+              { tags: ['template'] },
+              { tags: ['param'] },
+              { tags: ['returns'] },
+              { tags: ['example'] },
+            ],
+          },
         ],
 
         // Avoid useless docs
