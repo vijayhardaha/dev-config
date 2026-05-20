@@ -39,7 +39,7 @@ const config = {
   // Collapse object literals
   objectWrap: 'collapse',
   // Ensures that whitespace in XML is preserved as-is
-  xmlWhitespaceSensitivity: 'strict',
+  xmlWhitespaceSensitivity: 'preserve',
 
   // ---- Plugins ----
   plugins: ['@prettier/plugin-xml'],
