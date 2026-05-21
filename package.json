@@ -62,7 +62,6 @@
     "@commitlint/config-conventional": "^21.0.1",
     "@commitlint/types": "^21.0.1",
     "@prettier/plugin-xml": "^3.4.2",
-    "@vijayhardaha/dev-config": "^1.1.2",
     "@vitest/coverage-v8": "^4.1.7",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
