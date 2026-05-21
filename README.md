@@ -19,13 +19,13 @@ Reusable development configuration package for Next.js + TypeScript projects.
 ## Installation
 
 ```bash
-bun install @vijayhardaha/dev-config --save-dev
+bun install @vijayhardaha/dev-config --dev
 ```
 
 ### Install Required Packages
 
 ```bash
-bun add --save-dev eslint@9.39.4 @eslint/js@9.39.4 prettier @prettier/plugin-xml @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals  eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+bun add --dev eslint@9.39.4 @eslint/js@9.39.4 prettier @prettier/plugin-xml @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals  eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ### Install Optional Packages
@@ -33,43 +33,43 @@ bun add --save-dev eslint@9.39.4 @eslint/js@9.39.4 prettier @prettier/plugin-xml
 ### Typescript
 
 ```bash
-bun add --save-dev typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+bun add --dev typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ### Prettier
 
 ```bash
-bun add --save-dev prettier @prettier/plugin-xml
+bun add --dev prettier @prettier/plugin-xml
 ```
 
 #### Stylelint
 
 ```bash
-bun add --save-dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
+bun add --dev stylelint stylelint-config-property-sort-order-smacss stylelint-config-standard-scss stylelint-order
 ```
 
 #### React
 
 ```bash
-bun add --save-dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
+bun add --dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y
 ```
 
 #### Next.js
 
 ```bash
-bun add --save-dev @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15
+bun add --dev @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15
 ```
 
 #### Commitlint
 
 ```bash
-bun add --save-dev husky @commitlint/cli @commitlint/config-conventional @commitlint/types
+bun add --dev husky @commitlint/cli @commitlint/config-conventional @commitlint/types
 ```
 
 #### Next Sitemap
 
 ```bash
-bun add --save-dev next-sitemap
+bun add --dev next-sitemap
 ```
 
 ## Quick Start

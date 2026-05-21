@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - 2026-05-22
+
+### Changed
+
+- Update README.md `bun install` flags from `--save-dev` to `--dev`
+
 ## [1.1.3] - 2026-05-21
 
 ### Added
@@ -227,6 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[1.1.4]: https://github.com/vijayhardaha/dev-config/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/vijayhardaha/dev-config/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/vijayhardaha/dev-config/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/vijayhardaha/dev-config/compare/v1.1.0...v1.1.1
