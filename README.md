@@ -25,7 +25,7 @@ bun install @vijayhardaha/dev-config --dev
 ### Install Required Packages
 
 ```bash
-bun add --dev eslint@9.39.4 @eslint/js@9.39.4 prettier @prettier/plugin-xml @eslint/compat @eslint/eslintrc eslint-config-prettier eslint-plugin-prettier globals  eslint-plugin-jsdoc eslint-plugin-import eslint-import-resolver-typescript typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+bun add --dev eslint@10 @eslint/js@10 prettier @prettier/plugin-xml eslint-config-prettier eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ### Install Optional Packages
