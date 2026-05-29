@@ -1,73 +1,39 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 
-// Test suite for the ESLint rules configuration module.
 describe('eslint/lib/rules.js', () => {
-  // Test that the module exports the commonRules function.
-  it('should export commonRules function', async () => {
-    // Dynamically import the rules module to test its exports.
-    const module = await import('./rules.js');
+  let commonRules;
 
-    // Verify that commonRules is a function.
-    expect(typeof module.commonRules).toBe('function');
+  beforeAll(async () => {
+    const module = await import('./rules.js');
+    commonRules = module.commonRules;
   });
 
-  // Test that commonRules returns an object containing ESLint rules.
-  it('should return an object with rules', async () => {
-    // Dynamically import the rules module to test its function.
-    const module = await import('./rules.js');
+  it('should export commonRules function', () => {
+    expect(typeof commonRules).toBe('function');
+  });
 
-    // Call commonRules with no options to get base rules.
-    const result = module.commonRules();
-
-    // Verify that the result is an object (ESLint rules config).
+  it('should return an object with rules', () => {
+    const result = commonRules();
     expect(typeof result).toBe('object');
   });
 
-  // Test that TypeScript rules are included when typescript option is true.
-  it('should include TypeScript rules when typescript is true', async () => {
-    // Dynamically import the rules module to test its function.
-    const module = await import('./rules.js');
-
-    // Call commonRules with typescript option enabled.
-    const result = module.commonRules({ typescript: true });
-
-    // Verify that a TypeScript-specific rule is present in the config.
+  it('should include TypeScript rules when typescript is true', () => {
+    const result = commonRules({ typescript: true });
     expect(result['@typescript-eslint/no-unused-vars']).toBeDefined();
   });
 
-  // Test that import order rules are included when importOrder option is true.
-  it('should include import order rules when importOrder is true', async () => {
-    // Dynamically import the rules module to test its function.
-    const module = await import('./rules.js');
-
-    // Call commonRules with importOrder option enabled.
-    const result = module.commonRules({ importOrder: true });
-
-    // Verify that the import-x/order rule is present in the config.
+  it('should include import order rules when importOrder is true', () => {
+    const result = commonRules({ importOrder: true });
     expect(result['import-x/order']).toBeDefined();
   });
 
-  // Test that Prettier rules are included when prettier option is true.
-  it('should include Prettier rules when prettier is true', async () => {
-    // Dynamically import the rules module to test its function.
-    const module = await import('./rules.js');
-
-    // Call commonRules with prettier option enabled.
-    const result = module.commonRules({ prettier: true });
-
-    // Verify that the prettier/prettier rule is present in the config.
+  it('should include Prettier rules when prettier is true', () => {
+    const result = commonRules({ prettier: true });
     expect(result['prettier/prettier']).toBeDefined();
   });
 
-  // Test that JSDoc rules are included when jsdoc option is true.
-  it('should include JSDoc rules when jsdoc is true', async () => {
-    // Dynamically import the rules module to test its function.
-    const module = await import('./rules.js');
-
-    // Call commonRules with jsdoc option enabled.
-    const result = module.commonRules({ jsdoc: true });
-
-    // Verify that the jsdoc/require-jsdoc rule is present in the config.
+  it('should include JSDoc rules when jsdoc is true', () => {
+    const result = commonRules({ jsdoc: true });
     expect(result['jsdoc/require-jsdoc']).toBeDefined();
   });
 });

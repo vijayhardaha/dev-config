@@ -11,12 +11,127 @@ import { commonRules } from './rules.js';
 import { commonParser } from './setup.js';
 
 /**
- * Builds a common ESLint configuration with support for various options.
+ * Filters and flattens conditional plugins based on user options.
+ *
+ * @param {object} conditionalPlugins - Plugin map keyed by option name.
+ * @param {object} options - User-provided options.
+ *
+ * @returns {object[]} Flat config objects for enabled plugins.
+ */
+const getEnabledPlugins = (conditionalPlugins, options) =>
+  Object.entries(conditionalPlugins)
+    .filter(([key]) => options[key])
+    .flatMap(([, value]) => (Array.isArray(value) ? value : [value]));
+
+/**
+ * Flattens a mixed list of config arrays and objects into a flat config array.
+ *
+ * @param {(Array|object)[]} plugins - Mixed list of flat config arrays and objects.
+ *
+ * @returns {object[]} Flattened config array.
+ */
+const flattenPlugins = (plugins) => {
+  const result = [];
+
+  for (const plugin of plugins) {
+    if (Array.isArray(plugin)) {
+      result.push(...plugin);
+    } else if (typeof plugin === 'object' && plugin !== null) {
+      result.push(plugin);
+    }
+  }
+
+  return result;
+};
+
+/**
+ * Wraps plugin rules with fixupPluginRules for ESLint 10 backward compatibility.
+ *
+ * @param {object[]} flatConfigs - Flat config array.
+ *
+ * @returns {object[]} Config array with wrapped plugin rules.
+ */
+const fixPlugins = (flatConfigs) =>
+  flatConfigs.map((config) => {
+    if (!config.plugins) return config;
+
+    const fixed = { ...config, plugins: {} };
+
+    for (const [name, plugin] of Object.entries(config.plugins)) {
+      fixed.plugins[name] = fixupPluginRules(plugin);
+    }
+
+    return fixed;
+  });
+
+/**
+ * Merges user-provided global ignores with the common defaults.
+ *
+ * @param {string[]|undefined} userGlobalIgnores - User-provided global ignore patterns.
+ *
+ * @returns {object} ESLint ignores config object.
+ */
+const mergeGlobalIgnores = (userGlobalIgnores) =>
+  Array.isArray(userGlobalIgnores) ? globalIgnores(userGlobalIgnores) : globalIgnores();
+
+/**
+ * Builds the main ESLint config object with language options, settings, and rules.
+ *
+ * @param {object} ctx - Context object with all config parameters.
+ * @param {string[]} ctx.filePatterns - File patterns to apply the config to.
+ * @param {object} ctx.opts - Resolved user options.
+ * @param {boolean} ctx.typescript - Enable TypeScript support.
+ * @param {object} ctx.extraLanguageOptions - Additional language options.
+ * @param {object} ctx.parserOptions - Parser options.
+ * @param {object} ctx.extraSettings - Additional settings.
+ * @param {object} ctx.extraRules - Additional rules.
+ *
+ * @returns {import('eslint').Linter.Config} ESLint config object.
+ */
+const buildConfigObject = ({
+  filePatterns,
+  opts,
+  typescript,
+  extraLanguageOptions,
+  parserOptions,
+  extraSettings,
+  extraRules,
+}) => {
+  const { ignores, rules, settings, languageOptions, extend } = opts;
+
+  return {
+    files: [...filePatterns],
+    ...(ignores && { ignores }),
+    ...(typescript && { plugins: { '@typescript-eslint': tsEslint.plugin } }),
+    languageOptions: {
+      ...commonLanguageOptions,
+      ...(typescript && commonParser),
+      ...extraLanguageOptions,
+      ...languageOptions,
+      ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
+    },
+    settings: {
+      ...(opts.importOrder && { 'import-x/resolver': { typescript: {} } }),
+      ...(opts.jsdoc && { jsdoc: { mode: 'typescript' } }),
+      ...extraSettings,
+      ...settings,
+    },
+    rules: {
+      ...commonRules({ prettier: opts.prettier, importOrder: opts.importOrder, typescript, jsdoc: opts.jsdoc }),
+      ...extraRules,
+      ...rules,
+    },
+    ...extend,
+  };
+};
+
+/**
+ * Builds a flat ESLint configuration with support for various options.
  *
  * @param {object} config - Configuration options.
  * @param {string[]} config.files - File patterns to apply the config to.
  * @param {(Array|object)[]} config.builtinPlugins - Flat config arrays or objects to always include.
- * @param {object} config.conditionalPlugins - Conditional plugins based on options (e.g., { react: true, a11y: true }).
+ * @param {object} config.conditionalPlugins - Conditional plugins based on options.
  * @param {object} [config.languageOptions] - Additional language options.
  * @param {object} [config.parserOptions] - Parser options.
  * @param {object} [config.settings] - Settings object.
@@ -37,79 +152,31 @@ export const buildConfig = ({
   options = {},
   typescript = false,
 }) => {
-  const {
-    prettier = true,
-    importOrder = true,
-    jsdoc = true,
-    ignores,
-    rules,
-    settings,
-    languageOptions,
-    plugins: userPlugins,
-    globalIgnores: userGlobalIgnores,
-    extend,
-  } = options;
+  const opts = { prettier: true, importOrder: true, jsdoc: true, ...options };
 
-  // ---- Build extends configs ----
-  const conditionalPluginList = Object.entries(conditionalPlugins)
-    .filter(([key]) => options[key])
-    .flatMap(([, value]) => (Array.isArray(value) ? value : [value]));
+  const conditionalPluginList = getEnabledPlugins(conditionalPlugins, opts);
 
-  const builtPlugins = [
+  const mergedPlugins = [
     ...builtinPlugins,
-    importOrder && importX.flatConfigs.recommended,
-    jsdoc && jsdocPlugin.configs['flat/recommended'],
-    prettier && prettierRecommended,
+    opts.importOrder && importX.flatConfigs.recommended,
+    opts.jsdoc && jsdocPlugin.configs['flat/recommended'],
+    opts.prettier && prettierRecommended,
     ...conditionalPluginList,
+    ...(opts.plugins || []),
   ].filter(Boolean);
 
-  const plugins = [...builtPlugins, ...(userPlugins || [])];
+  const flatConfigs = flattenPlugins(mergedPlugins);
+  const fixedConfigs = fixPlugins(flatConfigs);
+  const mergedGlobalIgnores = mergeGlobalIgnores(opts.globalIgnores);
 
-  // ---- Build config object ----
-  const configObject = {
-    files: [...filePatterns],
-    ...(ignores && { ignores }),
-    ...(typescript && { plugins: { '@typescript-eslint': tsEslint.plugin } }),
-    languageOptions: {
-      ...commonLanguageOptions,
-      ...(typescript && commonParser),
-      ...extraLanguageOptions,
-      ...languageOptions,
-      ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
-    },
-    settings: {
-      ...(importOrder && { 'import-x/resolver': { typescript: {} } }),
-      ...(jsdoc && { jsdoc: { mode: 'typescript' } }),
-      ...extraSettings,
-      ...settings,
-    },
-    rules: { ...commonRules({ prettier, importOrder, typescript, jsdoc }), ...extraRules, ...rules },
-    ...extend,
-  };
-
-  // Merge user global ignores with common global ignores
-  const mergedGlobalIgnores = Array.isArray(userGlobalIgnores) ? globalIgnores(userGlobalIgnores) : globalIgnores();
-
-  // Collect all flat configs (arrays spread, objects added directly)
-  const flatConfigs = [];
-
-  for (const plugin of plugins) {
-    if (Array.isArray(plugin)) {
-      flatConfigs.push(...plugin);
-    } else if (typeof plugin === 'object' && plugin !== null) {
-      flatConfigs.push(plugin);
-    }
-  }
-
-  // Wrap plugins with fixupPluginRules for ESLint 10 backward compatibility
-  // (addresses removed APIs like context.getFilename in eslint-plugin-react)
-  const fixedConfigs = flatConfigs.map((config) => {
-    if (!config.plugins) return config;
-    const fixed = { ...config, plugins: {} };
-    for (const [name, plugin] of Object.entries(config.plugins)) {
-      fixed.plugins[name] = fixupPluginRules(plugin);
-    }
-    return fixed;
+  const configObject = buildConfigObject({
+    filePatterns,
+    opts,
+    typescript,
+    extraLanguageOptions,
+    parserOptions,
+    extraSettings,
+    extraRules,
   });
 
   return defineConfig([...mergedGlobalIgnores, ...fixedConfigs, configObject]);

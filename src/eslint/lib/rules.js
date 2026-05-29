@@ -1,3 +1,56 @@
+// ---- JSDoc Rules: enforce documentation on public/exported APIs ----
+
+const JSDOC_REQUIRE_RULES = {
+  'jsdoc/require-jsdoc': [
+    'error',
+    {
+      publicOnly: true,
+      require: {
+        FunctionDeclaration: true,
+        MethodDefinition: true,
+        ClassDeclaration: true,
+        ArrowFunctionExpression: true,
+      },
+    },
+  ],
+  'jsdoc/require-description': 'error',
+  'jsdoc/require-param': 'error',
+  'jsdoc/require-param-name': 'error',
+  'jsdoc/require-param-description': 'error',
+  'jsdoc/require-param-type': 'error',
+  'jsdoc/require-returns': 'error',
+  'jsdoc/require-returns-description': 'error',
+  'jsdoc/require-returns-type': 'error',
+  'jsdoc/require-throws': 'error',
+  'jsdoc/require-property-description': 'warn',
+};
+
+const JSDOC_CORRECTNESS_RULES = {
+  'jsdoc/check-tag-names': 'error',
+  'jsdoc/no-undefined-types': ['error', { definedTypes: ['JSX.Element'] }],
+  'jsdoc/valid-types': 'error',
+};
+
+const JSDOC_STYLE_RULES = {
+  'jsdoc/tag-lines': ['error', 'any', { startLines: 1, endLines: 0, applyToEndTag: true }],
+  'jsdoc/check-alignment': 'error',
+  'jsdoc/check-indentation': 'off',
+  'jsdoc/sort-tags': [
+    'warn',
+    {
+      tagSequence: [
+        { tags: ['description'] },
+        { tags: ['template'] },
+        { tags: ['param'] },
+        { tags: ['returns'] },
+        { tags: ['example'] },
+      ],
+    },
+  ],
+  'jsdoc/no-types': 'off',
+  'jsdoc/informative-docs': 'off',
+};
+
 /**
  * Creates JSDoc rules for enforcing documentation on public/exported APIs.
  *
@@ -6,72 +59,7 @@
  * @returns {object} JSDoc ESLint rules object.
  */
 const jsdocRules = (jsdoc = true) =>
-  jsdoc
-    ? {
-        // ---- JSDoc Rules for PUBLIC / EXPORTED APIs ----
-        'jsdoc/require-jsdoc': [
-          'error',
-          {
-            publicOnly: true,
-            require: {
-              FunctionDeclaration: true,
-              MethodDefinition: true,
-              ClassDeclaration: true,
-              ArrowFunctionExpression: true,
-            },
-          },
-        ],
-
-        // Descriptions must exist and be meaningful
-        'jsdoc/require-description': 'error',
-
-        // Params must be fully documented
-        'jsdoc/require-param': 'error',
-        'jsdoc/require-param-name': 'error',
-        'jsdoc/require-param-description': 'error',
-        'jsdoc/require-param-type': 'error',
-
-        // Returns must be documented
-        'jsdoc/require-returns': 'error',
-        'jsdoc/require-returns-description': 'error',
-        'jsdoc/require-returns-type': 'error',
-
-        // Throws must be documented
-        'jsdoc/require-throws': 'error',
-
-        // Strict correctness
-        'jsdoc/check-tag-names': 'error',
-        'jsdoc/no-undefined-types': ['error', { definedTypes: ['JSX.Element'] }],
-        'jsdoc/valid-types': 'error',
-
-        // Enforce clean structure
-        'jsdoc/tag-lines': ['error', 'any', { startLines: 1, endLines: 0, applyToEndTag: true }],
-
-        'jsdoc/check-alignment': 'error',
-        'jsdoc/check-indentation': 'off',
-
-        // Optional but powerful for large teams
-        'jsdoc/sort-tags': [
-          'warn',
-          {
-            tagSequence: [
-              { tags: ['description'] },
-              { tags: ['template'] },
-              { tags: ['param'] },
-              { tags: ['returns'] },
-              { tags: ['example'] },
-            ],
-          },
-        ],
-
-        // Avoid useless docs
-        'jsdoc/no-types': 'off',
-        'jsdoc/informative-docs': 'off',
-
-        // Enforce property docs in typedef-style (optional)
-        'jsdoc/require-property-description': 'warn',
-      }
-    : {};
+  jsdoc ? { ...JSDOC_REQUIRE_RULES, ...JSDOC_CORRECTNESS_RULES, ...JSDOC_STYLE_RULES } : {};
 
 /**
  * Creates TypeScript-specific rules.

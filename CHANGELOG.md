@@ -23,11 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Simplify Next.js config — remove redundant conditionalPlugins, filter `next/typescript`
 - Rename `import/order` rule to `import-x/order` for `eslint-plugin-import-x`
 - Clean up package.json dependency categorization
+- Move `@eslint/compat` from dependencies to peerDependencies
 
 ### Removed
 
 - **Breaking:** Remove `@eslint/eslintrc` peer dependency (FlatCompat gone)
-- Move `@eslint/compat` from peerDependencies to dependencies (fixupPluginRules)
 - **Breaking:** Remove `@eslint/js` peer dependency (unused without FlatCompat)
 - **Breaking:** Remove `eslint-config-prettier` peer dependency (bundled in plugin)
 - **Breaking:** Remove `eslint-import-resolver-typescript` peer dependency

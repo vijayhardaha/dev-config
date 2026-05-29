@@ -146,6 +146,7 @@ Required packages (must be installed by consumer):
 - `eslint` (>=10)
 - `prettier` (>=3)
 - `husky` (>=9)
+- `@eslint/compat` (>=2)
 - `@prettier/plugin-xml` (>=3)
 - `@typescript-eslint/eslint-plugin` (>=8)
 - `@typescript-eslint/parser` (>=8)

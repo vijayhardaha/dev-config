@@ -74,10 +74,8 @@
     "stylelint-order": "^8.1.1",
     "vitest": "^4.1.7"
   },
-  "dependencies": {
-    "@eslint/compat": "^2.1.0"
-  },
   "peerDependencies": {
+    "@eslint/compat": ">=2",
     "@prettier/plugin-xml": ">=3",
     "@typescript-eslint/eslint-plugin": ">=8",
     "@typescript-eslint/parser": ">=8",
