@@ -141,15 +141,15 @@ These are entry points that use the modular configs:
 
 Required packages (must be installed by consumer):
 
-- `eslint` (>=9)
+- `eslint` (>=10)
 - `prettier` (>=3)
 - `husky` (>=9)
-- `@eslint/js` (>=10)
+- `@prettier/plugin-xml` (>=3)
 - `@typescript-eslint/eslint-plugin` (>=8)
 - `@typescript-eslint/parser` (>=8)
 - `typescript` (>=6)
+- `typescript-eslint` (>=8)
 - `eslint-plugin-import-x` (>=4)
-- `eslint-config-prettier` (>=10)
 - `eslint-plugin-prettier` (>=5)
 - `eslint-plugin-jsdoc` (>=62)
 - `globals` (>=17)

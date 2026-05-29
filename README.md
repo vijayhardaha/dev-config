@@ -25,22 +25,10 @@ bun install @vijayhardaha/dev-config --dev
 ### Install Required Packages
 
 ```bash
-bun add --dev eslint@10 @eslint/js@10 prettier @prettier/plugin-xml eslint-config-prettier eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+bun add --dev eslint prettier @prettier/plugin-xml eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x typescript typescript-eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
 ```
 
 ### Install Optional Packages
-
-### Typescript
-
-```bash
-bun add --dev typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
-```
-
-### Prettier
-
-```bash
-bun add --dev prettier @prettier/plugin-xml
-```
 
 #### Stylelint
 
@@ -57,7 +45,7 @@ bun add --dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a1
 #### Next.js
 
 ```bash
-bun add --dev @next/eslint-plugin-next@15.5.15 eslint-config-next@15.5.15
+bun add --dev @next/eslint-plugin-next eslint-config-next
 ```
 
 #### Commitlint
