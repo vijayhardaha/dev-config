@@ -7,6 +7,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
 import { commonRules } from './rules.js';
+import { commonParser } from './setup.js';
 
 /**
  * Filters conditional plugins based on user options.
@@ -96,6 +97,25 @@ const stripPlugins = (flatConfigs, pluginNames) => {
 };
 
 /**
+ * Removes the parser from individual configs when the main config provides one.
+ * Prevents parser conflicts (e.g., eslint-config-next/parser vs `@typescript-eslint/parser`).
+ *
+ * @param {object[]} flatConfigs - Flat config array.
+ *
+ * @returns {object[]} Config array with parsers removed.
+ */
+const stripParser = (flatConfigs) =>
+  flatConfigs.map((config) => {
+    if (!config.languageOptions?.parser) return config;
+
+    const { parser: _, ...languageOptions } = config.languageOptions;
+
+    return Object.keys(languageOptions).length > 0
+      ? { ...config, languageOptions }
+      : { ...config, languageOptions: undefined };
+  });
+
+/**
  * Merges user-provided global ignores with common defaults.
  *
  * @param {string[]|undefined} userGlobalIgnores - User-provided ignore patterns.
@@ -141,6 +161,7 @@ const buildConfigObject = ({
     ),
     languageOptions: {
       ...commonLanguageOptions,
+      ...(typescript && commonParser),
       ...extraLanguageOptions,
       ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
@@ -204,6 +225,7 @@ export const buildConfig = ({
   const flatConfigs = flattenPlugins(mergedPlugins);
   const wrappedConfigs = fixPlugins(flatConfigs);
   const strippedConfigs = stripPlugins(wrappedConfigs, Object.keys(centralPlugins));
+  const parsedConfigs = typescript ? stripParser(strippedConfigs) : strippedConfigs;
   const mergedGlobalIgnores = mergeGlobalIgnores(opts.globalIgnores);
 
   const configObject = buildConfigObject({
@@ -217,5 +239,5 @@ export const buildConfig = ({
     extraRules,
   });
 
-  return defineConfig([...mergedGlobalIgnores, ...strippedConfigs, configObject]);
+  return defineConfig([...mergedGlobalIgnores, ...parsedConfigs, configObject]);
 };

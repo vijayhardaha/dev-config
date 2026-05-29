@@ -10,14 +10,18 @@
  */
 
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import tsEslint from 'typescript-eslint';
 
 import { buildConfig, files } from './lib/index.js';
 
 /**
  * Removes the next/typescript item from the core-web-vitals config array.
  * The \@typescript-eslint plugin is registered on the main config object
- * instead (via build-config.js when typescript: true), which avoids plugin
- * redefinition errors when TypeScript rules are applied in the shared config.
+ * via centralPlugins, which avoids plugin redefinition errors. The
+ * next/typescript config is also removed to prevent parser conflicts with
+ * the centrally-managed TypeScript setup.
  *
  * @param {import('eslint').Linter.Config[]} configs - Config array to process.
  *
@@ -52,6 +56,7 @@ export const createConfig = (options = {}) => {
   return buildConfig({
     files: files.withTs,
     builtinPlugins: [...prepareNextConfig(nextCoreWebVitals)],
+    centralPlugins: { react: reactPlugin, 'react-hooks': reactHooks, '@typescript-eslint': tsEslint.plugin },
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },
     rules: {

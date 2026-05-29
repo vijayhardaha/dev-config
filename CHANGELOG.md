@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2026-05-29
+
+### Fixed
+
+- Fix `scopeManager.addGlobals is not a function` crash caused by `eslint-config-next/parser` incompatibility with ESLint 10
+
+### Changed
+
+- Add `stripParser` helper to remove conflicting parsers from builtin configs when `typescript: true`
+- Add `commonParser` back to `buildConfigObject` to set `@typescript-eslint/parser` centrally
+- Register `react`, `react-hooks`, `@typescript-eslint` as central plugins in `next.js`
+
 ## [2.0.2] - 2026-05-29
 
 ### Fixed
