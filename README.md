@@ -6,6 +6,8 @@
 
 Reusable development configuration package for Next.js + TypeScript projects.
 
+> **v2.0.0** — Requires ESLint >=10. Native flat config only. No FlatCompat.
+
 ## Features
 
 - **ESLint** - Modular flat config with support for JavaScript, TypeScript, React, and Next.js
@@ -59,6 +61,25 @@ bun add --dev husky @commitlint/cli @commitlint/config-conventional @commitlint/
 ```bash
 bun add --dev next-sitemap
 ```
+
+## Migrating from v1
+
+v2 drops FlatCompat and uses native ESLint 10 flat configs throughout.
+
+### What changed
+
+- **ESLint 10 required** — no longer compatible with ESLint 8/9
+- **No FlatCompat** — all configs import flat config arrays/objects directly
+- **`eslint-plugin-import` → `eslint-plugin-import-x`** — the ESLint 10-compatible fork
+- **`eslint-config-prettier` removed** — bundled in `eslint-plugin-prettier/recommended`
+- **`@eslint/js` removed** — no longer needed without FlatCompat
+- **`plugins` option now accepts flat config arrays/objects** — no string-based plugin names
+
+### Required updates
+
+1. Install ESLint 10+: `bun add --dev eslint@10`
+2. Replace `eslint-plugin-import` with `eslint-plugin-import-x`
+3. Remove unused deps: `@eslint/compat`, `@eslint/eslintrc`, `@eslint/js`, `eslint-config-prettier`, `eslint-import-resolver-typescript`
 
 ## Quick Start
 

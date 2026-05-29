@@ -6,6 +6,8 @@
 
 This is a reusable development configuration package (`@vijayhardaha/dev-config`) for Next.js + TypeScript projects. It provides modular, configurable presets for linting, formatting, and commit standards.
 
+> **v2.0.0** — Requires ESLint >=10. Uses native flat config imports throughout, no FlatCompat dependency.
+
 ## Development Commands
 
 | Command                 | Description                        |
