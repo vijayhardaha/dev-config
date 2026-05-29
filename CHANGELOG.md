@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-05-29
+
+### Added
+
+- Add ESLint 10 compatibility with native flat config imports
+- Add `fixupPluginRules` wrapping for plugin backward compatibility
+- Add central `@typescript-eslint` plugin registration to avoid redefinition errors
+
+### Changed
+
+- **Breaking:** Require ESLint >=10 (drop ESLint 8/9 support)
+- **Breaking:** Remove FlatCompat — all configs import flat config arrays/objects directly
+- **Breaking:** Replace `eslint-plugin-import` with `eslint-plugin-import-x` (ESLint 10 fork)
+- Move `typescript-eslint` from dependencies to peerDependencies
+- Move `eslint-config-next` from dependencies to devDependencies + optional peer
+- Simplify Next.js config — remove redundant conditionalPlugins, filter `next/typescript`
+- Rename `import/order` rule to `import-x/order` for `eslint-plugin-import-x`
+- Clean up package.json dependency categorization
+
+### Removed
+
+- **Breaking:** Remove `@eslint/eslintrc` peer dependency (FlatCompat gone)
+- Move `@eslint/compat` from peerDependencies to dependencies (fixupPluginRules)
+- **Breaking:** Remove `@eslint/js` peer dependency (unused without FlatCompat)
+- **Breaking:** Remove `eslint-config-prettier` peer dependency (bundled in plugin)
+- **Breaking:** Remove `eslint-import-resolver-typescript` peer dependency
+- Remove `setup()` export (FlatCompat was its only purpose)
+
 ## [1.1.4] - 2026-05-22
 
 ### Changed
@@ -233,6 +261,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[2.0.0]: https://github.com/vijayhardaha/dev-config/compare/v1.1.4...v2.0.0
 [1.1.4]: https://github.com/vijayhardaha/dev-config/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/vijayhardaha/dev-config/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/vijayhardaha/dev-config/compare/v1.1.1...v1.1.2
