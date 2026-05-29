@@ -1,5 +1,11 @@
 // ---- JSDoc Rules: enforce documentation on public/exported APIs ----
 
+/**
+ * JSDoc rules that enforce documentation presence on public/exported APIs.
+ * Covers `@param`, `@returns`, `@throws`, `@description`, and `@property-description`.
+ *
+ * @type {object}
+ */
 const JSDOC_REQUIRE_RULES = {
   'jsdoc/require-jsdoc': [
     'error',
@@ -25,12 +31,22 @@ const JSDOC_REQUIRE_RULES = {
   'jsdoc/require-property-description': 'warn',
 };
 
+/**
+ * JSDoc rules that validate tag names, types, and undefined type references.
+ *
+ * @type {object}
+ */
 const JSDOC_CORRECTNESS_RULES = {
   'jsdoc/check-tag-names': 'error',
   'jsdoc/no-undefined-types': ['error', { definedTypes: ['JSX.Element'] }],
   'jsdoc/valid-types': 'error',
 };
 
+/**
+ * JSDoc rules that enforce consistent formatting and tag ordering.
+ *
+ * @type {object}
+ */
 const JSDOC_STYLE_RULES = {
   'jsdoc/tag-lines': ['error', 'any', { startLines: 1, endLines: 0, applyToEndTag: true }],
   'jsdoc/check-alignment': 'error',
