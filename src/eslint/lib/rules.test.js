@@ -43,8 +43,8 @@ describe('eslint/lib/rules.js', () => {
     // Call commonRules with importOrder option enabled.
     const result = module.commonRules({ importOrder: true });
 
-    // Verify that the import/order rule is present in the config.
-    expect(result['import/order']).toBeDefined();
+    // Verify that the import-x/order rule is present in the config.
+    expect(result['import-x/order']).toBeDefined();
   });
 
   // Test that Prettier rules are included when prettier option is true.

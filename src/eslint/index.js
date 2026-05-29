@@ -9,9 +9,7 @@
  * =====================================================================
  */
 
-import { setup, buildConfig, files } from './lib/index.js';
-
-const { compat } = setup();
+import { buildConfig, files } from './lib/index.js';
 
 /**
  * Creates an ESLint configuration object with optional features.
@@ -35,7 +33,6 @@ export const createConfig = (options = {}) => {
   const { prettier = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    compat,
     files: [...files.withoutTs, ...(options.files || [])],
     options: { ...options, prettier, importOrder, jsdoc },
   });

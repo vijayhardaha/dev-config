@@ -9,9 +9,9 @@
  * =====================================================================
  */
 
-import { setup, buildConfig, files } from './lib/index.js';
+import tsEslint from 'typescript-eslint';
 
-const { compat } = setup();
+import { buildConfig, files } from './lib/index.js';
 
 /**
  * Creates an ESLint configuration object for TypeScript projects.
@@ -35,9 +35,8 @@ export const createConfig = (options = {}) => {
   const { prettier = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    compat,
     files: files.withTs,
-    builtinPlugins: ['plugin:@typescript-eslint/recommended'],
+    builtinPlugins: [...tsEslint.configs.recommended],
     typescript: true,
     options: { ...options, prettier, importOrder, jsdoc },
   });

@@ -9,9 +9,12 @@
  * =====================================================================
  */
 
-import { setup, buildConfig, files } from './lib/index.js';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
+import reactHooks from 'eslint-plugin-react-hooks';
+import tsEslint from 'typescript-eslint';
 
-const { compat } = setup();
+import { buildConfig, files } from './lib/index.js';
 
 /**
  * Creates an ESLint configuration object for React projects with TypeScript
@@ -37,14 +40,13 @@ export const createConfig = (options = {}) => {
   const { prettier = true, a11y = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    compat,
     files: files.withTs,
     builtinPlugins: [
-      'plugin:react/recommended',
-      'plugin:react-hooks/recommended',
-      'plugin:@typescript-eslint/recommended',
+      { ...reactRecommended, files: ['**/*.{jsx,tsx}'] },
+      { ...reactHooks.configs.flat.recommended, files: ['**/*.{jsx,tsx}'] },
+      ...tsEslint.configs.recommended,
     ],
-    conditionalPlugins: { a11y: 'plugin:jsx-a11y/recommended' },
+    conditionalPlugins: { a11y: { ...jsxA11y.flatConfigs.recommended, files: ['**/*.{jsx,tsx}'] } },
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },
     rules: { 'react/react-in-jsx-scope': 'off', 'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }] },

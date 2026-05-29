@@ -17,14 +17,36 @@ describe('eslint/lib/build-config.js', () => {
     const module = await import('./build-config.js');
 
     // Import dependencies needed for the test.
-    const { setup } = await import('./setup.js');
     const { files } = await import('./files.js');
-    const { compat } = setup();
 
-    // Call buildConfig with test parameters (compat, JS-only files, empty options).
-    const result = module.buildConfig({ compat, files: files.withoutTs, options: {} });
+    // Call buildConfig with test parameters (JS-only files, empty options).
+    const result = module.buildConfig({ files: files.withoutTs, options: {} });
 
     // Verify that the result is an array (ESLint expects configs as an array).
     expect(Array.isArray(result)).toBe(true);
+  });
+
+  // Test that buildConfig handles flat config arrays and objects.
+  it('should handle flat config arrays and objects', async () => {
+    const module = await import('./build-config.js');
+    const { files } = await import('./files.js');
+
+    // A flat config array (simulating eslint-config-next export)
+    const flatConfigArray = [{ name: 'test-flat-config', plugins: {}, rules: { 'no-console': 'warn' } }];
+
+    // A flat config object
+    const flatConfigObject = { name: 'test-flat-object', plugins: {}, rules: { 'no-debugger': 'warn' } };
+
+    const result = module.buildConfig({
+      files: files.withTs,
+      builtinPlugins: [flatConfigArray, flatConfigObject],
+      options: {},
+    });
+
+    expect(Array.isArray(result)).toBe(true);
+    // Should contain configs from the flat config array and object
+    const configNames = result.filter((c) => c.name).map((c) => c.name);
+    expect(configNames).toContain('test-flat-config');
+    expect(configNames).toContain('test-flat-object');
   });
 });

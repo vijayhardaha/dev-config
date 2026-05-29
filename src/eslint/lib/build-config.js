@@ -1,4 +1,7 @@
 import { defineConfig } from 'eslint/config';
+import importX from 'eslint-plugin-import-x';
+import jsdocPlugin from 'eslint-plugin-jsdoc';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
@@ -9,10 +12,9 @@ import { commonParser } from './setup.js';
  * Builds a common ESLint configuration with support for various options.
  *
  * @param {object} config - Configuration options.
- * @param {object} config.compat - FlatCompat instance.
  * @param {string[]} config.files - File patterns to apply the config to.
- * @param {string[]} config.builtinPlugins - Plugin configs to always include (e.g., 'plugin:@typescript-eslint/recommended').
- * @param {object} config.conditionalPlugins - Conditional plugins based on options (e.g., { prettier: true, importOrder: true }).
+ * @param {(Array|object)[]} config.builtinPlugins - Flat config arrays or objects to always include.
+ * @param {object} config.conditionalPlugins - Conditional plugins based on options (e.g., { react: true, a11y: true }).
  * @param {object} [config.languageOptions] - Additional language options.
  * @param {object} [config.parserOptions] - Parser options.
  * @param {object} [config.settings] - Settings object.
@@ -23,7 +25,6 @@ import { commonParser } from './setup.js';
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const buildConfig = ({
-  compat,
   files: filePatterns,
   builtinPlugins = [],
   conditionalPlugins = {},
@@ -54,9 +55,9 @@ export const buildConfig = ({
 
   const builtPlugins = [
     ...builtinPlugins,
-    importOrder && 'plugin:import/recommended',
-    jsdoc && 'plugin:jsdoc/recommended',
-    prettier && 'plugin:prettier/recommended',
+    importOrder && importX.flatConfigs.recommended,
+    jsdoc && jsdocPlugin.configs['flat/recommended'],
+    prettier && prettierRecommended,
     ...conditionalPluginList,
   ].filter(Boolean);
 
@@ -74,7 +75,7 @@ export const buildConfig = ({
       ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
     settings: {
-      ...(importOrder && { 'import/resolver': { typescript: {} } }),
+      ...(importOrder && { 'import-x/resolver': { typescript: {} } }),
       ...(jsdoc && { jsdoc: { mode: 'typescript' } }),
       ...extraSettings,
       ...settings,
@@ -86,5 +87,16 @@ export const buildConfig = ({
   // Merge user global ignores with common global ignores
   const mergedGlobalIgnores = Array.isArray(userGlobalIgnores) ? globalIgnores(userGlobalIgnores) : globalIgnores();
 
-  return defineConfig([...mergedGlobalIgnores, ...compat.extends(...plugins), configObject]);
+  // Collect all flat configs (arrays spread, objects added directly)
+  const flatConfigs = [];
+
+  for (const plugin of plugins) {
+    if (Array.isArray(plugin)) {
+      flatConfigs.push(...plugin);
+    } else if (typeof plugin === 'object' && plugin !== null) {
+      flatConfigs.push(plugin);
+    }
+  }
+
+  return defineConfig([...mergedGlobalIgnores, ...flatConfigs, configObject]);
 };

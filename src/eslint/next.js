@@ -9,9 +9,13 @@
  * =====================================================================
  */
 
-import { setup, buildConfig, files } from './lib/index.js';
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
+import reactHooks from 'eslint-plugin-react-hooks';
+import tsEslint from 'typescript-eslint';
 
-const { compat } = setup();
+import { buildConfig, files } from './lib/index.js';
 
 /**
  * Creates an ESLint configuration object for Next.js projects with TypeScript
@@ -38,12 +42,14 @@ export const createConfig = (options = {}) => {
   const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    compat,
     files: files.withTs,
-    builtinPlugins: ['next/core-web-vitals', 'next/typescript', 'plugin:@typescript-eslint/recommended'],
+    builtinPlugins: [...nextCoreWebVitals, ...tsEslint.configs.recommended],
     conditionalPlugins: {
-      react: ['plugin:react/recommended', 'plugin:react-hooks/recommended'],
-      a11y: 'plugin:jsx-a11y/recommended',
+      react: [
+        { ...reactRecommended, files: ['**/*.{jsx,tsx}'] },
+        { ...reactHooks.configs.flat.recommended, files: ['**/*.{jsx,tsx}'] },
+      ],
+      a11y: { ...jsxA11y.flatConfigs.recommended, files: ['**/*.{jsx,tsx}'] },
     },
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },

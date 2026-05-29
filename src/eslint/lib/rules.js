@@ -116,7 +116,7 @@ const prettierRules = (prettier = true) => (prettier ? { 'prettier/prettier': 'w
 const importOrderRules = (importOrder = true) =>
   importOrder
     ? {
-        'import/order': [
+        'import-x/order': [
           'error',
           {
             groups: ['builtin', 'external', 'internal', ['parent', 'sibling'], 'index', 'object'],
