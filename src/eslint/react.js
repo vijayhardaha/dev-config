@@ -10,6 +10,7 @@
  */
 
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import reactPlugin from 'eslint-plugin-react';
 import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 import reactHooks from 'eslint-plugin-react-hooks';
 import tsEslint from 'typescript-eslint';
@@ -42,11 +43,12 @@ export const createConfig = (options = {}) => {
   return buildConfig({
     files: files.withTs,
     builtinPlugins: [
-      { ...reactRecommended, files: ['**/*.{jsx,tsx}'] },
-      { ...reactHooks.configs.flat.recommended, files: ['**/*.{jsx,tsx}'] },
+      { ...reactRecommended, files: files.withTs },
+      { ...reactHooks.configs.flat.recommended, files: files.withTs },
       ...tsEslint.configs.recommended,
     ],
-    conditionalPlugins: { a11y: { ...jsxA11y.flatConfigs.recommended, files: ['**/*.{jsx,tsx}'] } },
+    centralPlugins: { react: reactPlugin, 'react-hooks': reactHooks, '@typescript-eslint': tsEslint.plugin },
+    conditionalPlugins: { a11y: { ...jsxA11y.flatConfigs.recommended, files: files.withTs } },
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },
     rules: { 'react/react-in-jsx-scope': 'off', 'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }] },

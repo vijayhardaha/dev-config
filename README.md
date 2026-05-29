@@ -79,7 +79,7 @@ v2 drops FlatCompat and uses native ESLint 10 flat configs throughout.
 
 1. Install ESLint 10+: `bun add --dev eslint@10`
 2. Replace `eslint-plugin-import` with `eslint-plugin-import-x`
-3. Remove unused deps: `@eslint/compat`, `@eslint/eslintrc`, `@eslint/js`, `eslint-config-prettier`, `eslint-import-resolver-typescript`
+3. Remove unused deps: `@eslint/eslintrc`, `@eslint/js`, `eslint-config-prettier`, `eslint-import-resolver-typescript`
 
 ## Quick Start
 

@@ -3,15 +3,13 @@ import { defineConfig } from 'eslint/config';
 import importX from 'eslint-plugin-import-x';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
-import tsEslint from 'typescript-eslint';
 
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
 import { commonRules } from './rules.js';
-import { commonParser } from './setup.js';
 
 /**
- * Filters and flattens conditional plugins based on user options.
+ * Filters conditional plugins based on user options.
  *
  * @param {object} conditionalPlugins - Plugin map keyed by option name.
  * @param {object} options - User-provided options.
@@ -24,7 +22,7 @@ const getEnabledPlugins = (conditionalPlugins, options) =>
     .flatMap(([, value]) => (Array.isArray(value) ? value : [value]));
 
 /**
- * Flattens a mixed list of config arrays and objects into a flat config array.
+ * Flattens a mixed list of config arrays and objects.
  *
  * @param {(Array|object)[]} plugins - Mixed list of flat config arrays and objects.
  *
@@ -45,7 +43,7 @@ const flattenPlugins = (plugins) => {
 };
 
 /**
- * Wraps plugin rules with fixupPluginRules for ESLint 10 backward compatibility.
+ * Wraps plugin rules with fixupPluginRules for backward compatibility.
  *
  * @param {object[]} flatConfigs - Flat config array.
  *
@@ -65,9 +63,42 @@ const fixPlugins = (flatConfigs) =>
   });
 
 /**
- * Merges user-provided global ignores with the common defaults.
+ * Removes centrally-registered plugins from individual configs to prevent
+ * "Cannot redefine plugin" errors.
  *
- * @param {string[]|undefined} userGlobalIgnores - User-provided global ignore patterns.
+ * @param {object[]} flatConfigs - Flat config array.
+ * @param {string[]} pluginNames - Plugin names to strip from configs.
+ *
+ * @returns {object[]} Config array with specified plugins removed.
+ */
+const stripPlugins = (flatConfigs, pluginNames) => {
+  if (pluginNames.length === 0) return flatConfigs;
+
+  const skip = new Set(pluginNames);
+
+  return flatConfigs.map((config) => {
+    if (!config.plugins) return config;
+
+    const plugins = { ...config.plugins };
+
+    for (const name of skip) {
+      delete plugins[name];
+    }
+
+    if (Object.keys(plugins).length === 0) {
+      const { plugins: _, ...rest } = config;
+
+      return rest;
+    }
+
+    return { ...config, plugins };
+  });
+};
+
+/**
+ * Merges user-provided global ignores with common defaults.
+ *
+ * @param {string[]|undefined} userGlobalIgnores - User-provided ignore patterns.
  *
  * @returns {object} ESLint ignores config object.
  */
@@ -75,12 +106,14 @@ const mergeGlobalIgnores = (userGlobalIgnores) =>
   Array.isArray(userGlobalIgnores) ? globalIgnores(userGlobalIgnores) : globalIgnores();
 
 /**
- * Builds the main ESLint config object with language options, settings, and rules.
+ * Builds the main ESLint config object with language options, settings, rules,
+ * and centrally-registered plugins.
  *
  * @param {object} ctx - Context object with all config parameters.
  * @param {string[]} ctx.filePatterns - File patterns to apply the config to.
  * @param {object} ctx.opts - Resolved user options.
  * @param {boolean} ctx.typescript - Enable TypeScript support.
+ * @param {object} ctx.centralPlugins - Plugins to register on the main config.
  * @param {object} ctx.extraLanguageOptions - Additional language options.
  * @param {object} ctx.parserOptions - Parser options.
  * @param {object} ctx.extraSettings - Additional settings.
@@ -92,6 +125,7 @@ const buildConfigObject = ({
   filePatterns,
   opts,
   typescript,
+  centralPlugins = {},
   extraLanguageOptions,
   parserOptions,
   extraSettings,
@@ -102,12 +136,12 @@ const buildConfigObject = ({
   return {
     files: [...filePatterns],
     ...(ignores && { ignores }),
-    ...(typescript && { plugins: { '@typescript-eslint': tsEslint.plugin } }),
+    plugins: Object.fromEntries(
+      Object.entries(centralPlugins).map(([name, plugin]) => [name, fixupPluginRules(plugin)])
+    ),
     languageOptions: {
       ...commonLanguageOptions,
-      ...(typescript && commonParser),
       ...extraLanguageOptions,
-      ...languageOptions,
       ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
     settings: {
@@ -126,12 +160,13 @@ const buildConfigObject = ({
 };
 
 /**
- * Builds a flat ESLint configuration with support for various options.
+ * Builds a flat ESLint configuration.
  *
  * @param {object} config - Configuration options.
  * @param {string[]} config.files - File patterns to apply the config to.
  * @param {(Array|object)[]} config.builtinPlugins - Flat config arrays or objects to always include.
  * @param {object} config.conditionalPlugins - Conditional plugins based on options.
+ * @param {object} config.centralPlugins - Plugins registered on the main config object.
  * @param {object} [config.languageOptions] - Additional language options.
  * @param {object} [config.parserOptions] - Parser options.
  * @param {object} [config.settings] - Settings object.
@@ -145,6 +180,7 @@ export const buildConfig = ({
   files: filePatterns,
   builtinPlugins = [],
   conditionalPlugins = {},
+  centralPlugins = {},
   languageOptions: extraLanguageOptions = {},
   parserOptions = {},
   settings: extraSettings = {},
@@ -166,18 +202,20 @@ export const buildConfig = ({
   ].filter(Boolean);
 
   const flatConfigs = flattenPlugins(mergedPlugins);
-  const fixedConfigs = fixPlugins(flatConfigs);
+  const wrappedConfigs = fixPlugins(flatConfigs);
+  const strippedConfigs = stripPlugins(wrappedConfigs, Object.keys(centralPlugins));
   const mergedGlobalIgnores = mergeGlobalIgnores(opts.globalIgnores);
 
   const configObject = buildConfigObject({
     filePatterns,
     opts,
     typescript,
+    centralPlugins,
     extraLanguageOptions,
     parserOptions,
     extraSettings,
     extraRules,
   });
 
-  return defineConfig([...mergedGlobalIgnores, ...fixedConfigs, configObject]);
+  return defineConfig([...mergedGlobalIgnores, ...strippedConfigs, configObject]);
 };
