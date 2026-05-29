@@ -1,7 +1,9 @@
+import { fixupPluginRules } from '@eslint/compat';
 import { defineConfig } from 'eslint/config';
 import importX from 'eslint-plugin-import-x';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import tsEslint from 'typescript-eslint';
 
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
@@ -67,6 +69,7 @@ export const buildConfig = ({
   const configObject = {
     files: [...filePatterns],
     ...(ignores && { ignores }),
+    ...(typescript && { plugins: { '@typescript-eslint': tsEslint.plugin } }),
     languageOptions: {
       ...commonLanguageOptions,
       ...(typescript && commonParser),
@@ -98,5 +101,16 @@ export const buildConfig = ({
     }
   }
 
-  return defineConfig([...mergedGlobalIgnores, ...flatConfigs, configObject]);
+  // Wrap plugins with fixupPluginRules for ESLint 10 backward compatibility
+  // (addresses removed APIs like context.getFilename in eslint-plugin-react)
+  const fixedConfigs = flatConfigs.map((config) => {
+    if (!config.plugins) return config;
+    const fixed = { ...config, plugins: {} };
+    for (const [name, plugin] of Object.entries(config.plugins)) {
+      fixed.plugins[name] = fixupPluginRules(plugin);
+    }
+    return fixed;
+  });
+
+  return defineConfig([...mergedGlobalIgnores, ...fixedConfigs, configObject]);
 };

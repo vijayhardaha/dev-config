@@ -10,12 +10,20 @@
  */
 
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
-import reactHooks from 'eslint-plugin-react-hooks';
-import tsEslint from 'typescript-eslint';
 
 import { buildConfig, files } from './lib/index.js';
+
+/**
+ * Removes the next/typescript item from the core-web-vitals config array.
+ * The \@typescript-eslint plugin is registered on the main config object
+ * instead (via build-config.js when typescript: true), which avoids plugin
+ * redefinition errors when TypeScript rules are applied in the shared config.
+ *
+ * @param {import('eslint').Linter.Config[]} configs - Config array to process.
+ *
+ * @returns {import('eslint').Linter.Config[]} Config array with next/typescript removed.
+ */
+const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/typescript');
 
 /**
  * Creates an ESLint configuration object for Next.js projects with TypeScript
@@ -43,14 +51,7 @@ export const createConfig = (options = {}) => {
 
   return buildConfig({
     files: files.withTs,
-    builtinPlugins: [...nextCoreWebVitals, ...tsEslint.configs.recommended],
-    conditionalPlugins: {
-      react: [
-        { ...reactRecommended, files: ['**/*.{jsx,tsx}'] },
-        { ...reactHooks.configs.flat.recommended, files: ['**/*.{jsx,tsx}'] },
-      ],
-      a11y: { ...jsxA11y.flatConfigs.recommended, files: ['**/*.{jsx,tsx}'] },
-    },
+    builtinPlugins: [...prepareNextConfig(nextCoreWebVitals)],
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },
     rules: {
