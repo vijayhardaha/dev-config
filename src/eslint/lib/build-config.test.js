@@ -49,4 +49,32 @@ describe('eslint/lib/build-config.js', () => {
     expect(configNames).toContain('test-flat-config');
     expect(configNames).toContain('test-flat-object');
   });
+
+  // Test that buildConfig sets import-x/resolver-next when importOrder is enabled.
+  it('should configure import-x/resolver-next with node resolver when importOrder is enabled', async () => {
+    const module = await import('./build-config.js');
+    const { files } = await import('./files.js');
+
+    const result = module.buildConfig({ files: files.withoutTs, options: { importOrder: true } });
+
+    // The last config object in the array should have the resolver settings
+    const configObject = result[result.length - 1];
+    expect(configObject.settings).toBeDefined();
+    expect(configObject.settings['import-x/resolver-next']).toBeDefined();
+    expect(Array.isArray(configObject.settings['import-x/resolver-next'])).toBe(true);
+    // Should at least have the node resolver
+    expect(configObject.settings['import-x/resolver-next'].length).toBeGreaterThanOrEqual(1);
+  });
+
+  // Test that buildConfig omits import-x/resolver-next when importOrder is disabled.
+  it('should omit import-x/resolver-next when importOrder is disabled', async () => {
+    const module = await import('./build-config.js');
+    const { files } = await import('./files.js');
+
+    const result = module.buildConfig({ files: files.withoutTs, options: { importOrder: false } });
+
+    const configObject = result[result.length - 1];
+    expect(configObject.settings).toBeDefined();
+    expect(configObject.settings['import-x/resolver-next']).toBeUndefined();
+  });
 });
