@@ -1,6 +1,6 @@
 import { fixupPluginRules } from '@eslint/compat';
 import { defineConfig } from 'eslint/config';
-import importX from 'eslint-plugin-import-x';
+import { createNodeResolver, flatConfigs as importXFlatConfigs } from 'eslint-plugin-import-x';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
@@ -8,6 +8,13 @@ import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
 import { commonRules } from './rules.js';
 import { commonParser } from './setup.js';
+
+let createTypeScriptImportResolver;
+try {
+  createTypeScriptImportResolver = (await import('eslint-import-resolver-typescript')).createTypeScriptImportResolver;
+} catch {
+  createTypeScriptImportResolver = null;
+}
 
 /**
  * Filters conditional plugins based on user options.
@@ -166,7 +173,12 @@ const buildConfigObject = ({
       ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
     settings: {
-      ...(opts.importOrder && { 'import-x/resolver': { typescript: {} } }),
+      ...(opts.importOrder && {
+        'import-x/resolver-next': [
+          createNodeResolver(),
+          ...(createTypeScriptImportResolver ? [createTypeScriptImportResolver()] : []),
+        ],
+      }),
       ...(opts.jsdoc && { jsdoc: { mode: 'typescript' } }),
       ...extraSettings,
       ...settings,
@@ -215,7 +227,7 @@ export const buildConfig = ({
 
   const mergedPlugins = [
     ...builtinPlugins,
-    opts.importOrder && importX.flatConfigs.recommended,
+    opts.importOrder && importXFlatConfigs.recommended,
     opts.jsdoc && jsdocPlugin.configs['flat/recommended'],
     opts.prettier && prettierRecommended,
     ...conditionalPluginList,
