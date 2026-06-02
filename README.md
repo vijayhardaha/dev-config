@@ -6,7 +6,7 @@
 
 Reusable development configuration package for Next.js + TypeScript projects.
 
-> **v2.0.0** — Requires ESLint >=10. Native flat config only. No FlatCompat.
+> **v2.0.4** — Requires ESLint >=10. Native flat config only. No FlatCompat.
 
 ## Features
 
@@ -21,16 +21,24 @@ Reusable development configuration package for Next.js + TypeScript projects.
 ## Installation
 
 ```bash
-bun install @vijayhardaha/dev-config --dev
+bun add --dev @vijayhardaha/dev-config
 ```
 
 ### Install Required Packages
 
 ```bash
-bun add --dev eslint @eslint/compat prettier @prettier/plugin-xml eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x typescript typescript-eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
+bun add --dev eslint @eslint/compat eslint-config-prettier prettier @prettier/plugin-xml eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x @typescript-eslint/eslint-plugin @typescript-eslint/parser typescript typescript-eslint husky
 ```
 
 ### Install Optional Packages
+
+Only install what you need based on your project setup.
+
+#### TypeScript Import Resolution
+
+```bash
+bun add --dev eslint-import-resolver-typescript
+```
 
 #### Stylelint
 
@@ -53,7 +61,7 @@ bun add --dev @next/eslint-plugin-next eslint-config-next
 #### Commitlint
 
 ```bash
-bun add --dev husky @commitlint/cli @commitlint/config-conventional @commitlint/types
+bun add --dev @commitlint/cli @commitlint/config-conventional @commitlint/types
 ```
 
 #### Next Sitemap
@@ -79,7 +87,14 @@ v2 drops FlatCompat and uses native ESLint 10 flat configs throughout.
 
 1. Install ESLint 10+: `bun add --dev eslint@10`
 2. Replace `eslint-plugin-import` with `eslint-plugin-import-x`
-3. Remove unused deps: `@eslint/eslintrc`, `@eslint/js`, `eslint-config-prettier`, `eslint-import-resolver-typescript`
+3. Remove unused deps: `@eslint/eslintrc`, `@eslint/js`
+
+### What's new in v2.0.4
+
+- **`eslint-config-prettier` restored** — added back to peer deps (required by `eslint-plugin-prettier/recommended`)
+- **`eslint-import-resolver-typescript` restored** — added back as optional peer for TypeScript import resolution
+- **All packages declared as peer deps** — every config module's dependencies are declared with proper `peerDependenciesMeta`
+- **Flat config resolver fix** — switched from string-based `import-x/resolver` to `import-x/resolver-next` with `createTypeScriptImportResolver` for ESLint 10 compatibility
 
 ## Quick Start
 

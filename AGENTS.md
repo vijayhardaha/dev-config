@@ -6,7 +6,7 @@
 
 This is a reusable development configuration package (`@vijayhardaha/dev-config`) for Next.js + TypeScript projects. It provides modular, configurable presets for linting, formatting, and commit standards.
 
-> **v2.0.0** — Requires ESLint >=10. Uses native flat config imports throughout, no FlatCompat dependency.
+> **v2.0.4** — Requires ESLint >=10. Uses native flat config imports throughout, no FlatCompat dependency.
 
 ## Development Commands
 
@@ -144,13 +144,14 @@ These are entry points that use the modular configs:
 Required packages (must be installed by consumer):
 
 - `eslint` (>=10)
+- `eslint-config-prettier` (>=10)
 - `prettier` (>=3)
 - `husky` (>=9)
 - `@eslint/compat` (>=2)
 - `@prettier/plugin-xml` (>=3)
 - `@typescript-eslint/eslint-plugin` (>=8)
 - `@typescript-eslint/parser` (>=8)
-- `typescript` (>=6)
+- `typescript` (>=5)
 - `typescript-eslint` (>=8)
 - `eslint-plugin-import-x` (>=4)
 - `eslint-plugin-prettier` (>=5)
@@ -164,3 +165,4 @@ Optional packages (only if using specific configs):
 - Commitlint: `@commitlint/cli`, `@commitlint/config-conventional`, `@commitlint/types`
 - Stylelint: `stylelint`, `stylelint-config-property-sort-order-smacss`, `stylelint-config-standard-scss`, `stylelint-order`
 - Next Sitemap: `next-sitemap`
+- TypeScript import resolution: `eslint-import-resolver-typescript` (>=3)

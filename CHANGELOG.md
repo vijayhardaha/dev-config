@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.4] - 2026-06-02
+
+### Added
+
+- Add `eslint-import-resolver-typescript` as optional peer dependency for TypeScript import resolution
+- Add `eslint-config-prettier` as peer dependency (required by `eslint-plugin-prettier/recommended`)
+- Add all config module dependencies to `peerDependencies` with proper `peerDependenciesMeta`
+- Add `peerDependenciesMeta` entries for `husky`, `typescript`, `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`
+
+### Changed
+
+- Use `import-x/resolver-next` with `createNodeResolver()` + optional `createTypeScriptImportResolver()` for ESLint 10 flat config compatibility
+- Use named import `flatConfigs as importXFlatConfigs` from `eslint-plugin-import-x` instead of default import
+- Update README.md installation instructions with all required and optional packages
+- Update AGENTS.md peer dependencies list
+
 ## [2.0.3] - 2026-05-29
 
 ### Fixed
@@ -295,6 +311,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[2.0.4]: https://github.com/vijayhardaha/dev-config/compare/v2.0.3...v2.0.4
+[2.0.3]: https://github.com/vijayhardaha/dev-config/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/vijayhardaha/dev-config/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/vijayhardaha/dev-config/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/vijayhardaha/dev-config/compare/v1.1.4...v2.0.0
