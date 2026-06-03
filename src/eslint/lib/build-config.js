@@ -1,5 +1,8 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+
 import { fixupPluginRules } from '@eslint/compat';
-import { defineConfig } from 'eslint/config';
+import { defineConfig, includeIgnoreFile } from 'eslint/config';
 import { createNodeResolver, flatConfigs as importXFlatConfigs } from 'eslint-plugin-import-x';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
@@ -240,6 +243,9 @@ export const buildConfig = ({
   const parsedConfigs = typescript ? stripParser(strippedConfigs) : strippedConfigs;
   const mergedGlobalIgnores = mergeGlobalIgnores(opts.globalIgnores);
 
+  const gitignorePath = path.resolve(process.cwd(), '.gitignore');
+  const gitignoreConfig = existsSync(gitignorePath) ? includeIgnoreFile(gitignorePath) : null;
+
   const configObject = buildConfigObject({
     filePatterns,
     opts,
@@ -251,5 +257,10 @@ export const buildConfig = ({
     extraRules,
   });
 
-  return defineConfig([...mergedGlobalIgnores, ...parsedConfigs, configObject]);
+  return defineConfig([
+    ...mergedGlobalIgnores,
+    ...(gitignoreConfig ? [gitignoreConfig] : []),
+    ...parsedConfigs,
+    configObject,
+  ]);
 };

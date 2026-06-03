@@ -77,4 +77,16 @@ describe('eslint/lib/build-config.js', () => {
     expect(configObject.settings).toBeDefined();
     expect(configObject.settings['import-x/resolver-next']).toBeUndefined();
   });
+
+  // Test that buildConfig includes .gitignore patterns via includeIgnoreFile.
+  it('should include .gitignore patterns from project root', async () => {
+    const module = await import('./build-config.js');
+    const { files } = await import('./files.js');
+
+    const result = module.buildConfig({ files: files.withoutTs, options: {} });
+
+    // When .gitignore exists at the project root, includeIgnoreFile adds a config with ignores.
+    const hasIgnoreConfig = result.some((config) => config.ignores && config.ignores.length > 0);
+    expect(hasIgnoreConfig).toBe(true);
+  });
 });
