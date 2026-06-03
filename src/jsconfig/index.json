@@ -1,4 +1,4 @@
 {
-  "compilerOptions": { "jsx": "react-jsx", "resolveJsonModule": true, "baseUrl": ".", "paths": { "@/*": ["./src/*"] } },
+  "compilerOptions": { "jsx": "react-jsx", "resolveJsonModule": true, "paths": { "@/*": ["./src/*"] } },
   "exclude": ["node_modules", ".next", "out"]
 }
