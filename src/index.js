@@ -16,27 +16,6 @@
 export { default as eslint, createConfig as createEslintConfig } from './eslint/index.js';
 
 /**
- * ESLint configuration for TypeScript files.
- *
- * @type {import('eslint').Linter.Config}
- */
-export { default as eslintTs, createConfig as createEslintTsConfig } from './eslint/typescript.js';
-
-/**
- * ESLint configuration for React files.
- *
- * @type {import('eslint').Linter.Config}
- */
-export { default as eslintReact, createConfig as createEslintReactConfig } from './eslint/react.js';
-
-/**
- * ESLint configuration for Next.js files.
- *
- * @type {import('eslint').Linter.Config}
- */
-export { default as eslintNext, createConfig as createEslintNextConfig } from './eslint/next.js';
-
-/**
  * Prettier configuration.
  *
  * @type {import('prettier').Config}
