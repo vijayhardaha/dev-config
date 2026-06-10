@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-06-11
+
+### Fixed
+
+- Fix Next.js ESLint preset import crashes by declaring `next` as an optional peer dependency and installable dev dependency
+- Fix root package imports so optional ESLint integrations are not eagerly loaded from `src/index.js`
+- Fix JavaScript ESLint preset by restoring `@eslint/js` recommended rules
+- Fix TypeScript, React, and Next.js presets so `options.files` is merged into the generated file patterns
+- Fix Prettier XML override globs so they match normal `*.xml`, `*.xsd`, `*.xsl`, and `*.xslt` files
+
+### Changed
+
+- Update README installation and migration notes to match the current dependency and export behavior
+- Add regression tests for the fixed ESLint, Prettier, and root export behavior
+
 ## [2.1.0] - 2026-06-04
 
 ### Added
