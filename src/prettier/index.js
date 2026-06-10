@@ -71,7 +71,10 @@ const config = {
 
     // ---- XML ----
     // Use 2-space indentation for XML files
-    { files: ['.xml', '.xsd', '.xsl', '.xslt'], options: { tabWidth: 2 } },
+    {
+      files: ['**/*.xml', '**/*.xsd', '**/*.xsl', '**/*.xslt'],
+      options: { tabWidth: 2, xmlWhitespaceSensitivity: 'preserve' },
+    },
   ],
 };
 
