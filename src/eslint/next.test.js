@@ -4,29 +4,28 @@ import { describe, it, expect } from 'vitest';
 describe('eslint/next.js', () => {
   // Test that the module exports the createConfig function.
   it('should export createConfig function', async () => {
-    try {
-      // Dynamically import the next.js module to test its exports.
-      const module = await import('./next.js');
+    // Dynamically import the next.js module to test its exports.
+    const module = await import('./next.js');
 
-      // Verify that createConfig is a function (used to create ESLint config for Next.js).
-      expect(typeof module.createConfig).toBe('function');
-    } catch (error) {
-      // If import fails, expect an error to be defined.
-      expect(error).toBeDefined();
-    }
+    // Verify that createConfig is a function (used to create ESLint config for Next.js).
+    expect(typeof module.createConfig).toBe('function');
   });
 
   // Test that the module exports a default configuration object.
   it('should export default config', async () => {
-    try {
-      // Dynamically import the next.js module to test its exports.
-      const module = await import('./next.js');
+    // Dynamically import the next.js module to test its exports.
+    const module = await import('./next.js');
 
-      // Verify that the default export is defined (should be an ESLint config object).
-      expect(module.default).toBeDefined();
-    } catch (error) {
-      // If import fails, expect an error to be defined.
-      expect(error).toBeDefined();
-    }
+    // Verify that the default export is defined (should be an ESLint config object).
+    expect(module.default).toBeDefined();
+  });
+
+  // Test that additional file patterns are applied to the generated config.
+  it('should include additional file patterns from options', async () => {
+    const module = await import('./next.js');
+    const result = module.createConfig({ files: ['custom/**/*.tsx'] });
+    const configObject = result.at(-1);
+
+    expect(configObject.files).toContain('custom/**/*.tsx');
   });
 });
