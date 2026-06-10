@@ -35,7 +35,7 @@ export const createConfig = (options = {}) => {
   const { prettier = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    files: files.withTs,
+    files: [...files.withTs, ...(options.files || [])],
     builtinPlugins: [...tsEslint.configs.recommended],
     centralPlugins: { '@typescript-eslint': tsEslint.plugin },
     typescript: true,
