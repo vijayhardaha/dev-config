@@ -36,4 +36,12 @@ describe('prettier/index.js', () => {
     expect(Array.isArray(config.overrides)).toBe(true);
     expect(config.overrides.length).toBeGreaterThan(0);
   });
+
+  // Test that XML-like extensions are matched as normal file globs.
+  it('should use XML glob patterns that match normal files', async () => {
+    const module = await import('./index.js');
+    const xmlOverride = module.default.overrides.find((override) => override.options?.xmlWhitespaceSensitivity);
+
+    expect(xmlOverride.files).toEqual(['**/*.xml', '**/*.xsd', '**/*.xsl', '**/*.xslt']);
+  });
 });
