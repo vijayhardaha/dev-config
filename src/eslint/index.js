@@ -9,6 +9,8 @@
  * =====================================================================
  */
 
+import js from '@eslint/js';
+
 import { buildConfig, files } from './lib/index.js';
 
 /**
@@ -34,6 +36,7 @@ export const createConfig = (options = {}) => {
 
   return buildConfig({
     files: [...files.withoutTs, ...(options.files || [])],
+    builtinPlugins: [js.configs.recommended],
     options: { ...options, prettier, importOrder, jsdoc },
   });
 };
