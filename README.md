@@ -6,7 +6,7 @@
 
 Reusable development configuration package for Next.js + TypeScript projects.
 
-> **v2.0.4** — Requires ESLint >=10. Native flat config only. No FlatCompat.
+> **v2.1.0** — Requires ESLint >=10. Native flat config only. No FlatCompat.
 
 ## Features
 
@@ -27,7 +27,7 @@ bun add --dev @vijayhardaha/dev-config
 ### Install Required Packages
 
 ```bash
-bun add --dev eslint @eslint/compat eslint-config-prettier prettier @prettier/plugin-xml eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x @typescript-eslint/eslint-plugin @typescript-eslint/parser typescript typescript-eslint husky
+bun add --dev eslint @eslint/compat @eslint/js eslint-config-prettier prettier @prettier/plugin-xml eslint-plugin-prettier globals eslint-plugin-jsdoc eslint-plugin-import-x @typescript-eslint/eslint-plugin @typescript-eslint/parser typescript typescript-eslint husky
 ```
 
 ### Install Optional Packages
@@ -56,6 +56,7 @@ bun add --dev eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a1
 
 ```bash
 bun add --dev @next/eslint-plugin-next eslint-config-next
+bun add --dev next
 ```
 
 #### Commitlint
@@ -79,15 +80,15 @@ v2 drops FlatCompat and uses native ESLint 10 flat configs throughout.
 - **ESLint 10 required** — no longer compatible with ESLint 8/9
 - **No FlatCompat** — all configs import flat config arrays/objects directly
 - **`eslint-plugin-import` → `eslint-plugin-import-x`** — the ESLint 10-compatible fork
-- **`eslint-config-prettier` removed** — bundled in `eslint-plugin-prettier/recommended`
-- **`@eslint/js` removed** — no longer needed without FlatCompat
+- **`eslint-config-prettier` restored** — required by `eslint-plugin-prettier/recommended`
+- **`@eslint/js` restored** — used for the JavaScript recommended rule set
 - **`plugins` option now accepts flat config arrays/objects** — no string-based plugin names
 
 ### Required updates
 
 1. Install ESLint 10+: `bun add --dev eslint@10`
 2. Replace `eslint-plugin-import` with `eslint-plugin-import-x`
-3. Remove unused deps: `@eslint/eslintrc`, `@eslint/js`
+3. Remove unused deps: `@eslint/eslintrc`, `eslint-plugin-import`
 
 ### What's new in v2.0.4
 
@@ -95,6 +96,13 @@ v2 drops FlatCompat and uses native ESLint 10 flat configs throughout.
 - **`eslint-import-resolver-typescript` restored** — added back as optional peer for TypeScript import resolution
 - **All packages declared as peer deps** — every config module's dependencies are declared with proper `peerDependenciesMeta`
 - **Flat config resolver fix** — switched from string-based `import-x/resolver` to `import-x/resolver-next` with `createTypeScriptImportResolver` for ESLint 10 compatibility
+
+### What's new in v2.1.0
+
+- **Root import no longer loads optional ESLint integrations** — use ESLint subpath imports for TypeScript, React, and Next.js presets.
+- **JavaScript recommended rules restored** — the base JavaScript preset now includes `@eslint/js` recommended rules.
+- **Next.js peer dependency declared** — the Next.js preset requires `next` because `eslint-config-next` resolves Next's bundled ESLint parser.
+- **Custom file patterns honored consistently** — TypeScript, React, and Next.js presets merge `options.files` into their generated file patterns.
 
 ## Quick Start
 
