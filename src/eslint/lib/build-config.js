@@ -97,7 +97,8 @@ const stripPlugins = (flatConfigs, pluginNames) => {
     }
 
     if (Object.keys(plugins).length === 0) {
-      const { plugins: _, ...rest } = config;
+      const rest = { ...config };
+      delete rest.plugins;
 
       return rest;
     }
@@ -118,7 +119,8 @@ const stripParser = (flatConfigs) =>
   flatConfigs.map((config) => {
     if (!config.languageOptions?.parser) return config;
 
-    const { parser: _, ...languageOptions } = config.languageOptions;
+    const languageOptions = { ...config.languageOptions };
+    delete languageOptions.parser;
 
     return Object.keys(languageOptions).length > 0
       ? { ...config, languageOptions }
@@ -161,7 +163,7 @@ const buildConfigObject = ({
   extraSettings,
   extraRules,
 }) => {
-  const { ignores, rules, settings, languageOptions, extend } = opts;
+  const { ignores, rules, settings, extend } = opts;
 
   return {
     files: [...filePatterns],
