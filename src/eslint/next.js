@@ -54,7 +54,7 @@ export const createConfig = (options = {}) => {
   const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    files: files.withTs,
+    files: [...files.withTs, ...(options.files || [])],
     builtinPlugins: [...prepareNextConfig(nextCoreWebVitals)],
     centralPlugins: { react: reactPlugin, 'react-hooks': reactHooks, '@typescript-eslint': tsEslint.plugin },
     parserOptions: { ecmaFeatures: { jsx: true } },
