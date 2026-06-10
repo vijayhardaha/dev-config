@@ -41,14 +41,16 @@ export const createConfig = (options = {}) => {
   const { prettier = true, a11y = true, importOrder = true, jsdoc = true } = options;
 
   return buildConfig({
-    files: files.withTs,
+    files: [...files.withTs, ...(options.files || [])],
     builtinPlugins: [
-      { ...reactRecommended, files: files.withTs },
-      { ...reactHooks.configs.flat.recommended, files: files.withTs },
+      { ...reactRecommended, files: [...files.withTs, ...(options.files || [])] },
+      { ...reactHooks.configs.flat.recommended, files: [...files.withTs, ...(options.files || [])] },
       ...tsEslint.configs.recommended,
     ],
     centralPlugins: { react: reactPlugin, 'react-hooks': reactHooks, '@typescript-eslint': tsEslint.plugin },
-    conditionalPlugins: { a11y: { ...jsxA11y.flatConfigs.recommended, files: files.withTs } },
+    conditionalPlugins: {
+      a11y: { ...jsxA11y.flatConfigs.recommended, files: [...files.withTs, ...(options.files || [])] },
+    },
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },
     rules: { 'react/react-in-jsx-scope': 'off', 'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }] },
