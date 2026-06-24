@@ -51,6 +51,7 @@
     "./commitlint": "./src/commitlint/index.js",
     "./stylelint": "./src/stylelint/index.js",
     "./next-sitemap": "./src/next-sitemap/index.js",
+    "./gulp-smacss": "./src/gulp-smacss/index.js",
     "./tsconfig": "./src/tsconfig/index.json",
     "./jsconfig": "./src/jsconfig/index.json"
   },
