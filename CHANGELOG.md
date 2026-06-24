@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-06-25
+
+### Added
+
+- Add `gulp-smacss` module with SMACSS property order export
+- Add regression tests for `gulp-smacss` module exports and order array
+
+### Changed
+
+- Bump dev dependency versions for `@commitlint`, `eslint`, `vitest`, `@typescript-eslint`, `eslint-plugin-import-x`, `eslint-plugin-jsdoc`, and `globals`
+- Keep `bun.lock` synchronized with the updated package metadata
+
 ## [2.1.1] - 2026-06-11
 
 ### Fixed
