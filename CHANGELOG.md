@@ -5,6 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2026-08-02
+
+### Added
+
+- Add coverage test for `next-sitemap` `transformRobotsTxt` function to verify Host header removal from generated robots.txt
+- Add debug logging for optional `eslint-import-resolver-typescript` dependency failure with diagnostic message and installation instructions
+- Add "ESLint Subpath Imports" section to README documenting that root imports only provide base JavaScript config and subpath imports are required for TypeScript, React, and Next.js presets
+
+### Changed
+
+- Improve `.gitignore` patterns with Go-specific ignores (`*.exe`, `*.dll`, `*.so`, `*.dylib`, `*.test`, `*.out`, `go.work`, `go.work.sum`)
+- Improve `.gitignore` patterns with Vim editor backup files (`[._]*.s[a-v][a-z]`, `[._]*.sw[a-p]`, `Session.vim`, `.netrwhist`)
+- Improve `.gitignore` patterns with comprehensive macOS junk files (`.AppleDB`, `.AppleDesktop`, `.DocumentRevisions-V100`, `.fseventsd`, `.TemporaryItems`, `.VolumeIcon.icns`, `.com.apple.timemachine.donotpresent`, `Icon`, `._*`, `Network Trash Folder`, `Temporary Items`, `.apdisk`)
+- Improve `.gitignore` patterns with Linux-specific ignores (`*~`, `.fuse_hidden*`, `.directory`, `.Trash-*`, `.nfs*`)
+- Improve `.gitignore` patterns with Nix build output (`result`, `result-*`)
+- Improve `.gitignore` patterns with Redis database files (`*.rdb`)
+- Improve `.gitignore` patterns with additional cache files (`.ruff_cache`)
+- Improve `.gitignore` patterns with coverage text file (`coverage.txt`)
+- Improve `.gitignore` patterns with AI coding tools (added `.agent`, `.agents`, `.antigravitycli`, `.commandcode`, `.freebuff`, `.mimocode`, `.openclaude`, `.gh-cache`)
+- Improve `.gitignore` patterns with SEO file globs (changed from `/public/robots.txt` to `*public/robots.txt` and `/public/sitemap*` to `*public/sitemap*`)
+- Reorganize `.gitignore` AI tools section for alphabetical consistency
+- Update `package.json` dev dependencies:
+  - `@commitlint/cli` from `^21.1.0` to `^21.2.1`
+  - `@commitlint/config-conventional` from `^21.1.0` to `^21.2.0`
+  - `@commitlint/types` from `^21.1.0` to `^21.2.0`
+  - `@typescript-eslint/parser` from `^8.62.0` to `^8.63.0`
+  - `@typescript-eslint/eslint-plugin` from `^8.62.0` to `^8.63.0`
+  - `@vitest/coverage-v8` from `^4.1.9` to `^4.1.10`
+  - `eslint` from `^10.5.0` to `^10.7.0`
+  - `eslint-config-next` from `^16.2.9` to `^16.2.10`
+  - `eslint-plugin-import-x` from `^4.17.0` to `^4.17.1`
+  - `eslint-plugin-jsdoc` from `^63.0.7` to `^63.0.13`
+  - `next` from `^16.2.9` to `^16.2.10`
+  - `prettier` from `^3.8.4` to `^3.9.5`
+  - `release-it` from `^20.2.0` to `^20.2.1`
+  - `typescript-eslint` from `^8.62.0` to `^8.63.0`
+  - `vitest` from `^4.1.9` to `^4.1.10`
+- Update transitive dependencies from `@commitlint/*`, `@es-joy/jsdoccomment`, `@next/*`, `@simple-libs/*`, `@typescript-eslint/*`, conventional changelog modules, and related packages
+- Update `bun.lock` to reflect all dependency version updates
+
+### Fixed
+
+- Fix unused error parameter in `build-config.js` optional dependency catch block
+- Fix ESLint config string formatting to comply with Prettier line length requirements
+
 ## [2.2.0] - 2026-06-25
 
 ### Added
