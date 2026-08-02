@@ -56,4 +56,30 @@ describe('next-sitemap/index.js', () => {
     // Verify that generateRobotsTxt is enabled by default.
     expect(config.generateRobotsTxt).toBe(true);
   });
+
+  // Test that transformRobotsTxt removes the Host header from generated robots.txt.
+  it('should remove Host header in transformRobotsTxt', async () => {
+    // Dynamically import the module to test its function.
+    const module = await import('./index.js');
+
+    // Call createSitemapConfig with a test siteUrl.
+    const config = module.createSitemapConfig({ siteUrl: 'https://example.com' });
+
+    // Verify that robotsTxtOptions has the transformRobotsTxt function.
+    expect(typeof config.robotsTxtOptions.transformRobotsTxt).toBe('function');
+
+    // Mock a robots.txt output with the Host header that next-sitemap generates.
+    const mockRobotsTxt = `# Host\nHost: https://example.com\n\nUser-agent: *\nAllow: /\n`;
+
+    // Call the transformRobotsTxt function with mock data.
+    const transformed = await config.robotsTxtOptions.transformRobotsTxt(config, mockRobotsTxt);
+
+    // Verify that the Host header has been removed from the output.
+    expect(transformed).not.toContain('# Host');
+    expect(transformed).not.toContain('Host: https://example.com');
+
+    // Verify that the rest of the robots.txt content is preserved.
+    expect(transformed).toContain('User-agent: *');
+    expect(transformed).toContain('Allow: /');
+  });
 });
