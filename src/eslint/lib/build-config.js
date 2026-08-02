@@ -17,6 +17,14 @@ try {
   createTypeScriptImportResolver = (await import('eslint-import-resolver-typescript')).createTypeScriptImportResolver;
 } catch {
   createTypeScriptImportResolver = null;
+  // Debug logging for optional dependency failure
+  if (process.env.DEBUG?.includes('eslint') || process.env.DEBUG === '*') {
+    console.debug(
+      '[ESLint Config] Optional dependency "eslint-import-resolver-typescript" not found. '
+        + 'TypeScript import resolution will be disabled. '
+        + 'Install it with: npm install --save-dev eslint-import-resolver-typescript'
+    );
+  }
 }
 
 /**
