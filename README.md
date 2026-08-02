@@ -116,6 +116,22 @@ import { createConfig } from "@vijayhardaha/dev-config/eslint/next";
 export default createConfig();
 ```
 
+#### ESLint Subpath Imports
+
+Use subpath imports to load ESLint configs with optional integrations (TypeScript, React, Next.js). The root import only provides the base JavaScript config:
+
+```javascript
+// ✅ Correct: Use subpath imports for specialized configs
+import { createConfig } from "@vijayhardaha/dev-config/eslint/ts"; // TypeScript
+import { createConfig } from "@vijayhardaha/dev-config/eslint/react"; // React + TypeScript
+import { createConfig } from "@vijayhardaha/dev-config/eslint/next"; // Next.js + React + TypeScript
+
+// ❌ Incorrect: Root import only provides JavaScript config
+// import { createEslintConfig } from "@vijayhardaha/dev-config"; // Won't export specialized createConfig
+```
+
+This design keeps the root import lightweight and prevents loading unnecessary optional dependencies.
+
 ### Prettier
 
 Create `prettier.config.mjs` in your project root:
