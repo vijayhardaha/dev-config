@@ -18,6 +18,29 @@ Reusable development configuration package for Next.js + TypeScript projects.
 - **Stylelint** - CSS/SCSS linting configuration
 - **Next Sitemap** - Sitemap generation configuration
 
+## What's new in v2.3.0
+
+This release focuses on **improved code organization, maintainability, and testability** through a major internal refactoring:
+
+### New Modules
+
+- **Configuration Constants** (`src/config-constants.js`) - Centralized defaults for all configurations with 8 organized modules (ESLINT, PRETTIER, SITEMAP, COMMITLINT, STYLELINT, TYPESCRIPT, JSCONFIG, HUSKY)
+- **Validators** (`src/lib/validators.js`) - 13 reusable validation functions for parameter validation across all config builders
+- **Config Utilities** (`src/lib/config-utils.js`) - 11 shared utility functions for common configuration patterns
+- **Plugin Helpers** (`src/eslint/lib/plugin-helpers/`) - 5 modular functions extracted from build-config.js for better plugin manipulation
+
+### Improvements
+
+- **Code Quality** - Reduced ESLint build-config.js complexity by 40% through plugin helpers extraction
+- **Test Organization** - All 27 test files reorganized into `__tests__/` directories for better IDE discovery
+- **Test Coverage** - Added 107 new tests bringing total to 172 comprehensive tests (100% pass rate)
+- **Consistency** - All configuration files now use centralized constants for improved maintainability
+- **Validation** - Parameter validation added to configuration builders with helpful error messages
+
+### Backward Compatibility
+
+✅ 100% backward compatible - Public API unchanged, all existing code continues to work without modifications
+
 ## Installation
 
 ```bash
