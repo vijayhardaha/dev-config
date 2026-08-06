@@ -5,7 +5,7 @@ describe('index.js exports', () => {
   // Test that all expected functions and objects are exported from the module.
   it('should export functions without requiring optional integrations', async () => {
     // Dynamically import the module to test its exports.
-    const module = await import('./index.js');
+    const module = await import('../index.js');
 
     // Verify base ESLint exports are available without optional integrations.
     expect(Array.isArray(module.eslint)).toBe(true);

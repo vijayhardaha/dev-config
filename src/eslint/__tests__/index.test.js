@@ -6,7 +6,7 @@ describe('eslint/index.js', () => {
   // Test that the module exports the createConfig function.
   it('should export createConfig function', async () => {
     // Dynamically import the index.js module to test its exports.
-    const module = await import('./index.js');
+    const module = await import('../index.js');
 
     // Verify that createConfig is a function (used to create ESLint configs).
     expect(typeof module.createConfig).toBe('function');
@@ -15,7 +15,7 @@ describe('eslint/index.js', () => {
   // Test that the module exports a default configuration object.
   it('should export default config', async () => {
     // Dynamically import the index.js module to test its exports.
-    const module = await import('./index.js');
+    const module = await import('../index.js');
 
     // Verify that the default export is defined (should be a base ESLint config object).
     expect(module.default).toBeDefined();
@@ -23,7 +23,7 @@ describe('eslint/index.js', () => {
 
   // Test that the JavaScript config catches basic correctness issues.
   it('should include recommended JavaScript rules', async () => {
-    const module = await import('./index.js');
+    const module = await import('../index.js');
     const eslint = new ESLint({
       overrideConfigFile: true,
       overrideConfig: module.createConfig({ prettier: false, importOrder: false, jsdoc: false }),

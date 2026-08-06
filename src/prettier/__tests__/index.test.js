@@ -5,7 +5,7 @@ describe('prettier/index.js', () => {
   // Test that the module exports a default config object.
   it('should export default config object', async () => {
     // Dynamically import the rules module to test its function.
-    const module = await import('./index.js');
+    const module = await import('../index.js');
 
     // Verify default export is an object.
     expect(typeof module.default).toBe('object');
@@ -14,7 +14,7 @@ describe('prettier/index.js', () => {
   // Test that the config has the correct Prettier properties.
   it('should have correct Prettier configuration properties', async () => {
     // Dynamically import the rules module to test its function.
-    const module = await import('./index.js');
+    const module = await import('../index.js');
     const config = module.default;
 
     // Verify basic formatting options.
@@ -29,7 +29,7 @@ describe('prettier/index.js', () => {
   // Test that the config has overrides for different file types.
   it('should have overrides for different file types', async () => {
     // Dynamically import the rules module to test its function.
-    const module = await import('./index.js');
+    const module = await import('../index.js');
     const config = module.default;
 
     // Verify overrides array exists and has entries.
@@ -39,7 +39,7 @@ describe('prettier/index.js', () => {
 
   // Test that XML-like extensions are matched as normal file globs.
   it('should use XML glob patterns that match normal files', async () => {
-    const module = await import('./index.js');
+    const module = await import('../index.js');
     const xmlOverride = module.default.overrides.find((override) => override.options?.xmlWhitespaceSensitivity);
 
     expect(xmlOverride.files).toEqual(['**/*.xml', '**/*.xsd', '**/*.xsl', '**/*.xslt']);

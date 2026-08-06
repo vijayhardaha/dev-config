@@ -5,7 +5,7 @@ describe('eslint/lib/language-options.js', () => {
   // Test that the module exports the commonLanguageOptions object.
   it('should export commonLanguageOptions object', async () => {
     // Dynamically import the language-options module to test its exports.
-    const module = await import('./language-options.js');
+    const module = await import('../language-options.js');
 
     // Verify that commonLanguageOptions is an object.
     expect(typeof module.commonLanguageOptions).toBe('object');
@@ -14,7 +14,7 @@ describe('eslint/lib/language-options.js', () => {
   // Test that the exported language options have the correct properties.
   it('should have correct language options properties', async () => {
     // Dynamically import the language-options module to test its exports.
-    const module = await import('./language-options.js');
+    const module = await import('../language-options.js');
 
     // Verify that ecmaVersion is set to 'latest' (ESLint's latest ECMAScript version).
     expect(module.commonLanguageOptions.ecmaVersion).toBe('latest');

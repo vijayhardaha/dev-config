@@ -6,7 +6,7 @@ describe('eslint/lib/rules.js', () => {
 
   // Module-level import before tests to reduce duplication.
   beforeAll(async () => {
-    const module = await import('./rules.js');
+    const module = await import('../rules.js');
     commonRules = module.commonRules;
   });
 

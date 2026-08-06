@@ -5,7 +5,7 @@ describe('eslint/lib/setup.js', () => {
   // Test that the module exports the commonParser object with a parser property.
   it('should export commonParser object', async () => {
     // Dynamically import the setup module to test its exports.
-    const module = await import('./setup.js');
+    const module = await import('../setup.js');
 
     // Verify that commonParser is an object.
     expect(typeof module.commonParser).toBe('object');
