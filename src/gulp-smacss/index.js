@@ -249,6 +249,11 @@ const other = [
 ];
 
 // ── Final merged order (SMACSS) ──
+/**
+ * Ordered CSS property groups following the SMACSS methodology.
+ *
+ * @type {string[]}
+ */
 export const smacssOrder = [
   ...positioning,
   ...displayVisibility,

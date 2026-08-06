@@ -9,72 +9,36 @@
  * =====================================================================
  */
 
+import { PRETTIER } from '../config-constants.js';
+
 /** @type {import("prettier").Config} */
 const config = {
   // ---- Basic Settings ----
-  // Maximum line width before wrapping
-  printWidth: 120,
-  // Number of spaces per indentation
-  tabWidth: 2,
-  // Use spaces instead of tabs
-  useTabs: false,
-  // Add semicolons at the end of statements
-  semi: true,
-  // Use single quotes for strings
-  singleQuote: false,
-  // Handle line endings automatically
-  endOfLine: 'auto',
-  // Always include parentheses around arrow function parameters
-  arrowParens: 'always',
-  // Trailing commas in multi-line structures
-  trailingComma: 'es5',
-  // Add spaces between object braces
-  bracketSpacing: true,
-  // Do not put single-line objects on a single line
-  bracketSameLine: false,
-  // Preserve prose wrapping in Markdown files
-  proseWrap: 'preserve',
-  // Experimental operator position at start
-  experimentalOperatorPosition: 'start',
-  // Collapse object literals
-  objectWrap: 'collapse',
-  // Ensures that whitespace in XML is preserved as-is
-  xmlWhitespaceSensitivity: 'preserve',
+  ...PRETTIER.BASE,
 
   // ---- Plugins ----
-  plugins: ['@prettier/plugin-xml'],
+  plugins: [PRETTIER.PLUGINS.XML],
 
   // ---- Overrides ----
   // Different formatting rules for different file types
   overrides: [
     // ---- Backend Languages ----
-    // Use 4-space indentation for Python and PHP
-    { files: ['*.py', '*.php'], options: { tabWidth: 4, useTabs: false } },
+    { files: PRETTIER.FILE_PATTERNS.BACKEND, options: PRETTIER.OVERRIDES.BACKEND },
 
     // ---- JavaScript/TypeScript ----
-    // Use 2-space indentation and single quotes for JS/TS
-    { files: ['*.js', '*.ts', '*.mjs', '*.cjs', '*.jsx', '*.tsx'], options: { tabWidth: 2, singleQuote: true } },
+    { files: PRETTIER.FILE_PATTERNS.JAVASCRIPT, options: PRETTIER.OVERRIDES.JAVASCRIPT },
 
     // ---- Stylesheet Languages ----
-    // Use 2-space indentation for CSS/SCSS/SASS
-    { files: ['*.css', '*.scss', '*.sass'], options: { tabWidth: 2 } },
+    { files: PRETTIER.FILE_PATTERNS.STYLESHEETS, options: PRETTIER.OVERRIDES.STYLESHEETS },
 
     // ---- Data & Documentation ----
-    // Use 2-space indentation and no trailing commas for JSON/YAML/Markdown
-    {
-      files: ['*.json', '*.jsonc', '*.yml', '*.yaml', '*.md', '*.mdx'],
-      options: { tabWidth: 2, trailingComma: 'none' },
-    },
+    { files: PRETTIER.FILE_PATTERNS.DATA_AND_DOCS, options: PRETTIER.OVERRIDES.DATA_AND_DOCS },
+
     // ---- YAML ----
-    // Use yaml parser with 2-space indentation
-    { files: ['*.yml', '*.yaml'], options: { parser: 'yaml', tabWidth: 2 } },
+    { files: PRETTIER.FILE_PATTERNS.YAML, options: PRETTIER.OVERRIDES.YAML },
 
     // ---- XML ----
-    // Use 2-space indentation for XML files
-    {
-      files: ['**/*.xml', '**/*.xsd', '**/*.xsl', '**/*.xslt'],
-      options: { tabWidth: 2, xmlWhitespaceSensitivity: 'preserve' },
-    },
+    { files: PRETTIER.FILE_PATTERNS.XML, options: PRETTIER.OVERRIDES.XML },
   ],
 };
 

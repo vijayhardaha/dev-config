@@ -9,15 +9,17 @@
  * =====================================================================
  */
 
+import { STYLELINT } from '../config-constants.js';
+
 /** @type {import("stylelint").Config} */
 const config = {
   // ---- Extends ----
   // Use standard SCSS configuration and property sort order
-  extends: ['stylelint-config-standard-scss', 'stylelint-config-property-sort-order-smacss'],
+  ...STYLELINT.DEFAULTS,
 
   // ---- Plugins ----
   // Use stylelint-order for property sorting
-  plugins: ['stylelint-order'],
+  plugins: [STYLELINT.PLUGINS.ORDER],
 
   // ---- Rules ----
   // Disable specific rules that are too strict or conflict with team style

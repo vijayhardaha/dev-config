@@ -8,6 +8,9 @@
  * =====================================================================
  */
 
+import { SITEMAP } from '../config-constants.js';
+import { validateUrl, validateStringArray, validateNonEmptyString } from '../lib/validators.js';
+
 /**
  * Creates a sitemap configuration object for next-sitemap.
  *
@@ -17,9 +20,20 @@
  * @param {string[]} [options.exclude] - Paths to exclude from sitemap.
  *
  * @returns {import('next-sitemap').IConfig} Sitemap configuration object.
+ *
+ * @throws {Error} If required parameters are invalid.
  */
 export function createSitemapConfig(options = {}) {
-  const { siteUrl = 'https://example.com', outDir = './public', exclude = ['/404', '/500'] } = options;
+  const {
+    siteUrl = SITEMAP.DEFAULTS.SITE_URL,
+    outDir = SITEMAP.DEFAULTS.OUTPUT_DIR,
+    exclude = SITEMAP.DEFAULTS.EXCLUDE_PATHS,
+  } = options;
+
+  // ---- Validation ----
+  validateUrl(siteUrl, 'siteUrl');
+  validateNonEmptyString(outDir, 'outDir');
+  validateStringArray(exclude, 'exclude');
 
   // ---- Last Modified ----
   // Use current timestamp for all sitemap entries
@@ -28,13 +42,13 @@ export function createSitemapConfig(options = {}) {
   return {
     // ---- Basic Settings ----
     siteUrl,
-    sitemapBaseFileName: 'sitemap',
-    trailingSlash: false,
+    sitemapBaseFileName: SITEMAP.DEFAULTS.SITEMAP_FILENAME,
+    trailingSlash: SITEMAP.DEFAULTS.TRAILING_SLASH,
 
     // ---- Output Settings ----
     outDir,
-    changefreq: 'weekly',
-    priority: 0.7,
+    changefreq: SITEMAP.DEFAULTS.CHANGE_FREQUENCY,
+    priority: SITEMAP.DEFAULTS.PRIORITY,
     exclude,
 
     // ---- Transform Function ----
@@ -44,13 +58,13 @@ export function createSitemapConfig(options = {}) {
     },
 
     // ---- Robots.txt Generation ----
-    generateRobotsTxt: true,
+    generateRobotsTxt: SITEMAP.DEFAULTS.GENERATE_ROBOTS_TXT,
     robotsTxtOptions: {
-      policies: [{ userAgent: '*', allow: '/' }],
+      policies: [{ userAgent: SITEMAP.ROBOTS_TXT.USER_AGENT, allow: SITEMAP.ROBOTS_TXT.ALLOW }],
       // ---- Custom Robots.txt Transform ----
       // Remove the default Host header from generated robots.txt
       transformRobotsTxt: async (_config, robotsTxt) => {
-        const hostHeader = `# Host\nHost: ${siteUrl}\n\n`;
+        const hostHeader = `${SITEMAP.HEADERS.HOST}\nHost: ${siteUrl}\n\n`;
         return robotsTxt.replace(hostHeader, '');
       },
     },

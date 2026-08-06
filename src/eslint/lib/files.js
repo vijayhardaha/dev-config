@@ -1,6 +1,8 @@
+import { ESLINT } from '../../config-constants.js';
+
 /**
  * File patterns for ESLint configuration.
  *
  * @type {{ withTs: string[], withoutTs: string[] }}
  */
-export const files = { withTs: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'], withoutTs: ['**/*.{js,jsx,mjs,cjs}'] };
+export const files = ESLINT.FILE_PATTERNS;

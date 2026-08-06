@@ -9,6 +9,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
+import { getEnabledPlugins, flattenPlugins, fixupPlugins, stripPlugins, stripParser } from './plugin-helpers/index.js';
 import { commonRules } from './rules.js';
 import { commonParser } from './setup.js';
 
@@ -28,119 +29,11 @@ try {
 }
 
 /**
- * Filters conditional plugins based on user options.
- *
- * @param {object} conditionalPlugins - Plugin map keyed by option name.
- * @param {object} options - User-provided options.
- *
- * @returns {object[]} Flat config objects for enabled plugins.
- */
-const getEnabledPlugins = (conditionalPlugins, options) =>
-  Object.entries(conditionalPlugins)
-    .filter(([key]) => options[key])
-    .flatMap(([, value]) => (Array.isArray(value) ? value : [value]));
-
-/**
- * Flattens a mixed list of config arrays and objects.
- *
- * @param {(Array|object)[]} plugins - Mixed list of flat config arrays and objects.
- *
- * @returns {object[]} Flattened config array.
- */
-const flattenPlugins = (plugins) => {
-  const result = [];
-
-  for (const plugin of plugins) {
-    if (Array.isArray(plugin)) {
-      result.push(...plugin);
-    } else if (typeof plugin === 'object' && plugin !== null) {
-      result.push(plugin);
-    }
-  }
-
-  return result;
-};
-
-/**
- * Wraps plugin rules with fixupPluginRules for backward compatibility.
- *
- * @param {object[]} flatConfigs - Flat config array.
- *
- * @returns {object[]} Config array with wrapped plugin rules.
- */
-const fixPlugins = (flatConfigs) =>
-  flatConfigs.map((config) => {
-    if (!config.plugins) return config;
-
-    const fixed = { ...config, plugins: {} };
-
-    for (const [name, plugin] of Object.entries(config.plugins)) {
-      fixed.plugins[name] = fixupPluginRules(plugin);
-    }
-
-    return fixed;
-  });
-
-/**
- * Removes centrally-registered plugins from individual configs to prevent
- * "Cannot redefine plugin" errors.
- *
- * @param {object[]} flatConfigs - Flat config array.
- * @param {string[]} pluginNames - Plugin names to strip from configs.
- *
- * @returns {object[]} Config array with specified plugins removed.
- */
-const stripPlugins = (flatConfigs, pluginNames) => {
-  if (pluginNames.length === 0) return flatConfigs;
-
-  const skip = new Set(pluginNames);
-
-  return flatConfigs.map((config) => {
-    if (!config.plugins) return config;
-
-    const plugins = { ...config.plugins };
-
-    for (const name of skip) {
-      delete plugins[name];
-    }
-
-    if (Object.keys(plugins).length === 0) {
-      const rest = { ...config };
-      delete rest.plugins;
-
-      return rest;
-    }
-
-    return { ...config, plugins };
-  });
-};
-
-/**
- * Removes the parser from individual configs when the main config provides one.
- * Prevents parser conflicts (e.g., eslint-config-next/parser vs `@typescript-eslint/parser`).
- *
- * @param {object[]} flatConfigs - Flat config array.
- *
- * @returns {object[]} Config array with parsers removed.
- */
-const stripParser = (flatConfigs) =>
-  flatConfigs.map((config) => {
-    if (!config.languageOptions?.parser) return config;
-
-    const languageOptions = { ...config.languageOptions };
-    delete languageOptions.parser;
-
-    return Object.keys(languageOptions).length > 0
-      ? { ...config, languageOptions }
-      : { ...config, languageOptions: undefined };
-  });
-
-/**
  * Merges user-provided global ignores with common defaults.
  *
  * @param {string[]|undefined} userGlobalIgnores - User-provided ignore patterns.
  *
- * @returns {object} ESLint ignores config object.
+ * @returns {import('eslint').Linter.Config[]} ESLint global ignores configuration.
  */
 const mergeGlobalIgnores = (userGlobalIgnores) =>
   Array.isArray(userGlobalIgnores) ? globalIgnores(userGlobalIgnores) : globalIgnores();
@@ -248,7 +141,7 @@ export const buildConfig = ({
   ].filter(Boolean);
 
   const flatConfigs = flattenPlugins(mergedPlugins);
-  const wrappedConfigs = fixPlugins(flatConfigs);
+  const wrappedConfigs = fixupPlugins(flatConfigs);
   const strippedConfigs = stripPlugins(wrappedConfigs, Object.keys(centralPlugins));
   const parsedConfigs = typescript ? stripParser(strippedConfigs) : strippedConfigs;
   const mergedGlobalIgnores = mergeGlobalIgnores(opts.globalIgnores);

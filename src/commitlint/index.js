@@ -8,11 +8,13 @@
  * =====================================================================
  */
 
+import { COMMITLINT } from '../config-constants.js';
+
 /** @type {import('@commitlint/types').UserConfig} */
 const config = {
   // ---- Extends ----
   // Use conventional commit rules as the base configuration
-  extends: ['@commitlint/config-conventional'],
+  ...COMMITLINT.DEFAULTS,
 
   // ---- Rules ----
   rules: {
