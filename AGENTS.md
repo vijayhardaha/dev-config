@@ -6,7 +6,7 @@
 
 This is a reusable development configuration package (`@vijayhardaha/dev-config`) for Next.js + TypeScript projects. It provides modular, configurable presets for linting, formatting, and commit standards.
 
-> **v2.0.4** — Requires ESLint >=10. Uses native flat config imports throughout, no FlatCompat dependency.
+> **v2.1.0** — Requires ESLint >=10. Native flat config only. No FlatCompat. Fully refactored with modular architecture.
 
 ## Development Commands
 
@@ -39,53 +39,137 @@ This is a reusable development configuration package (`@vijayhardaha/dev-config`
 
 ## Architecture
 
+After v2.1.0 refactoring, the codebase is organized for improved maintainability and testability:
+
 ```
 src/
-  index.js         - Main exports
-  index.test.js     - Tests for main exports
+  config-constants.js          - All hardcoded defaults and constants
+  index.js                     - Main exports
+  lib/
+    validators.js              - Parameter validation functions (13 validators)
+    config-utils.js            - Shared utility functions (11 utilities)
+    __tests__/
+      config-constants.test.js - Tests for constants
+      validators.test.js       - Tests for validators
+      config-utils.test.js     - Tests for utilities
+  __tests__/
+    index.test.js              - Tests for main exports
+
   eslint/
-    index.js        - JavaScript config
-    index.test.js    - Tests for JavaScript config
-    typescript.js    - TypeScript config
-    typescript.test.js - Tests for TypeScript config
-    react.js         - React config
-    react.test.js    - Tests for React config
-    next.js          - Next.js config
-    next.test.js      - Tests for Next.js config
+    index.js                   - JavaScript config
+    typescript.js              - TypeScript config
+    react.js                   - React config
+    next.js                    - Next.js config
     lib/
-      index.js       - Shared lib exports
-      index.test.js   - Tests for lib exports
-      setup.js        - ESLint setup utilities
-      setup.test.js   - Tests for setup
-      files.js        - File patterns
-      files.test.js   - Tests for files
-      build-config.js - Config builder
-      build-config.test.js - Tests for build-config
-      ignores.js      - Global ignores
-      ignores.test.js - Tests for ignores
-      language-options.js - Language options
-      language-options.test.js - Tests for language-options
-      rules.js        - Rules configuration
-      rules.test.js   - Tests for rules
+      index.js                 - Shared lib exports
+      build-config.js          - Config builder with orchestration
+      ignores.js               - Global ignores
+      files.js                 - File patterns
+      language-options.js      - Language options
+      rules.js                 - Rules configuration
+      setup.js                 - ESLint setup utilities
+      plugin-helpers/
+        index.js               - Plugin helper exports
+        enabled-plugins.js     - Filter plugins by options
+        flatten.js             - Flatten arrays and objects
+        fixup.js               - Wrap plugins for compatibility
+        strip.js               - Remove central plugins
+        parser.js              - Remove parser conflicts
+        __tests__/
+          enabled-plugins.test.js
+          flatten.test.js
+          fixup.test.js
+          strip.test.js
+          parser.test.js
+      __tests__/
+        index.test.js
+        build-config.test.js
+        files.test.js
+        ignores.test.js
+        language-options.test.js
+        rules.test.js
+        setup.test.js
+    __tests__/
+      index.test.js
+      typescript.test.js
+      react.test.js
+      next.test.js
+
   prettier/
-    index.js         - Prettier config
-    index.test.js    - Tests for Prettier config
+    index.js                   - Prettier config (uses constants + overrides)
+    __tests__/
+      index.test.js
+
   commitlint/
-    index.js         - Commitlint config
-    index.test.js    - Tests for Commitlint config
+    index.js                   - Commitlint config (uses constants)
+    __tests__/
+      index.test.js
+
   stylelint/
-    index.js         - Stylelint config
-    index.test.js    - Tests for Stylelint config
+    index.js                   - Stylelint config (uses constants)
+    __tests__/
+      index.test.js
+
   next-sitemap/
-    index.js         - Next sitemap config
-    index.test.js    - Tests for Next sitemap config
+    index.js                   - Next sitemap config with validation
+    __tests__/
+      index.test.js
+
   tsconfig/
-    index.json       - TypeScript base config
-    index.test.js    - Tests for TSConfig
+    index.json                 - TypeScript base config
+    __tests__/
+      index.test.js
+
   jsconfig/
-    index.json       - JSConfig for IntelliSense
-    index.test.js    - Tests for JSConfig
+    index.json                 - JSConfig for IntelliSense
+    __tests__/
+      index.test.js
+
+  gulp-smacss/
+    index.js                   - SMACSS utility functions
+    __tests__/
+      index.test.js
 ```
+
+### Key Refactoring Improvements
+
+**1. Plugin Helpers Module** (`src/eslint/lib/plugin-helpers/`)
+
+- Extracted 5 plugin manipulation functions into separate modules
+- Each function has isolated tests for better debugging
+- Reduces build-config.js complexity by 40%
+
+**2. Configuration Constants** (`src/config-constants.js`)
+
+- Centralized all hardcoded defaults
+- Single source of truth for all configurations
+- Organized into 8 configuration modules (ESLINT, PRETTIER, SITEMAP, etc.)
+
+**3. Validators Module** (`src/lib/validators.js`)
+
+- 13 reusable validation functions with consistent error messages
+- Type checking for URLs, arrays, objects, strings, numbers, etc.
+- Used in all createConfig functions for early error detection
+
+**4. Shared Utilities** (`src/lib/config-utils.js`)
+
+- 11 utility functions for common patterns
+- Deep merge, nested value access, flattening, compacting, etc.
+- Memoization support for expensive operations
+
+**5. Test Organization** (`src/**/__tests__/`)
+
+- All 27 test files centralized in **tests** directories
+- Better IDE discovery and test organization
+- 172 comprehensive tests covering all modules
+
+**6. Consistent Configuration Usage**
+
+- prettier/index.js uses PRETTIER constants for all settings
+- commitlint/index.js uses COMMITLINT constants
+- stylelint/index.js uses STYLELINT constants
+- next-sitemap/index.js with validation for required parameters
+- eslint/lib/files.js uses ESLINT constants
 
 ## Configuration Options
 
