@@ -47,7 +47,7 @@ src/
   index.js                     - Main exports
   lib/
     validators.js              - Parameter validation functions (13 validators)
-    config-utils.js            - Shared utility functions (11 utilities)
+    config-utils.js            - Shared utility functions (7 utilities)
     __tests__/
       config-constants.test.js - Tests for constants
       validators.test.js       - Tests for validators
@@ -153,9 +153,8 @@ src/
 
 **4. Shared Utilities** (`src/lib/config-utils.js`)
 
-- 11 utility functions for common patterns
+- 7 utility functions for common patterns
 - Deep merge, nested value access, flattening, compacting, etc.
-- Memoization support for expensive operations
 
 **5. Test Organization** (`src/**/__tests__/`)
 

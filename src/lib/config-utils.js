@@ -30,19 +30,18 @@ export function mergeDeep(target, ...sources) {
 
   const source = sources.shift();
 
-  if (typeof target === 'object' && target !== null && typeof source === 'object' && source !== null) {
-    for (const key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
-          if (!(key in target)) {
-            target[key] = {};
-          }
-          mergeDeep(target[key], source[key]);
-        } else {
-          target[key] = source[key];
-        }
-      }
+  if (typeof target !== 'object' || target === null || typeof source !== 'object' || source === null) {
+    return mergeDeep(target, ...sources);
+  }
+
+  for (const [key, value] of Object.entries(source)) {
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      if (!(key in target)) target[key] = {};
+      mergeDeep(target[key], value);
+      continue;
     }
+
+    target[key] = value;
   }
 
   return mergeDeep(target, ...sources);
@@ -81,26 +80,6 @@ export function filterObjectEntries(obj, predicate) {
  */
 export function createFileOverride(files, options) {
   return { files, options };
-}
-
-/**
- * Safely load an optional module with fallback.
- *
- * @param {string} moduleName - Module name to import.
- * @param {unknown} defaultValue - Value to return if module not found.
- * @param {boolean} debug - Enable debug logging.
- *
- * @returns {Promise<unknown>} Imported module or default value.
- */
-export async function requireOptional(moduleName, defaultValue = null, debug = false) {
-  try {
-    return await import(moduleName);
-  } catch {
-    if (debug || process.env.DEBUG?.includes('config')) {
-      console.debug(`[Config] Optional module not found: ${moduleName}`);
-    }
-    return defaultValue;
-  }
 }
 
 /**
@@ -192,39 +171,6 @@ export function compactArray(arr) {
 }
 
 /**
- * Create a unique identifier for debugging.
- *
- * @returns {string} Unique ID.
- *
- * @example
- * const id = createDebugId();
- * // Returns: 'config-1234567890'
- */
-export function createDebugId() {
-  return `config-${Date.now()}`;
-}
-
-/**
- * Format a debug message with context.
- *
- * @param {string} message - Message to format.
- * @param {object} context - Context object.
- *
- * @returns {string} Formatted message.
- *
- * @example
- * const msg = formatDebugMessage('Building config', { type: 'eslint' });
- * // Returns: '[Config] Building config (type: eslint)'
- */
-export function formatDebugMessage(message, context = {}) {
-  const contextStr = Object.entries(context)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join(', ');
-
-  return contextStr ? `[Config] ${message} (${contextStr})` : `[Config] ${message}`;
-}
-
-/**
  * Check if a value is a plain object (not array, Date, etc.).
  *
  * @param {(object | Array | string | number | boolean | null)} value - Value to check.
@@ -238,33 +184,4 @@ export function formatDebugMessage(message, context = {}) {
  */
 export function isPlainObject(value) {
   return typeof value === 'object' && value !== null && Object.getPrototypeOf(value) === Object.prototype;
-}
-
-/**
- * Create a memoized version of a function.
- *
- * @param {(...args: unknown[]) => unknown} fn - Function to memoize.
- *
- * @returns {(...args: unknown[]) => unknown} Memoized function.
- *
- * @example
- * const memoized = memoize((x) => expensiveComputation(x));
- * memoized(5); // computes
- * memoized(5); // returns cached result
- */
-export function memoize(fn) {
-  const cache = new Map();
-
-  return function (...args) {
-    const key = JSON.stringify(args);
-
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-
-    const result = fn.apply(this, args);
-    cache.set(key, result);
-
-    return result;
-  };
 }
