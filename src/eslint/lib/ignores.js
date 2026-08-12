@@ -37,7 +37,7 @@ const testIgnores = ['**/coverage/', '**/test-results/', '**/.playwright-report/
 /**
  * Cache and temporary file ignore patterns.
  */
-const cacheIgnores = ['**/.cache/', '**/*.log', '**/.DS_Store', '**/Thumbs.db', '**/*.tmp'];
+const cacheIgnores = ['**/.cache/', '**/supabase/.temp/**', '**/*.log', '**/.DS_Store', '**/Thumbs.db', '**/*.tmp'];
 
 /**
  * Environment and config file ignore patterns.

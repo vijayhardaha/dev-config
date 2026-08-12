@@ -34,4 +34,11 @@ describe('eslint/lib/ignores.js', () => {
     // Verify that the result is still an array (merged ignores).
     expect(Array.isArray(result)).toBe(true);
   });
+
+  it('should ignore Supabase temporary files by default', async () => {
+    const module = await import('../ignores.js');
+    const [config] = module.globalIgnores();
+
+    expect(config.ignores).toContain('**/supabase/.temp/**');
+  });
 });
