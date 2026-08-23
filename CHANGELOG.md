@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-08-23
+
+### Added
+
+- Add Tailwind CSS v4 autofix support to React and Next.js ESLint configurations via two optional plugins:
+  - `eslint-plugin-better-tailwindcss` with rules for canonical class names (`aspect-[3/4]` to `aspect-3/4`), redundant whitespace removal, consistent class ordering, and line wrapping at the Prettier print width
+  - `eslint-plugin-tailwindcss` with the `no-unnecessary-arbitrary-value` rule for arbitrary value scale replacements (`p-[16px]` to `p-4`, `max-w-[280px]` to `max-w-70`)
+- Add `tailwind` option (enabled by default) to the React and Next.js `createConfig` functions for opting out of Tailwind rules, plugins, and settings
+- Add automatic discovery of the Tailwind v4 entry stylesheet by probing common locations (`src/app/globals.css`, `app/globals.css`, `src/styles/globals.css`, `styles/globals.css`, `src/input.css`, `input.css`)
+- Add shared settings generation for both plugins (`tailwindcss.cssConfigPath` and `better-tailwindcss.entryPoint`) with user-provided settings taking precedence
+- Add lazy plugin loading so projects without Tailwind tooling continue to work, with install hints logged under `DEBUG=eslint`
+- Add comprehensive test coverage for the new behavior: integration suite running real ESLint with autofix assertions, structural tests for plugin registration and gating, optional-dependency fallback simulations, and branch coverage for DEBUG logging, gitignore handling, and ignore merging
+
+### Changed
+
+- Align peer dependency minimums with devDependency majors: `eslint-plugin-jsdoc` from `>=62` to `>=63`, `eslint-plugin-react-hooks` from `>=5` to `>=7`
+- Keep TypeScript pinned to v6 in devDependencies to match the `typescript >=6` peer range
+
+### Fixed
+
+- No fixes in this release
+
 ## [2.3.1] - 2026-08-12
 
 ### Fixed
