@@ -125,10 +125,12 @@ export const tailwindSettings = () => {
  * consumer enables `prettier-plugin-tailwindcss`, ordering and wrapping are
  * omitted so the formatter owns those concerns without circular fixes.
  *
+ * @param {boolean} [tailwind] - Enable Tailwind CSS class rules.
+ *
  * @returns {object} Tailwind-related ESLint rules (may be partial when plugins are missing).
  */
-export const tailwindRules = () => {
-  if (!betterTailwindcssPlugin) {
+export const tailwindRules = (tailwind = true) => {
+  if (!tailwind || !betterTailwindcssPlugin) {
     return {};
   }
 
@@ -304,7 +306,7 @@ const importOrderRules = (importOrder = true) =>
  * @returns {object} ESLint rules object.
  */
 export const commonRules = (options = {}) => {
-  const { typescript = true, importOrder = true, prettier = true, jsdoc = true, tailwind = true } = options;
+  const { typescript = true, importOrder = true, prettier = true, jsdoc = true, tailwind = false } = options;
 
   return {
     // ---- TypeScript Rules ----
@@ -320,6 +322,6 @@ export const commonRules = (options = {}) => {
     ...jsdocRules(jsdoc),
 
     // ---- Tailwind Integration ----
-    ...(tailwind && tailwindRules()),
+    ...tailwindRules(tailwind),
   };
 };
