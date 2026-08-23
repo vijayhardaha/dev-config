@@ -66,31 +66,34 @@
     "typescript"
   ],
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@commitlint/cli": "^21.2.1",
-    "@commitlint/config-conventional": "^21.2.0",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@commitlint/types": "^21.2.0",
-    "@typescript-eslint/parser": "^8.66.0",
-    "@typescript-eslint/eslint-plugin": "^8.66.0",
-    "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^10.8.0",
-    "eslint-config-next": "^16.3.0",
+    "@eslint/js": "^10.0.1",
+    "@prettier/plugin-xml": "^3.4.2",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^10.9.0",
+    "eslint-config-next": "^16.3.2",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-better-tailwindcss": "^4.7.0",
     "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-jsdoc": "^63.3.3",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.9.0",
+    "eslint-plugin-tailwindcss": "^4.4.0",
+    "globals": "^17.11.0",
     "husky": "^9.1.7",
-    "next": "^16.3.0",
+    "next": "^16.3.2",
     "prettier": "^3.9.6",
-    "@prettier/plugin-xml": "^3.4.2",
-    "release-it": "^21.0.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.66.0",
-    "vitest": "^4.1.10"
+    "release-it": "^21.0.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@commitlint/cli": ">=21",
@@ -106,22 +109,24 @@
     "eslint-config-next": ">=16",
     "eslint-config-prettier": ">=10",
     "eslint-import-resolver-typescript": ">=4",
+    "eslint-plugin-better-tailwindcss": ">=4",
     "eslint-plugin-import-x": ">=4",
     "eslint-plugin-jsdoc": ">=62",
     "eslint-plugin-jsx-a11y": ">=6",
     "eslint-plugin-prettier": ">=5",
     "eslint-plugin-react": ">=7",
     "eslint-plugin-react-hooks": ">=5",
+    "eslint-plugin-tailwindcss": ">=4",
     "globals": ">=17",
     "husky": ">=9",
-    "next-sitemap": ">=4",
     "next": ">=16",
+    "next-sitemap": ">=4",
     "prettier": ">=3",
     "stylelint": ">=17",
     "stylelint-config-property-sort-order-smacss": ">=11",
     "stylelint-config-standard-scss": ">=17",
     "stylelint-order": ">=8",
-    "typescript": ">=5",
+    "typescript": ">=6",
     "typescript-eslint": ">=8"
   },
   "peerDependenciesMeta": {
@@ -149,6 +154,9 @@
     "eslint-import-resolver-typescript": {
       "optional": true
     },
+    "eslint-plugin-better-tailwindcss": {
+      "optional": true
+    },
     "eslint-plugin-jsx-a11y": {
       "optional": true
     },
@@ -156,6 +164,9 @@
       "optional": true
     },
     "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "eslint-plugin-tailwindcss": {
       "optional": true
     },
     "husky": {
