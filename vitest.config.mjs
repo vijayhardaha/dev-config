@@ -21,6 +21,10 @@ const config = {
     // Node environment (no browser/DOM needed for CLI utils)
     environment: 'node',
 
+    // Generous per-test budget: coverage instrumentation slows cold imports
+    // of heavy config graphs past the 5s default under load spikes
+    testTimeout: 20000,
+
     // Mock console output to reduce test noise
     setupFiles: ['./vitest.setup.mjs'],
 
