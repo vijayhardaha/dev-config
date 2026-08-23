@@ -39,7 +39,7 @@ const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/ty
  * @param {boolean} [options.a11y] - Enable accessibility rules.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
- * @param {boolean} [options.tailwind] - Enable Tailwind CSS class rules (default: true).
+ * @param {boolean} [options.tailwind] - Enable Tailwind CSS class rules (default: false).
  * @param {string[]} [options.ignores] - Additional ignore patterns.
  * @param {object} [options.rules] - Additional or overridden rules.
  * @param {object} [options.settings] - Additional settings.
@@ -52,7 +52,7 @@ const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/ty
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
-  const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true, tailwind = true } = options;
+  const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true, tailwind = false } = options;
 
   return buildConfig({
     files: [...files.withTs, ...(options.files || [])],

@@ -63,7 +63,7 @@ describe('eslint tailwind autofix', () => {
       '',
     ].join('\n');
 
-    const result = await lintAndFix(projectDir, nextModule, code);
+    const result = await lintAndFix(projectDir, nextModule, code, { tailwind: true });
 
     expect(result.output).toContain('aspect-3/4');
     expect(result.output).toContain('max-w-70');
@@ -81,7 +81,10 @@ describe('eslint tailwind autofix', () => {
       '',
     ].join('\n');
 
-    const result = await lintAndFix(projectDir, nextModule, code, { rules: { 'import-x/order': 'off' } });
+    const result = await lintAndFix(projectDir, nextModule, code, {
+      tailwind: true,
+      rules: { 'import-x/order': 'off' },
+    });
 
     expect(result.output).toContain('data-[side=bottom]:translate-y-10');
     expect(result.output).toContain('dark:hover:-translate-x-10');
@@ -94,7 +97,7 @@ describe('eslint tailwind autofix', () => {
       + 'transition-all hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900';
     const code = ['const Card = () => (', `  <div className="${longClasses}">Card</div>`, ');', ''].join('\n');
 
-    const result = await lintAndFix(projectDir, nextModule, code);
+    const result = await lintAndFix(projectDir, nextModule, code, { tailwind: true });
 
     expect(result.output).toMatch(/className="\n\s+flex/);
   }, 60_000);

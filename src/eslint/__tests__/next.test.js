@@ -29,10 +29,25 @@ describe('eslint/next.js', () => {
     expect(configObject.files).toContain('custom/**/*.tsx');
   });
 
-  // Test that Tailwind plugins are registered on the main config by default.
-  it('should register Tailwind plugins by default', async () => {
+  // Test that Tailwind plugins and rules are omitted by default.
+  it('should omit Tailwind plugins and rules by default', async () => {
     const module = await import('../next.js');
     const result = module.createConfig();
+    const configObject = result.at(-1);
+
+    // Verify that no Tailwind plugins are centrally registered.
+    expect(configObject.plugins['better-tailwindcss']).toBeUndefined();
+    expect(configObject.plugins.tailwindcss).toBeUndefined();
+
+    // Verify that no Tailwind rules are present in the config.
+    expect(Object.keys(configObject.rules).filter((rule) => rule.startsWith('better-tailwindcss/'))).toHaveLength(0);
+    expect(Object.keys(configObject.rules).filter((rule) => rule.startsWith('tailwindcss/'))).toHaveLength(0);
+  });
+
+  // Test that Tailwind plugins, rules, and settings register when opted in.
+  it('should register Tailwind plugins when tailwind option is true', async () => {
+    const module = await import('../next.js');
+    const result = module.createConfig({ tailwind: true });
     const configObject = result.at(-1);
 
     // Verify that the better-tailwindcss plugin is centrally registered.
@@ -46,25 +61,6 @@ describe('eslint/next.js', () => {
 
     // Verify that the arbitrary value replacement rule is enabled.
     expect(configObject.rules['tailwindcss/no-unnecessary-arbitrary-value']).toBe('warn');
-  });
-
-  // Test that Tailwind plugins, rules, and settings are omitted when disabled.
-  it('should omit Tailwind plugins and rules when tailwind option is false', async () => {
-    const module = await import('../next.js');
-    const result = module.createConfig({ tailwind: false });
-    const configObject = result.at(-1);
-
-    // Verify that no Tailwind plugins are centrally registered.
-    expect(configObject.plugins['better-tailwindcss']).toBeUndefined();
-    expect(configObject.plugins.tailwindcss).toBeUndefined();
-
-    // Verify that no Tailwind rules are present in the config.
-    expect(Object.keys(configObject.rules).filter((rule) => rule.startsWith('better-tailwindcss/'))).toHaveLength(0);
-    expect(Object.keys(configObject.rules).filter((rule) => rule.startsWith('tailwindcss/'))).toHaveLength(0);
-
-    // Verify that no Tailwind settings are present in the config.
-    expect(configObject.settings.tailwindcss).toBeUndefined();
-    expect(configObject.settings['better-tailwindcss']).toBeUndefined();
   });
 
   // Test that user settings override the generated Tailwind settings.

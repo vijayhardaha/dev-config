@@ -127,7 +127,7 @@ const buildConfigObject = ({
  * @param {object} [config.parserOptions] - Parser options.
  * @param {object} [config.settings] - Settings object.
  * @param {object} [config.rules] - Additional rules.
- * @param {object} [config.options] - User-provided options. Tailwind rules are enabled by default and can be disabled with `tailwind: false`.
+ * @param {object} [config.options] - User-provided options. Tailwind rules are disabled by default and can be enabled with `tailwind: true`.
  * @param {boolean} [config.typescript] - Enable TypeScript support.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
@@ -144,7 +144,7 @@ export const buildConfig = ({
   options = {},
   typescript = false,
 }) => {
-  const opts = { prettier: true, importOrder: true, jsdoc: true, tailwind: true, ...options };
+  const opts = { prettier: true, importOrder: true, jsdoc: true, tailwind: false, ...options };
 
   const conditionalPluginList = getEnabledPlugins(conditionalPlugins, opts);
 
