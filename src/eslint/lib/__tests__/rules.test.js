@@ -60,4 +60,43 @@ describe('eslint/lib/rules.js', () => {
     // Verify that the jsdoc/require-jsdoc rule is present in the config.
     expect(result['jsdoc/require-jsdoc']).toBeDefined();
   });
+
+  // Test that Tailwind rules are included when tailwind option is true.
+  it('should include Tailwind rules when tailwind is true', () => {
+    // Call commonRules with tailwind option enabled.
+    const result = commonRules({ tailwind: true });
+
+    // Verify that the Tailwind canonicalization rule is present in the config.
+    expect(result['better-tailwindcss/enforce-canonical-classes']).toBeDefined();
+
+    // Verify that the Tailwind whitespace cleanup rule is present in the config.
+    expect(result['better-tailwindcss/no-unnecessary-whitespace']).toBeDefined();
+
+    // Verify that the Tailwind ordering rule is present in the config.
+    expect(result['better-tailwindcss/enforce-consistent-class-order']).toBeDefined();
+
+    // Verify that the Tailwind arbitrary value replacement rule is present in the config.
+    expect(result['tailwindcss/no-unnecessary-arbitrary-value']).toBeDefined();
+  });
+
+  // Test that line wrapping aligns with the shared Prettier print width.
+  it('should configure line wrapping with the shared Prettier print width', () => {
+    // Call commonRules with tailwind option enabled.
+    const result = commonRules({ tailwind: true });
+
+    // Verify that the wrapping rule uses the shared print width constant.
+    expect(result['better-tailwindcss/enforce-consistent-line-wrapping']).toEqual(['warn', { printWidth: 120 }]);
+  });
+
+  // Test that Tailwind rules are excluded when tailwind option is false.
+  it('should exclude Tailwind rules when tailwind is false', () => {
+    // Call commonRules with tailwind option disabled.
+    const result = commonRules({ tailwind: false });
+
+    // Verify that no better-tailwindcss rules are present in the config.
+    expect(Object.keys(result).filter((rule) => rule.startsWith('better-tailwindcss/'))).toHaveLength(0);
+
+    // Verify that no tailwindcss rules are present in the config.
+    expect(Object.keys(result).filter((rule) => rule.startsWith('tailwindcss/'))).toHaveLength(0);
+  });
 });
