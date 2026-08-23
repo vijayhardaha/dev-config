@@ -55,4 +55,34 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
       'better-tailwindcss': { entryPoint: 'src/app/globals.css' },
     });
   });
+
+  it('skips debug logging when DEBUG is unset', async () => {
+    // Drop DEBUG so both logging conditions evaluate to false.
+    delete process.env.DEBUG;
+    vi.resetModules();
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
+    debugSpy.mockClear();
+
+    // Re-import so top-level catch branches run again under this env.
+    await import('../rules.js');
+
+    // Verify that no install hints are logged without DEBUG.
+    expect(debugSpy).not.toHaveBeenCalled();
+  });
+
+  it('logs install hints under wildcard DEBUG', async () => {
+    // Wildcard DEBUG skips the substring check and enables logging.
+    process.env.DEBUG = '*';
+    vi.resetModules();
+    const debugCalls = [];
+    const debugSpy = vi.spyOn(console, 'debug').mockImplementation((...args) => debugCalls.push(args.join(' ')));
+    debugSpy.mockClear();
+
+    // Re-import so top-level catch branches run again under this env.
+    await import('../rules.js');
+
+    // Verify that install hints are logged for both missing plugins.
+    expect(debugCalls.some((message) => message.includes('eslint-plugin-better-tailwindcss'))).toBe(true);
+    expect(debugCalls.some((message) => message.includes('eslint-plugin-tailwindcss'))).toBe(true);
+  });
 });
