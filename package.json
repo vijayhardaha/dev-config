@@ -1,6 +1,6 @@
 {
   "name": "@vijayhardaha/dev-config",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Reusable development configurations for Next.js + TypeScript projects",
   "scripts": {
     "lint": "eslint .",
