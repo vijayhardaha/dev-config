@@ -15,7 +15,7 @@ import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 import reactHooks from 'eslint-plugin-react-hooks';
 import tsEslint from 'typescript-eslint';
 
-import { buildConfig, files } from './lib/index.js';
+import { buildConfig, files, getTailwindCentralPlugins } from './lib/index.js';
 
 /**
  * Creates an ESLint configuration object for React projects with TypeScript
@@ -26,6 +26,7 @@ import { buildConfig, files } from './lib/index.js';
  * @param {boolean} [options.a11y] - Enable accessibility rules.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ * @param {boolean} [options.tailwind] - Enable Tailwind CSS class rules (default: true).
  * @param {string[]} [options.ignores] - Additional ignore patterns.
  * @param {object} [options.rules] - Additional or overridden rules.
  * @param {object} [options.settings] - Additional settings.
@@ -38,7 +39,7 @@ import { buildConfig, files } from './lib/index.js';
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
-  const { prettier = true, a11y = true, importOrder = true, jsdoc = true } = options;
+  const { prettier = true, a11y = true, importOrder = true, jsdoc = true, tailwind = true } = options;
 
   return buildConfig({
     files: [...files.withTs, ...(options.files || [])],
@@ -47,7 +48,12 @@ export const createConfig = (options = {}) => {
       { ...reactHooks.configs.flat.recommended, files: [...files.withTs, ...(options.files || [])] },
       ...tsEslint.configs.recommended,
     ],
-    centralPlugins: { react: reactPlugin, 'react-hooks': reactHooks, '@typescript-eslint': tsEslint.plugin },
+    centralPlugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooks,
+      '@typescript-eslint': tsEslint.plugin,
+      ...(tailwind && getTailwindCentralPlugins()),
+    },
     conditionalPlugins: {
       a11y: { ...jsxA11y.flatConfigs.recommended, files: [...files.withTs, ...(options.files || [])] },
     },
@@ -55,7 +61,7 @@ export const createConfig = (options = {}) => {
     settings: { react: { version: 'detect' } },
     rules: { 'react/react-in-jsx-scope': 'off', 'react/no-unknown-property': ['error', { ignore: ['jsx', 'global'] }] },
     typescript: true,
-    options: { ...options, prettier, a11y, importOrder, jsdoc },
+    options: { ...options, prettier, a11y, importOrder, jsdoc, tailwind },
   });
 };
 

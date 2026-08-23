@@ -14,7 +14,7 @@ import reactPlugin from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import tsEslint from 'typescript-eslint';
 
-import { buildConfig, files } from './lib/index.js';
+import { buildConfig, files, getTailwindCentralPlugins } from './lib/index.js';
 
 /**
  * Removes the next/typescript item from the core-web-vitals config array.
@@ -39,6 +39,7 @@ const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/ty
  * @param {boolean} [options.a11y] - Enable accessibility rules.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
+ * @param {boolean} [options.tailwind] - Enable Tailwind CSS class rules (default: true).
  * @param {string[]} [options.ignores] - Additional ignore patterns.
  * @param {object} [options.rules] - Additional or overridden rules.
  * @param {object} [options.settings] - Additional settings.
@@ -51,12 +52,17 @@ const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/ty
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
-  const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true } = options;
+  const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true, tailwind = true } = options;
 
   return buildConfig({
     files: [...files.withTs, ...(options.files || [])],
     builtinPlugins: [...prepareNextConfig(nextCoreWebVitals)],
-    centralPlugins: { react: reactPlugin, 'react-hooks': reactHooks, '@typescript-eslint': tsEslint.plugin },
+    centralPlugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooks,
+      '@typescript-eslint': tsEslint.plugin,
+      ...(tailwind && getTailwindCentralPlugins()),
+    },
     parserOptions: { ecmaFeatures: { jsx: true } },
     settings: { react: { version: 'detect' } },
     rules: {
@@ -66,7 +72,7 @@ export const createConfig = (options = {}) => {
       }),
     },
     typescript: true,
-    options: { ...options, prettier, react, a11y, importOrder, jsdoc },
+    options: { ...options, prettier, react, a11y, importOrder, jsdoc, tailwind },
   });
 };
 
