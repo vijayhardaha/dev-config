@@ -47,7 +47,11 @@ const config = {
         '**/*.spec.{js,mjs,cjs,ts,tsx}',
         '**/dist/',
         '**/build/',
-        'src/bin/vdo.ts',
+
+        // Pure re-export barrels with no executable logic of their own
+        'src/index.js',
+        'src/eslint/lib/index.js',
+        'src/eslint/lib/plugin-helpers/index.js',
       ],
     },
   },
