@@ -32,6 +32,11 @@ describe('Config Utils', () => {
       const result = mergeDeep({ arr: [1, 2] }, { arr: [3] });
       expect(result).toEqual({ arr: [3] });
     });
+
+    it('should skip non-object sources and initialize missing nested keys', () => {
+      const result = mergeDeep({ a: 1 }, null, { b: { c: 2 } });
+      expect(result).toEqual({ a: 1, b: { c: 2 } });
+    });
   });
 
   describe('filterObjectEntries', () => {

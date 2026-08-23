@@ -82,4 +82,24 @@ describe('next-sitemap/index.js', () => {
     expect(transformed).toContain('User-agent: *');
     expect(transformed).toContain('Allow: /');
   });
+
+  // Test that transform stamps each sitemap entry with changefreq, priority, and lastmod.
+  it('should return loc with metadata in transform', async () => {
+    // Dynamically import the module to test its function.
+    const module = await import('../index.js');
+
+    // Call createSitemapConfig to get default config.
+    const config = module.createSitemapConfig({ siteUrl: 'https://example.com' });
+
+    // Call the transform function with mock data.
+    const transformed = await config.transform(config, '/about/');
+
+    // Verify that the entry location is preserved and defaults are stamped.
+    expect(transformed.loc).toBe('/about/');
+    expect(transformed.changefreq).toBe(config.changefreq);
+    expect(transformed.priority).toBe(config.priority);
+
+    // Verify that lastmod uses ISO format without milliseconds.
+    expect(transformed.lastmod).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
+  });
 });
