@@ -10,7 +10,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
 import { getEnabledPlugins, flattenPlugins, fixupPlugins, stripPlugins, stripParser } from './plugin-helpers/index.js';
-import { commonRules } from './rules.js';
+import { commonRules, tailwindSettings } from './rules.js';
 import { commonParser } from './setup.js';
 
 let createTypeScriptImportResolver;
@@ -66,6 +66,16 @@ const buildConfigObject = ({
 }) => {
   const { ignores, rules, settings, extend } = opts;
 
+  // Resolve feature flags up front so downstream wiring stays readable.
+  const importOrderEnabled = Boolean(opts.importOrder);
+  const jsdocEnabled = Boolean(opts.jsdoc);
+  const prettierEnabled = Boolean(opts.prettier);
+  const typescriptEnabled = Boolean(typescript);
+
+  // Tailwind is opt-out (enabled by default) but only applies to configs that
+  // register the Tailwind plugins centrally, so JS/TS-only configs stay clean.
+  const tailwindEnabled = Boolean(opts.tailwind) && 'better-tailwindcss' in centralPlugins;
+
   return {
     files: [...filePatterns],
     ...(ignores && { ignores }),
@@ -74,23 +84,30 @@ const buildConfigObject = ({
     ),
     languageOptions: {
       ...commonLanguageOptions,
-      ...(typescript && commonParser),
+      ...(typescriptEnabled && commonParser),
       ...extraLanguageOptions,
-      ...(typescript && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
+      ...(typescriptEnabled && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
     settings: {
-      ...(opts.importOrder && {
+      ...(importOrderEnabled && {
         'import-x/resolver-next': [
           createNodeResolver(),
           ...(createTypeScriptImportResolver ? [createTypeScriptImportResolver()] : []),
         ],
       }),
-      ...(opts.jsdoc && { jsdoc: { mode: 'typescript' } }),
+      ...(jsdocEnabled && { jsdoc: { mode: 'typescript' } }),
+      ...(tailwindEnabled && tailwindSettings()),
       ...extraSettings,
       ...settings,
     },
     rules: {
-      ...commonRules({ prettier: opts.prettier, importOrder: opts.importOrder, typescript, jsdoc: opts.jsdoc }),
+      ...commonRules({
+        prettier: prettierEnabled,
+        importOrder: importOrderEnabled,
+        typescript: typescriptEnabled,
+        jsdoc: jsdocEnabled,
+        tailwind: tailwindEnabled,
+      }),
       ...extraRules,
       ...rules,
     },
@@ -110,7 +127,7 @@ const buildConfigObject = ({
  * @param {object} [config.parserOptions] - Parser options.
  * @param {object} [config.settings] - Settings object.
  * @param {object} [config.rules] - Additional rules.
- * @param {object} [config.options] - User-provided options.
+ * @param {object} [config.options] - User-provided options. Tailwind rules are enabled by default and can be disabled with `tailwind: false`.
  * @param {boolean} [config.typescript] - Enable TypeScript support.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
@@ -127,7 +144,7 @@ export const buildConfig = ({
   options = {},
   typescript = false,
 }) => {
-  const opts = { prettier: true, importOrder: true, jsdoc: true, ...options };
+  const opts = { prettier: true, importOrder: true, jsdoc: true, tailwind: true, ...options };
 
   const conditionalPluginList = getEnabledPlugins(conditionalPlugins, opts);
 
