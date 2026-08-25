@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Split the previously monolithic `src/config-constants.js` into per-technology constant modules under `src/lib/constants/` (one file per tech plus a barrel). Each module ships with its own test file under `src/lib/constants/__tests__/`.
 - Split the shared helpers (`src/lib/config-utils.js`, `src/lib/validators.js`) into grouped-domain files under `src/lib/utils/` (object utilities, array utilities, file-override helper, and four validator groups) plus a barrel. Each domain ships with its own test file under `src/lib/utils/__tests__/`.
 
+### Removed
+
+- Drop the `"./eslint/common"` export alias. It pointed at the same target as `"./eslint"`, `"./eslint/js"`, and `"./eslint/base"`, so it was redundant. Use one of those three names instead. No in-repo or downstream consumer used this alias.
+
 ### Migration
 
 To enable Tailwind rules with this version:
