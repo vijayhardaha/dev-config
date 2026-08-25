@@ -3,7 +3,7 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
-import { PRETTIER } from '../../config-constants.js';
+import { PRETTIER } from '../../../lib/constants/prettier.js';
 
 // ---- Optional Tailwind Plugins ----------------------------------------------------------
 // Both plugins are optional peers. They are loaded lazily so projects without
