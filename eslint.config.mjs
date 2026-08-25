@@ -9,7 +9,7 @@
  * =====================================================================
  */
 
-import { createConfig } from './src/presets/eslint/index.js';
+import { createConfig } from './src/presets/eslint/javascript.js';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default createConfig({

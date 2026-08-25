@@ -37,9 +37,9 @@
   "exports": {
     ".": "./src/index.js",
     "./package.json": "./package.json",
-    "./eslint": "./src/presets/eslint/index.js",
-    "./eslint/js": "./src/presets/eslint/index.js",
-    "./eslint/base": "./src/presets/eslint/index.js",
+    "./eslint": "./src/presets/eslint/javascript.js",
+    "./eslint/js": "./src/presets/eslint/javascript.js",
+    "./eslint/base": "./src/presets/eslint/javascript.js",
     "./eslint/ts": "./src/presets/eslint/typescript.js",
     "./eslint/typescript": "./src/presets/eslint/typescript.js",
     "./eslint/react": "./src/presets/eslint/react.js",

@@ -13,7 +13,7 @@
  *
  * @type {import('eslint').Linter.Config}
  */
-export { default as eslint, createConfig as createEslintConfig } from './presets/eslint/index.js';
+export { default as eslint, createConfig as createEslintConfig } from './presets/eslint/javascript.js';
 
 /**
  * Prettier configuration.
