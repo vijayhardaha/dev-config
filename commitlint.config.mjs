@@ -7,6 +7,6 @@
  * =======================================================================
  */
 
-import commitlintConfig from './src/commitlint/index.js';
+import commitlintConfig from './src/presets/commitlint/index.js';
 
 export default commitlintConfig;

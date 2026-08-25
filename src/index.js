@@ -13,32 +13,32 @@
  *
  * @type {import('eslint').Linter.Config}
  */
-export { default as eslint, createConfig as createEslintConfig } from './eslint/index.js';
+export { default as eslint, createConfig as createEslintConfig } from './presets/eslint/index.js';
 
 /**
  * Prettier configuration.
  *
  * @type {import('prettier').Config}
  */
-export { default as prettier } from './prettier/index.js';
+export { default as prettier } from './presets/prettier/index.js';
 
 /**
  * Commitlint configuration.
  *
  * @type {import('@commitlint/types').UserConfig}
  */
-export { default as commitlint } from './commitlint/index.js';
+export { default as commitlint } from './presets/commitlint/index.js';
 
 /**
  * Next.js sitemap configuration.
  *
  * @type {import('next-sitemap').IConfig}
  */
-export { default as nextSitemap, createSitemapConfig } from './next-sitemap/index.js';
+export { default as nextSitemap, createSitemapConfig } from './presets/next-sitemap/index.js';
 
 /**
  * Stylelint configuration.
  *
  * @type {import('stylelint').Config}
  */
-export { default as stylelint } from './stylelint/index.js';
+export { default as stylelint } from './presets/stylelint/index.js';

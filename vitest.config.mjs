@@ -50,8 +50,8 @@ const config = {
 
         // Pure re-export barrels with no executable logic of their own
         'src/index.js',
-        'src/eslint/lib/index.js',
-        'src/eslint/lib/plugin-helpers/index.js',
+        'src/presets/eslint/lib/index.js',
+        'src/presets/eslint/lib/plugin-helpers/index.js',
       ],
     },
   },

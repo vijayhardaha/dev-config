@@ -9,6 +9,6 @@
  * ======================================================================
  */
 
-import config from './src/prettier/index.js';
+import config from './src/presets/prettier/index.js';
 
 export default config;
