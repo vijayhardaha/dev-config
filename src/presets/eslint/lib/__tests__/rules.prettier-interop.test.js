@@ -12,31 +12,26 @@ vi.mock('prettier', async (importOriginal) => {
 
 describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
   it('drops ordering and wrapping rules when prettier-plugin-tailwindcss is active', async () => {
-    // Simulate a consumer Prettier config that enables the Tailwind plugin.
     mockResolveConfig.mockResolvedValue({ plugins: ['prettier-plugin-tailwindcss'] });
 
     const rules = await import('../rules.js');
     const result = rules.tailwindRules();
 
-    // Verify formatter-owned concerns are left to Prettier.
     expect(result['better-tailwindcss/enforce-consistent-class-order']).toBeUndefined();
     expect(result['better-tailwindcss/enforce-consistent-line-wrapping']).toBeUndefined();
 
-    // Verify lint-only concerns stay enabled.
     expect(result['better-tailwindcss/enforce-canonical-classes']).toBe('warn');
     expect(result['better-tailwindcss/no-unnecessary-whitespace']).toBe('warn');
     expect(result['tailwindcss/no-unnecessary-arbitrary-value']).toBe('warn');
   });
 
   it('keeps ordering and wrapping rules without the prettier plugin', async () => {
-    // Simulate a consumer Prettier config without the Tailwind plugin.
     mockResolveConfig.mockResolvedValue({});
 
     vi.resetModules();
     const rules = await import('../rules.js');
     const result = rules.tailwindRules();
 
-    // Verify all four better-tailwindcss rules remain enabled.
     expect(result['better-tailwindcss/enforce-consistent-class-order']).toBe('warn');
     expect(result['better-tailwindcss/enforce-consistent-line-wrapping']).toEqual(['warn', { printWidth: 120 }]);
     expect(result['better-tailwindcss/enforce-canonical-classes']).toBe('warn');
@@ -44,20 +39,17 @@ describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
   });
 
   it('falls back to full rules when prettier config resolution fails', async () => {
-    // Simulate prettier being unusable during config evaluation.
     mockResolveConfig.mockRejectedValue(new Error('simulated resolution failure'));
 
     vi.resetModules();
     const rules = await import('../rules.js');
     const result = rules.tailwindRules();
 
-    // Verify ordering and wrapping rules stay enabled on failure.
     expect(result['better-tailwindcss/enforce-consistent-class-order']).toBe('warn');
     expect(result['better-tailwindcss/enforce-consistent-line-wrapping']).toEqual(['warn', { printWidth: 120 }]);
   });
 
   it('logs an interop notice under DEBUG when the prettier plugin is active', async () => {
-    // Enable debug logging and simulate the active Tailwind Prettier plugin.
     process.env.DEBUG = 'eslint';
     mockResolveConfig.mockResolvedValue({ plugins: ['prettier-plugin-tailwindcss'] });
     vi.resetModules();
@@ -68,7 +60,6 @@ describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
     // Re-import so top-level detection runs again under this env.
     await import('../rules.js');
 
-    // Verify that the interop decision is logged.
     expect(debugCalls.some((message) => message.includes('left to Prettier'))).toBe(true);
 
     delete process.env.DEBUG;

@@ -1,105 +1,72 @@
 import { describe, it, expect } from 'vitest';
 
-// Test suite for next-sitemap module's main entry point.
 describe('next-sitemap/index.js', () => {
-  // Test that the module exports the createSitemapConfig function.
   it('should export createSitemapConfig function', async () => {
-    // Dynamically import the module to test its exports.
     const module = await import('../index.js');
 
-    // Verify that createSitemapConfig is a function.
     expect(typeof module.createSitemapConfig).toBe('function');
   });
 
-  // Test that the module exports a default config object.
   it('should export default config object', async () => {
-    // Dynamically import the module to test its exports.
     const module = await import('../index.js');
 
-    // Verify that the default export is an object.
     expect(typeof module.default).toBe('object');
   });
 
-  // Test that createSitemapConfig returns config with provided siteUrl.
   it('should return config with siteUrl', async () => {
-    // Dynamically import the module to test its function.
     const module = await import('../index.js');
 
-    // Call createSitemapConfig with a siteUrl parameter.
     const config = module.createSitemapConfig({ siteUrl: 'https://example.com' });
 
-    // Verify that the returned config contains the provided siteUrl.
     expect(config.siteUrl).toBe('https://example.com');
   });
 
-  // Test that createSitemapConfig returns config with default values when no params provided.
   it('should return config with default values', async () => {
-    // Dynamically import the module to test its function.
     const module = await import('../index.js');
 
-    // Call createSitemapConfig without parameters to get defaults.
     const config = module.createSitemapConfig();
 
-    // Verify default siteUrl and outDir values.
     expect(config.siteUrl).toBe('https://example.com');
     expect(config.outDir).toBe('./public');
   });
 
-  // Test that generateRobotsTxt is enabled by default in the config.
   it('should have generateRobotsTxt enabled', async () => {
-    // Dynamically import the module to test its function.
     const module = await import('../index.js');
 
-    // Call createSitemapConfig to get default config.
     const config = module.createSitemapConfig();
 
-    // Verify that generateRobotsTxt is enabled by default.
     expect(config.generateRobotsTxt).toBe(true);
   });
 
-  // Test that transformRobotsTxt removes the Host header from generated robots.txt.
   it('should remove Host header in transformRobotsTxt', async () => {
-    // Dynamically import the module to test its function.
     const module = await import('../index.js');
 
-    // Call createSitemapConfig with a test siteUrl.
     const config = module.createSitemapConfig({ siteUrl: 'https://example.com' });
 
-    // Verify that robotsTxtOptions has the transformRobotsTxt function.
     expect(typeof config.robotsTxtOptions.transformRobotsTxt).toBe('function');
 
-    // Mock a robots.txt output with the Host header that next-sitemap generates.
     const mockRobotsTxt = `# Host\nHost: https://example.com\n\nUser-agent: *\nAllow: /\n`;
 
-    // Call the transformRobotsTxt function with mock data.
     const transformed = await config.robotsTxtOptions.transformRobotsTxt(config, mockRobotsTxt);
 
-    // Verify that the Host header has been removed from the output.
     expect(transformed).not.toContain('# Host');
     expect(transformed).not.toContain('Host: https://example.com');
 
-    // Verify that the rest of the robots.txt content is preserved.
     expect(transformed).toContain('User-agent: *');
     expect(transformed).toContain('Allow: /');
   });
 
-  // Test that transform stamps each sitemap entry with changefreq, priority, and lastmod.
   it('should return loc with metadata in transform', async () => {
-    // Dynamically import the module to test its function.
     const module = await import('../index.js');
 
-    // Call createSitemapConfig to get default config.
     const config = module.createSitemapConfig({ siteUrl: 'https://example.com' });
 
-    // Call the transform function with mock data.
     const transformed = await config.transform(config, '/about/');
 
-    // Verify that the entry location is preserved and defaults are stamped.
     expect(transformed.loc).toBe('/about/');
     expect(transformed.changefreq).toBe(config.changefreq);
     expect(transformed.priority).toBe(config.priority);
 
-    // Verify that lastmod uses ISO format without milliseconds.
     expect(transformed.lastmod).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
   });
 });

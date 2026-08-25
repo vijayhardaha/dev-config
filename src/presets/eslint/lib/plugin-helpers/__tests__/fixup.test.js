@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 
 import { fixupPlugins } from '../fixup.js';
 
-// Mock @eslint/compat
 vi.mock('@eslint/compat', () => ({ fixupPluginRules: (plugin) => ({ ...plugin, _fixed: true }) }));
 
 describe('fixupPlugins', () => {

@@ -31,7 +31,6 @@ const lintAndFix = async (projectDir, module, code, options = {}) => {
   return result;
 };
 
-// Test suite for Tailwind autofix behavior through the shared config pipeline.
 describe('eslint tailwind autofix', () => {
   let projectDir;
   let nextModule;
@@ -39,7 +38,6 @@ describe('eslint tailwind autofix', () => {
   beforeAll(async () => {
     nextModule = await import('../next.js');
 
-    // Create an isolated fixture project that mimics a Next.js app layout.
     projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dev-config-tailwind-'));
     fs.writeFileSync(
       path.join(projectDir, 'package.json'),
@@ -54,7 +52,6 @@ describe('eslint tailwind autofix', () => {
     fs.rmSync(projectDir, { recursive: true, force: true });
   });
 
-  // Test that arbitrary values with theme scale equivalents are replaced.
   it('should replace arbitrary values with theme scale utilities', async () => {
     const code = [
       'const Button = () => (',
@@ -70,7 +67,6 @@ describe('eslint tailwind autofix', () => {
     expect(result.output).toContain('p-4');
   }, 60_000);
 
-  // Test that cn() classes keep their variant prefixes after conversion.
   it('should convert cn() classes while preserving variant prefixes', async () => {
     const code = [
       'const Button = ({ side }) => (',
@@ -90,7 +86,6 @@ describe('eslint tailwind autofix', () => {
     expect(result.output).toContain('dark:hover:-translate-x-10');
   }, 60_000);
 
-  // Test that long class strings are wrapped into readable multi-line groups.
   it('should wrap long class strings into multi-line groups', async () => {
     const longClasses =
       'flex flex-col items-start justify-between gap-6 rounded-xl border border-slate-200 bg-white p-8 shadow-sm '
@@ -102,7 +97,6 @@ describe('eslint tailwind autofix', () => {
     expect(result.output).toMatch(/className="\n\s+flex/);
   }, 60_000);
 
-  // Test that disabling the tailwind option leaves class strings untouched.
   it('should not touch class strings when tailwind option is false', async () => {
     const code = [
       'const Button = () => (',
@@ -113,11 +107,9 @@ describe('eslint tailwind autofix', () => {
 
     const result = await lintAndFix(projectDir, nextModule, code, { tailwind: false });
 
-    // Verify that no fixes were applied and the arbitrary classes remain.
     expect(result.output).toBeUndefined();
     expect(result.source).toContain('aspect-[3/4]');
 
-    // Verify that no Tailwind rule contributed messages.
     const tailwindMessages = result.messages.filter(
       (message) => message.ruleId?.startsWith('better-tailwindcss/') || message.ruleId?.startsWith('tailwindcss/')
     );

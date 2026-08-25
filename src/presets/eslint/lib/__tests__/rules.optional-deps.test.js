@@ -22,8 +22,6 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
   let rules;
 
   it('registers no central plugins, emits no rules, and logs install hints', async () => {
-    // Enable debug logging before the module is evaluated so each missing
-    // plugin emits its install hint.
     process.env.DEBUG = 'eslint';
     vi.spyOn(console, 'debug').mockImplementation((...args) => debugCalls.push(args.join(' ')));
 
@@ -31,13 +29,9 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
     // catch branches.
     rules = await import('../rules.js');
 
-    // Verify that no Tailwind plugins are registered when both are missing.
     expect(rules.getTailwindCentralPlugins()).toEqual({});
-
-    // Verify that no Tailwind rules are emitted without better-tailwindcss.
     expect(rules.tailwindRules()).toEqual({});
 
-    // Verify that install hints are logged for both missing plugins.
     expect(debugCalls.some((message) => message.includes('eslint-plugin-better-tailwindcss'))).toBe(true);
     expect(debugCalls.some((message) => message.includes('eslint-plugin-tailwindcss'))).toBe(true);
 
@@ -49,7 +43,6 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
     // unaffected by their absence.
     rules ??= await import('../rules.js');
 
-    // Verify that settings point at the first probed candidate path.
     expect(rules.tailwindSettings()).toEqual({
       tailwindcss: { cssConfigPath: 'src/app/globals.css' },
       'better-tailwindcss': { entryPoint: 'src/app/globals.css' },
@@ -57,7 +50,6 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
   });
 
   it('skips debug logging when DEBUG is unset', async () => {
-    // Drop DEBUG so both logging conditions evaluate to false.
     delete process.env.DEBUG;
     vi.resetModules();
     const debugSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
@@ -66,12 +58,10 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
     // Re-import so top-level catch branches run again under this env.
     await import('../rules.js');
 
-    // Verify that no install hints are logged without DEBUG.
     expect(debugSpy).not.toHaveBeenCalled();
   });
 
   it('logs install hints under wildcard DEBUG', async () => {
-    // Wildcard DEBUG skips the substring check and enables logging.
     process.env.DEBUG = '*';
     vi.resetModules();
     const debugCalls = [];
@@ -81,7 +71,6 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
     // Re-import so top-level catch branches run again under this env.
     await import('../rules.js');
 
-    // Verify that install hints are logged for both missing plugins.
     expect(debugCalls.some((message) => message.includes('eslint-plugin-better-tailwindcss'))).toBe(true);
     expect(debugCalls.some((message) => message.includes('eslint-plugin-tailwindcss'))).toBe(true);
   });

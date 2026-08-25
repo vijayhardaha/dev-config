@@ -81,11 +81,9 @@ describe('eslint/recipes/tailwind', () => {
 
       const config = await tailwind({ cwd: projectDir });
 
-      // Formatter-owned concerns are left to Prettier.
       expect(config.rules['better-tailwindcss/enforce-consistent-class-order']).toBeUndefined();
       expect(config.rules['better-tailwindcss/enforce-consistent-line-wrapping']).toBeUndefined();
 
-      // Lint-only concerns stay enabled.
       expect(config.rules['better-tailwindcss/enforce-canonical-classes']).toBe('warn');
       expect(config.rules['better-tailwindcss/no-unnecessary-whitespace']).toBe('warn');
       expect(config.rules['tailwindcss/no-unnecessary-arbitrary-value']).toBe('warn');
