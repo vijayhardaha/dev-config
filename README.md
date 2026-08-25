@@ -155,6 +155,31 @@ import { createConfig } from "@vijayhardaha/dev-config/eslint/next"; // Next.js 
 
 This design keeps the root import lightweight and prevents loading unnecessary optional dependencies.
 
+#### Adding Tailwind Rules
+
+Tailwind class rules are not part of the core `createConfig` flow. They ship as a separate **recipe** that you spread into your own ESLint config. Install the optional peer dependencies first:
+
+```bash
+bun add -d eslint-plugin-better-tailwindcss eslint-plugin-tailwindcss
+```
+
+Then append the recipe to the base config:
+
+```javascript
+import { createConfig } from "@vijayhardaha/dev-config/eslint/next";
+import { tailwind } from "@vijayhardaha/dev-config/eslint/recipes/tailwind";
+
+export default [...(await createConfig()), await tailwind({ entryPoint: "src/app/globals.css" })];
+```
+
+The recipe:
+
+- Auto-probes for a Tailwind entry stylesheet in standard locations (`src/app/globals.css`, `app/globals.css`, `src/styles/globals.css`, etc.). Pass `entryPoint` to override.
+- Detects `prettier-plugin-tailwindcss` in the consumer's Prettier config and drops the class-order + line-wrapping rules so Prettier owns them — preventing circular fixes.
+- Returns an empty fragment (`{ plugins: {}, settings: {}, rules: {} }`) when the Tailwind plugins are not installed, so the rest of your config keeps working.
+
+If you also use `prettier-plugin-tailwindcss`, no extra setup is needed — the recipe drops the conflicting rules automatically.
+
 ### Prettier
 
 Create `prettier.config.mjs` in your project root:
