@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fixupPluginRules } from '@eslint/compat';
 import { defineConfig, includeIgnoreFile } from 'eslint/config';
 import { createNodeResolver, flatConfigs as importXFlatConfigs } from 'eslint-plugin-import-x';
-import jsdocPlugin from 'eslint-plugin-jsdoc';
+import { configs as jsdocConfigs } from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
 import { globalIgnores } from './ignores.js';
@@ -151,7 +151,7 @@ export const buildConfig = ({
   const mergedPlugins = [
     ...builtinPlugins,
     opts.importOrder && importXFlatConfigs.recommended,
-    opts.jsdoc && jsdocPlugin.configs['flat/recommended'],
+    opts.jsdoc && jsdocConfigs['flat/recommended'],
     opts.prettier && prettierRecommended,
     ...conditionalPluginList,
     ...(opts.plugins || []),
