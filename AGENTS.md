@@ -97,8 +97,7 @@ src/
     │   ├── sitemap.js
     │   ├── typescript.js
     │   ├── jsconfig.js
-    │   ├── husky.js
-    │   └── index.js                   - Barrel (re-exports only)
+    │   └── husky.js
     └── utils/                         - Grouped-domain utility helpers
         ├── object/
         │   ├── merge-deep.js
@@ -115,9 +114,7 @@ src/
         │   ├── primitives.js          - validateString, validateUrl, ...
         │   ├── collections.js         - validateArray, validateStringArray, ...
         │   ├── shapes.js              - validateObject, validateRules, ...
-        │   ├── numeric-range.js       - validateNumberInRange
-        │   └── index.js               - Barrel (re-exports only)
-        └── index.js                   - Barrel (re-exports only)
+        │   └── numeric-range.js       - validateNumberInRange
 
   Each technology folder under presets/ has a co-located
   __tests__/ folder mirroring the source layout.
@@ -126,11 +123,11 @@ src/
 ### Architectural Notes
 
 - **One preset entry per technology.** Each preset folder exposes either a default export (eslint, prettier, commitlint, stylelint, next-sitemap, gulp-smacss) or a JSON file (tsconfig, jsconfig) plus, where useful, a `createConfig` function for options. The eslint preset additionally has a `recipes/` subdir for opt-in fragments.
-- **Constants live in `src/lib/constants/`.** Each technology gets one file (e.g. `eslint.js`, `prettier.js`). The `index.js` barrel re-exports all of them. The old monolithic `src/config-constants.js` was removed in 2.5.0.
-- **Helpers live in `src/lib/utils/`.** Grouped by domain (object, array, file, validators) instead of one utility per file. Validators are split into 4 small files (primitives, collections, shapes, numeric-range) with a barrel.
+- **Constants live in `src/lib/constants/`.** Each technology gets one file (e.g. `eslint.js`, `prettier.js`); import directly from the file you need. The old monolithic `src/config-constants.js` was removed in 2.5.0.
+- **Helpers live in `src/lib/utils/`.** Grouped by domain (object, array, file, validators) instead of one utility per file. Validators are split into 4 small files (primitives, collections, shapes, numeric-range). Import directly from the file you need.
 - **Plugin helpers** are isolated under `src/presets/eslint/lib/plugin-helpers/`. Each helper is a single, pure function with its own test file. The `build-config.js` orchestrator composes them.
-- **Rule factories** are split by domain under `src/presets/eslint/lib/rules/`. `tailwind.js` owns the optional-plugin loaders, entry-point probing, Prettier interop, and Tailwind rules; `jsdoc.js` owns the JSDoc rule groups for public/exported APIs; `common.js` composes `tsRules`, `prettierRules`, `importOrderRules`, `jsdocRules`, and `tailwindRules` into the final `commonRules` object. The barrel `rules/index.js` re-exports the public surface; each file has a co-located test.
-- **Pure-re-export barrels** (any `index.js` that only re-exports) are excluded from coverage so the 100% target reflects only executable logic.
+- **Rule factories** are split by domain under `src/presets/eslint/lib/rules/`. `tailwind.js` owns the optional-plugin loaders, entry-point probing, Prettier interop, and Tailwind rules; `jsdoc.js` owns the JSDoc rule groups for public/exported APIs; `common.js` composes `tsRules`, `prettierRules`, `importOrderRules`, `jsdocRules`, and `tailwindRules` into the final `commonRules` object. The barrel `rules/index.js` re-exports the public surface (`commonRules`, `getTailwindCentralPlugins`, `tailwindSettings`); each file has a co-located test. `tailwindRules` and `resolveTailwindEntryPoint` are intentionally not re-exported because they are only consumed internally by `common.js` and `tailwindSettings`.
+- **Pure-re-export barrels** (any `index.js` that only re-exports) are excluded from coverage so the 100% target reflects only executable logic. The only remaining barrel is `src/presets/eslint/lib/rules/index.js`; the `constants/` and `utils/` barrels were removed in 2.5.0 because every consumer already imports directly.
 - **The Tailwind plugin loaders are lazy.** Both `eslint-plugin-better-tailwindcss` and `eslint-plugin-tailwindcss` are imported inside `recipes/tailwind.js` and `recipes/tailwind-plugins.js` so projects without Tailwind tooling pay no cost. Missing plugins are silently ignored; install hints are logged only under `DEBUG=eslint` or `DEBUG=*`.
 
 ## Configuration Options
@@ -208,7 +205,7 @@ These entry points consume the modular configs and live at the package root:
 ### Adding a New Preset
 
 1. Create `src/presets/<tech>/index.js` (or `index.json` for static config).
-2. Add a constants file at `src/lib/constants/<tech>.js` if the preset has hardcoded defaults; re-export it from `src/lib/constants/index.js`.
+2. Add a constants file at `src/lib/constants/<tech>.js` if the preset has hardcoded defaults; consumers import directly from that path.
 3. Add a co-located `__tests__/index.test.js` next to the source.
 4. Update `package.json` `exports` to add the public entry point.
 5. Update `src/index.js` if the preset should be re-exported from the package root.
