@@ -7,11 +7,11 @@ import { createNodeResolver, flatConfigs as importXFlatConfigs } from 'eslint-pl
 import { configs as jsdocConfigs } from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
+import { commonLanguageOptions } from './config/language-options.js';
+import { commonParser } from './config/parser.js';
 import { globalIgnores } from './ignores.js';
-import { commonLanguageOptions } from './language-options.js';
 import { getEnabledPlugins, flattenPlugins, fixupPlugins, stripPlugins, stripParser } from './plugin-helpers/index.js';
 import { commonRules, tailwindSettings } from './rules/index.js';
-import { commonParser } from './setup.js';
 
 let createTypeScriptImportResolver;
 try {

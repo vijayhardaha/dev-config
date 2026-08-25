@@ -1,4 +1,4 @@
-import { ESLINT } from '../../../lib/constants/eslint.js';
+import { ESLINT } from '../../../../lib/constants/eslint.js';
 
 /**
  * File patterns for ESLint configuration.

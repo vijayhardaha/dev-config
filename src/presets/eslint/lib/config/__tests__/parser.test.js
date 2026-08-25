@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 
-describe('eslint/lib/setup.js', () => {
+describe('eslint/lib/config/parser.js', () => {
   it('should export commonParser object', async () => {
-    const module = await import('../setup.js');
+    const module = await import('../parser.js');
 
     expect(typeof module.commonParser).toBe('object');
     expect(module.commonParser.parser).toBeDefined();

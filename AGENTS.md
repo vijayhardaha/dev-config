@@ -54,15 +54,16 @@ src/
 │   │   ├── next.js                    - Next.js + React + TypeScript preset
 │   │   ├── lib/                       - Shared internals across eslint presets
 │   │   │   ├── build-config.js        - Config builder with orchestration
-│   │   │   ├── files.js               - File pattern constants
 │   │   │   ├── ignores.js             - Global ignores (incl. Supabase .temp)
-│   │   │   ├── language-options.js    - Common language options
+│   │   │   ├── config/                - Small focused configuration objects
+│   │   │   │   ├── files.js           - File pattern constants
+│   │   │   │   ├── language-options.js - Common language options
+│   │   │   │   └── parser.js          - Common TypeScript parser
 │   │   │   ├── rules/                 - Rule factories split by domain
 │   │   │   │   ├── tailwind.js         - Tailwind class rules + plugin loaders
 │   │   │   │   ├── jsdoc.js            - JSDoc rule groups for public/exported APIs
 │   │   │   │   ├── common.js           - TypeScript, Prettier, and import order rules
 │   │   │   │   └── index.js            - Barrel (re-exports only)
-│   │   │   ├── setup.js               - Shared parser setup
 │   │   │   ├── index.js               - Barrel (re-exports only)
 │   │   │   └── plugin-helpers/        - Plugin manipulation primitives
 │   │   │       ├── enabled-plugins.js - Filter conditional plugins by options

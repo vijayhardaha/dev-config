@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-describe('eslint/lib/language-options.js', () => {
+describe('eslint/lib/config/language-options.js', () => {
   it('should export commonLanguageOptions object', async () => {
     const module = await import('../language-options.js');
 

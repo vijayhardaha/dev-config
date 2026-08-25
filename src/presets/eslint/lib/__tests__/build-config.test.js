@@ -9,7 +9,7 @@ describe('eslint/lib/build-config.js', () => {
 
   it('should return an array of config objects', async () => {
     const module = await import('../build-config.js');
-    const { files } = await import('../files.js');
+    const { files } = await import('../config/files.js');
 
     const result = module.buildConfig({ files: files.withoutTs, options: {} });
 
@@ -18,7 +18,7 @@ describe('eslint/lib/build-config.js', () => {
 
   it('should handle flat config arrays and objects', async () => {
     const module = await import('../build-config.js');
-    const { files } = await import('../files.js');
+    const { files } = await import('../config/files.js');
 
     const flatConfigArray = [{ name: 'test-flat-config', plugins: {}, rules: { 'no-console': 'warn' } }];
     const flatConfigObject = { name: 'test-flat-object', plugins: {}, rules: { 'no-debugger': 'warn' } };
@@ -37,7 +37,7 @@ describe('eslint/lib/build-config.js', () => {
 
   it('should configure import-x/resolver-next with node resolver when importOrder is enabled', async () => {
     const module = await import('../build-config.js');
-    const { files } = await import('../files.js');
+    const { files } = await import('../config/files.js');
 
     const result = module.buildConfig({ files: files.withoutTs, options: { importOrder: true } });
 
@@ -50,7 +50,7 @@ describe('eslint/lib/build-config.js', () => {
 
   it('should omit import-x/resolver-next when importOrder is disabled', async () => {
     const module = await import('../build-config.js');
-    const { files } = await import('../files.js');
+    const { files } = await import('../config/files.js');
 
     const result = module.buildConfig({ files: files.withoutTs, options: { importOrder: false } });
 
@@ -61,7 +61,7 @@ describe('eslint/lib/build-config.js', () => {
 
   it('should include .gitignore patterns from project root', async () => {
     const module = await import('../build-config.js');
-    const { files } = await import('../files.js');
+    const { files } = await import('../config/files.js');
 
     const result = module.buildConfig({ files: files.withoutTs, options: {} });
 

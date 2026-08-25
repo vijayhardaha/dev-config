@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-describe('eslint/lib/files.js', () => {
+describe('eslint/lib/config/files.js', () => {
   it('should export files object with withTs and withoutTs arrays', async () => {
     const module = await import('../files.js');
 
