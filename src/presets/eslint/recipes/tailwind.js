@@ -21,7 +21,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 import { loadTailwindPlugins } from './tailwind-plugins.js';
-import { PRETTIER } from '../../config-constants.js';
+import { PRETTIER } from '../../../lib/constants/prettier.js';
 
 /**
  * Candidate paths probed (relative to the recipe's `cwd`) for the main
