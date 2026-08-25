@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Restructure the package source tree to group per-technology presets under `src/presets/` (`commitlint`, `eslint`, `gulp-smacss`, `jsconfig`, `next-sitemap`, `prettier`, `stylelint`, `tsconfig`). Public `package.json` export keys are unchanged, so no consumer import paths need to be updated.
 - Split the previously monolithic `src/config-constants.js` into per-technology constant modules under `src/lib/constants/` (one file per tech plus a barrel). Each module ships with its own test file under `src/lib/constants/__tests__/`.
 - Split the shared helpers (`src/lib/config-utils.js`, `src/lib/validators.js`) into grouped-domain files under `src/lib/utils/` (object utilities, array utilities, file-override helper, and four validator groups) plus a barrel. Each domain ships with its own test file under `src/lib/utils/__tests__/`.
+- Bump dev dependencies: `@typescript-eslint/eslint-plugin` and `@typescript-eslint/parser` to `^8.68.0`, `typescript-eslint` to `^8.68.0`, `eslint` to `^10.9.1`, `eslint-config-next` to `^16.3.3`, `next` to `^16.3.3`, and `eslint-plugin-jsdoc` to `^64.2.1`. The `eslint-plugin-jsdoc@64` release now exposes its `configs` object as a top-level named export, so the JSDoc flat config is now imported directly from the named export instead of through the default export's `configs` property. This also clears the `import-x/no-named-as-default-member` warning that the new structure surfaced.
 
 ### Removed
 
