@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - New Tailwind ESLint recipe at `@vijayhardaha/dev-config/eslint/recipes/tailwind`. Projects that want Tailwind class rules (canonical names, whitespace, arbitrary-value scale replacement, optional ordering/wrapping) now import the recipe and spread it into their config instead of relying on a `createConfig` option. The recipe auto-probes for a Tailwind entry stylesheet, detects `prettier-plugin-tailwindcss` in the consumer's Prettier config to avoid circular fixes, and degrades to an empty fragment when the optional Tailwind plugins are not installed.
 
+### Changed
+
+- Restructure the package source tree to group per-technology presets under `src/presets/` (`commitlint`, `eslint`, `gulp-smacss`, `jsconfig`, `next-sitemap`, `prettier`, `stylelint`, `tsconfig`). Public `package.json` export keys are unchanged, so no consumer import paths need to be updated.
+- Split the previously monolithic `src/config-constants.js` into per-technology constant modules under `src/lib/constants/` (one file per tech plus a barrel). Each module ships with its own test file under `src/lib/constants/__tests__/`.
+- Split the shared helpers (`src/lib/config-utils.js`, `src/lib/validators.js`) into grouped-domain files under `src/lib/utils/` (object utilities, array utilities, file-override helper, and four validator groups) plus a barrel. Each domain ships with its own test file under `src/lib/utils/__tests__/`.
+
 ### Migration
 
 To enable Tailwind rules with this version:
