@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Drop the `"./eslint/common"` export alias. It pointed at the same target as `"./eslint"`, `"./eslint/js"`, and `"./eslint/base"`, so it was redundant. Use one of those three names instead. No in-repo or downstream consumer used this alias.
+- Drop the `"./eslint/base"` export alias. It pointed at the same target as `"./eslint"` and `"./eslint/js"`, so it was redundant. Use one of those two names instead. No in-repo or downstream consumer used this alias.
 
 ### Migration
 
