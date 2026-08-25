@@ -46,47 +46,94 @@ src/
 │
 ├── presets/                           - One folder per technology
 │   ├── commitlint/
-│   │   └── index.js                   - Commitlint config
+│   │   ├── index.js                   - Commitlint config
+│   │   └── __tests__/
+│   │       └── index.test.js
 │   ├── eslint/
 │   │   ├── javascript.js              - JavaScript-only base preset
 │   │   ├── typescript.js              - TypeScript preset
 │   │   ├── react.js                   - React + TypeScript preset
 │   │   ├── next.js                    - Next.js + React + TypeScript preset
+│   │   ├── __tests__/                 - Tests for the four presets
+│   │   │   ├── index.test.js
+│   │   │   ├── javascript.test.js
+│   │   │   ├── typescript.test.js
+│   │   │   ├── react.test.js
+│   │   │   ├── next.test.js
+│   │   │   └── tailwind.test.js
 │   │   ├── lib/                       - Shared internals across eslint presets
 │   │   │   ├── build-config.js        - Config builder with orchestration
 │   │   │   ├── ignores.js             - Global ignores (incl. Supabase .temp)
 │   │   │   ├── config/                - Small focused configuration objects
 │   │   │   │   ├── files.js           - File pattern constants
 │   │   │   │   ├── language-options.js - Common language options
-│   │   │   │   └── parser.js          - Common TypeScript parser
+│   │   │   │   ├── parser.js          - Common TypeScript parser
+│   │   │   │   └── __tests__/         - Co-located tests
+│   │   │   │       ├── files.test.js
+│   │   │   │       ├── language-options.test.js
+│   │   │   │       └── parser.test.js
 │   │   │   ├── rules/                 - Rule factories split by domain
 │   │   │   │   ├── tailwind.js         - Tailwind class rules + plugin loaders
 │   │   │   │   ├── jsdoc.js            - JSDoc rule groups for public/exported APIs
 │   │   │   │   ├── common.js           - TypeScript, Prettier, and import order rules
-│   │   │   │   └── index.js            - Barrel (re-exports only)
+│   │   │   │   ├── index.js            - Barrel (re-exports only)
+│   │   │   │   └── __tests__/         - Co-located tests
+│   │   │   │       ├── tailwind.test.js
+│   │   │   │       ├── tailwind.optional-deps.test.js
+│   │   │   │       ├── tailwind.prettier-interop.test.js
+│   │   │   │       └── common.test.js
 │   │   │   ├── index.js               - Barrel (re-exports only)
+│   │   │   ├── __tests__/             - Tests for the flat lib/ files
+│   │   │   │   ├── build-config.test.js
+│   │   │   │   ├── build-config.branches.test.js
+│   │   │   │   ├── build-config.optional-deps.test.js
+│   │   │   │   ├── ignores.test.js
+│   │   │   │   └── index.test.js
 │   │   │   └── plugin-helpers/        - Plugin manipulation primitives
 │   │   │       ├── enabled-plugins.js - Filter conditional plugins by options
 │   │   │       ├── flatten.js         - Flatten mixed plugin arrays/objects
 │   │   │       ├── fixup.js           - Wrap plugins via @eslint/compat
 │   │   │       ├── parser.js          - Strip parser to avoid conflicts
 │   │   │       ├── strip.js           - Remove centrally-registered plugins
-│   │   │       └── index.js           - Barrel (re-exports only)
+│   │   │       ├── index.js           - Barrel (re-exports only)
+│   │   │       └── __tests__/         - Co-located tests
+│   │   │           ├── enabled-plugins.test.js
+│   │   │           ├── flatten.test.js
+│   │   │           ├── fixup.test.js
+│   │   │           ├── parser.test.js
+│   │   │           └── strip.test.js
 │   │   └── recipes/                   - Opt-in config fragments consumers spread in
-│   │       ├── tailwind.js            - Tailwind class rules
-│   │       └── tailwind-plugins.js    - Lazy loader for the two Tailwind plugins
+│   │       ├── tailwind.js            - Tailwind ESLint recipe (opt-in fragment)
+│   │       ├── tailwind-plugins.js    - Lazy loader for the two Tailwind plugins
+│   │       └── __tests__/             - Co-located tests
+│   │           ├── tailwind.test.js
+│   │           ├── tailwind.empty.test.js
+│   │           ├── tailwind.integration.test.js
+│   │           └── tailwind-plugins.missing.test.js
 │   ├── gulp-smacss/
-│   │   └── index.js                   - SMACSS property-order array
+│   │   ├── index.js                   - SMACSS property-order array
+│   │   └── __tests__/
+│   │       └── index.test.js
 │   ├── jsconfig/
-│   │   └── index.json                 - JSConfig for IntelliSense
+│   │   ├── index.json                 - JSConfig for IntelliSense
+│   │   └── __tests__/
+│   │       └── index.test.js
 │   ├── next-sitemap/
-│   │   └── index.js                   - next-sitemap config (validated)
+│   │   ├── index.js                   - next-sitemap config (validated)
+│   │   └── __tests__/
+│   │       └── index.test.js
 │   ├── prettier/
-│   │   └── index.js                   - Prettier config + overrides
+│   │   ├── index.js                   - Prettier config + overrides
+│   │   └── __tests__/
+│   │       └── index.test.js
 │   ├── stylelint/
-│   │   └── index.js                   - Stylelint config
+│   │   ├── index.js                   - Stylelint config
+│   │   └── __tests__/
+│   │       └── index.test.js
 │   └── tsconfig/
-│       └── index.json                 - TypeScript base config
+│       ├── index.json                 - TypeScript base config
+│       └── __tests__/
+│           └── index.test.js
 │
 └── lib/                               - Shared helpers (no technology-specific logic)
     ├── constants/                     - Per-technology constant modules
@@ -97,7 +144,16 @@ src/
     │   ├── sitemap.js
     │   ├── typescript.js
     │   ├── jsconfig.js
-    │   └── husky.js
+    │   ├── husky.js
+    │   └── __tests__/                  - One test file per constants module
+    │       ├── eslint.test.js
+    │       ├── prettier.test.js
+    │       ├── commitlint.test.js
+    │       ├── stylelint.test.js
+    │       ├── sitemap.test.js
+    │       ├── typescript.test.js
+    │       ├── jsconfig.test.js
+    │       └── husky.test.js
     └── utils/                         - Grouped-domain utility helpers
         ├── object/
         │   ├── merge-deep.js
@@ -115,9 +171,23 @@ src/
         │   ├── collections.js         - validateArray, validateStringArray, ...
         │   ├── shapes.js              - validateObject, validateRules, ...
         │   └── numeric-range.js       - validateNumberInRange
-
-  Each technology folder under presets/ has a co-located
-  __tests__/ folder mirroring the source layout.
+        └── __tests__/                  - Tests mirror the source domains
+            ├── object/
+            │   ├── merge-deep.test.js
+            │   ├── filter-entries.test.js
+            │   ├── get-nested-value.test.js
+            │   ├── set-nested-value.test.js
+            │   └── is-plain-object.test.js
+            ├── array/
+            │   ├── flatten.test.js
+            │   └── compact.test.js
+            ├── file/
+            │   └── file-override.test.js
+            └── validators/
+                ├── primitives.test.js
+                ├── collections.test.js
+                ├── shapes.test.js
+                └── numeric-range.test.js
 ```
 
 ### Architectural Notes
