@@ -8,8 +8,8 @@
  * =====================================================================
  */
 
-import { SITEMAP } from '../config-constants.js';
-import { validateUrl, validateStringArray, validateNonEmptyString } from '../lib/validators.js';
+import { SITEMAP } from '../../lib/constants/sitemap.js';
+import { validateUrl, validateStringArray, validateNonEmptyString } from '../../lib/utils/index.js';
 
 /**
  * Creates a sitemap configuration object for next-sitemap.

@@ -8,7 +8,7 @@
  * =====================================================================
  */
 
-import { COMMITLINT } from '../config-constants.js';
+import { COMMITLINT } from '../../lib/constants/commitlint.js';
 
 /** @type {import('@commitlint/types').UserConfig} */
 const config = {

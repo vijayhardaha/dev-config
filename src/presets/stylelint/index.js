@@ -9,7 +9,7 @@
  * =====================================================================
  */
 
-import { STYLELINT } from '../config-constants.js';
+import { STYLELINT } from '../../lib/constants/stylelint.js';
 
 /** @type {import("stylelint").Config} */
 const config = {

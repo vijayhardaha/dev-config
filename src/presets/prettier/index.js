@@ -9,7 +9,7 @@
  * =====================================================================
  */
 
-import { PRETTIER } from '../config-constants.js';
+import { PRETTIER } from '../../lib/constants/prettier.js';
 
 /** @type {import("prettier").Config} */
 const config = {
