@@ -10,11 +10,11 @@ vi.mock('prettier', async (importOriginal) => {
   return { ...actual, resolveConfig: mockResolveConfig };
 });
 
-describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
+describe('eslint/lib/rules/tailwind.js with prettier-plugin-tailwindcss', () => {
   it('drops ordering and wrapping rules when prettier-plugin-tailwindcss is active', async () => {
     mockResolveConfig.mockResolvedValue({ plugins: ['prettier-plugin-tailwindcss'] });
 
-    const rules = await import('../rules.js');
+    const rules = await import('../tailwind.js');
     const result = rules.tailwindRules();
 
     expect(result['better-tailwindcss/enforce-consistent-class-order']).toBeUndefined();
@@ -29,7 +29,7 @@ describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
     mockResolveConfig.mockResolvedValue({});
 
     vi.resetModules();
-    const rules = await import('../rules.js');
+    const rules = await import('../tailwind.js');
     const result = rules.tailwindRules();
 
     expect(result['better-tailwindcss/enforce-consistent-class-order']).toBe('warn');
@@ -42,7 +42,7 @@ describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
     mockResolveConfig.mockRejectedValue(new Error('simulated resolution failure'));
 
     vi.resetModules();
-    const rules = await import('../rules.js');
+    const rules = await import('../tailwind.js');
     const result = rules.tailwindRules();
 
     expect(result['better-tailwindcss/enforce-consistent-class-order']).toBe('warn');
@@ -58,7 +58,7 @@ describe('eslint/lib/rules.js with prettier-plugin-tailwindcss', () => {
     debugSpy.mockClear();
 
     // Re-import so top-level detection runs again under this env.
-    await import('../rules.js');
+    await import('../tailwind.js');
 
     expect(debugCalls.some((message) => message.includes('left to Prettier'))).toBe(true);
 

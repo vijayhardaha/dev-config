@@ -10,7 +10,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import { globalIgnores } from './ignores.js';
 import { commonLanguageOptions } from './language-options.js';
 import { getEnabledPlugins, flattenPlugins, fixupPlugins, stripPlugins, stripParser } from './plugin-helpers/index.js';
-import { commonRules, tailwindSettings } from './rules.js';
+import { commonRules, tailwindSettings } from './rules/index.js';
 import { commonParser } from './setup.js';
 
 let createTypeScriptImportResolver;

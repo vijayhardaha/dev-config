@@ -57,7 +57,11 @@ src/
 │   │   │   ├── files.js               - File pattern constants
 │   │   │   ├── ignores.js             - Global ignores (incl. Supabase .temp)
 │   │   │   ├── language-options.js    - Common language options
-│   │   │   ├── rules.js               - Common rule groups + tailwind rules
+│   │   │   ├── rules/                 - Rule factories split by domain
+│   │   │   │   ├── tailwind.js         - Tailwind class rules + plugin loaders
+│   │   │   │   ├── jsdoc.js            - JSDoc rule groups for public/exported APIs
+│   │   │   │   ├── common.js           - TypeScript, Prettier, and import order rules
+│   │   │   │   └── index.js            - Barrel (re-exports only)
 │   │   │   ├── setup.js               - Shared parser setup
 │   │   │   ├── index.js               - Barrel (re-exports only)
 │   │   │   └── plugin-helpers/        - Plugin manipulation primitives
@@ -124,6 +128,7 @@ src/
 - **Constants live in `src/lib/constants/`.** Each technology gets one file (e.g. `eslint.js`, `prettier.js`). The `index.js` barrel re-exports all of them. The old monolithic `src/config-constants.js` was removed in 2.5.0.
 - **Helpers live in `src/lib/utils/`.** Grouped by domain (object, array, file, validators) instead of one utility per file. Validators are split into 4 small files (primitives, collections, shapes, numeric-range) with a barrel.
 - **Plugin helpers** are isolated under `src/presets/eslint/lib/plugin-helpers/`. Each helper is a single, pure function with its own test file. The `build-config.js` orchestrator composes them.
+- **Rule factories** are split by domain under `src/presets/eslint/lib/rules/`. `tailwind.js` owns the optional-plugin loaders, entry-point probing, Prettier interop, and Tailwind rules; `jsdoc.js` owns the JSDoc rule groups for public/exported APIs; `common.js` composes `tsRules`, `prettierRules`, `importOrderRules`, `jsdocRules`, and `tailwindRules` into the final `commonRules` object. The barrel `rules/index.js` re-exports the public surface; each file has a co-located test.
 - **Pure-re-export barrels** (any `index.js` that only re-exports) are excluded from coverage so the 100% target reflects only executable logic.
 - **The Tailwind plugin loaders are lazy.** Both `eslint-plugin-better-tailwindcss` and `eslint-plugin-tailwindcss` are imported inside `recipes/tailwind.js` and `recipes/tailwind-plugins.js` so projects without Tailwind tooling pay no cost. Missing plugins are silently ignored; install hints are logged only under `DEBUG=eslint` or `DEBUG=*`.
 

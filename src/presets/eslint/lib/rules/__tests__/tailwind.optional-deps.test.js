@@ -17,7 +17,7 @@ vi.mock('node:fs', async (importOriginal) => {
   return { ...actual, existsSync: () => true };
 });
 
-describe('eslint/lib/rules.js with missing optional plugins', () => {
+describe('eslint/lib/rules/tailwind.js with missing optional plugins', () => {
   const debugCalls = [];
   let rules;
 
@@ -27,7 +27,7 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
 
     // Import after mocks and DEBUG are in place so top-level awaits hit the
     // catch branches.
-    rules = await import('../rules.js');
+    rules = await import('../tailwind.js');
 
     expect(rules.getTailwindCentralPlugins()).toEqual({});
     expect(rules.tailwindRules()).toEqual({});
@@ -41,7 +41,7 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
   it('resolves settings from the first candidate entry point', async () => {
     // Reuse the module loaded with plugins absent; entry point probing is
     // unaffected by their absence.
-    rules ??= await import('../rules.js');
+    rules ??= await import('../tailwind.js');
 
     expect(rules.tailwindSettings()).toEqual({
       tailwindcss: { cssConfigPath: 'src/app/globals.css' },
@@ -56,7 +56,7 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
     debugSpy.mockClear();
 
     // Re-import so top-level catch branches run again under this env.
-    await import('../rules.js');
+    await import('../tailwind.js');
 
     expect(debugSpy).not.toHaveBeenCalled();
   });
@@ -69,7 +69,7 @@ describe('eslint/lib/rules.js with missing optional plugins', () => {
     debugSpy.mockClear();
 
     // Re-import so top-level catch branches run again under this env.
-    await import('../rules.js');
+    await import('../tailwind.js');
 
     expect(debugCalls.some((message) => message.includes('eslint-plugin-better-tailwindcss'))).toBe(true);
     expect(debugCalls.some((message) => message.includes('eslint-plugin-tailwindcss'))).toBe(true);

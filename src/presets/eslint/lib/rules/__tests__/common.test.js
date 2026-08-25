@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 
-describe('eslint/lib/rules.js', () => {
+describe('eslint/lib/rules/common.js', () => {
   let commonRules;
 
   beforeAll(async () => {
-    const module = await import('../rules.js');
+    const module = await import('../common.js');
     commonRules = module.commonRules;
   });
 

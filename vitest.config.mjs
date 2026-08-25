@@ -52,6 +52,7 @@ const config = {
         'src/index.js',
         'src/presets/eslint/lib/index.js',
         'src/presets/eslint/lib/plugin-helpers/index.js',
+        'src/presets/eslint/lib/rules/index.js',
       ],
     },
   },
