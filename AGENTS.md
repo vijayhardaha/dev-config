@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-`@vijayhardaha/dev-config` is a reusable development configuration package for Next.js + TypeScript projects. It ships modular, configurable presets for ESLint, Prettier, Commitlint, Stylelint, Next Sitemap, TypeScript, JSConfig, and a SMACSS utility. Consumers import a single preset and spread it into their own config.
+`@vijayhardaha/dev-config` is a reusable development configuration package for Next.js + TypeScript projects. It ships modular, configurable presets for ESLint, Biome, Prettier, Commitlint, Stylelint, Next Sitemap, TypeScript, JSConfig, and a SMACSS utility. Consumers import a single preset and spread it into their own config (ESLint via JS), or extend a `biome.json` preset via `extends` (Biome).
 
 **Current version: 2.5.0** (unreleased at the time of this writing — `package.json` still reads `2.4.2`; release-it will bump it on `bun run release`).
 
@@ -110,6 +110,16 @@ src/
 │   │           ├── tailwind.empty.test.js
 │   │           ├── tailwind.integration.test.js
 │   │           └── tailwind-plugins.missing.test.js
+│   ├── biome/
+│   │   ├── js.json                     - JavaScript-only Biome preset
+│   │   ├── typescript.json             - TypeScript Biome preset
+│   │   ├── react.json                  - React + TypeScript Biome preset
+│   │   ├── next.json                   - Next.js + React + TypeScript Biome preset
+│   │   └── __tests__/                  - Co-located tests
+│   │       ├── js.test.js
+│   │       ├── typescript.test.js
+│   │       ├── react.test.js
+│   │       └── next.test.js
 │   ├── gulp-smacss/
 │   │   ├── index.js                   - SMACSS property-order array
 │   │   └── __tests__/
@@ -193,6 +203,7 @@ src/
 ### Architectural Notes
 
 - **One preset entry per technology.** Each preset folder exposes either a default export (eslint, prettier, commitlint, stylelint, next-sitemap, gulp-smacss) or a JSON file (tsconfig, jsconfig) plus, where useful, a `createConfig` function for options. The eslint preset additionally has a `recipes/` subdir for opt-in fragments.
+- **Biome presets are self-contained JSON.** Unlike the ESLint presets, Biome has no plugin system and cannot transitively compose config files across `node_modules` (a file being extended cannot itself extend). Each of the four `biome/*.json` files therefore repeats the shared base rules inline rather than using internal `extends`. Consumers opt in via `biome.json` `extends: ["@vijayhardaha/dev-config/biome/<preset>"]`; later entries and consumer settings override earlier ones via deep merge.
 - **Constants live in `src/lib/constants/`.** Each technology gets one file (e.g. `eslint.js`, `prettier.js`); import directly from the file you need. The old monolithic `src/config-constants.js` was removed in 2.5.0.
 - **Helpers live in `src/lib/utils/`.** Grouped by domain (object, array, file, validators) instead of one utility per file. Validators are split into 4 small files (primitives, collections, shapes, numeric-range). Import directly from the file you need.
 - **Plugin helpers** are isolated under `src/presets/eslint/lib/plugin-helpers/`. Each helper is a single, pure function with its own test file. The `build-config.js` orchestrator composes them.
@@ -340,6 +351,10 @@ The package exposes the following public keys in `package.json` `exports`:
 | `./gulp-smacss`             | `./src/presets/gulp-smacss/index.js`       |
 | `./tsconfig`                | `./src/presets/tsconfig/index.json`        |
 | `./jsconfig`                | `./src/presets/jsconfig/index.json`        |
+| `./biome/js`                | `./src/presets/biome/js.json`              |
+| `./biome/ts`                | `./src/presets/biome/typescript.json`      |
+| `./biome/react`             | `./src/presets/biome/react.json`           |
+| `./biome/nextjs`            | `./src/presets/biome/next.json`            |
 
 Removed aliases (kept here for context only — do not re-introduce): `./eslint/common`, `./eslint/base`. They pointed at the same target as `./eslint` and `./eslint/js`.
 
