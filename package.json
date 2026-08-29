@@ -96,6 +96,7 @@
     "vitest": "^4.1.11"
   },
   "peerDependencies": {
+    "@biomejs/biome": ">=2",
     "@commitlint/cli": ">=21",
     "@commitlint/config-conventional": ">=21",
     "@commitlint/types": ">=21",
@@ -130,6 +131,9 @@
     "typescript-eslint": ">=8"
   },
   "peerDependenciesMeta": {
+    "@biomejs/biome": {
+      "optional": true
+    },
     "@commitlint/cli": {
       "optional": true
     },
