@@ -338,11 +338,8 @@ The package exposes the following public keys in `package.json` `exports`:
 | `./eslint`                  | `./src/presets/eslint/javascript.js`       |
 | `./eslint/js`               | `./src/presets/eslint/javascript.js`       |
 | `./eslint/ts`               | `./src/presets/eslint/typescript.js`       |
-| `./eslint/typescript`       | `./src/presets/eslint/typescript.js`       |
 | `./eslint/react`            | `./src/presets/eslint/react.js`            |
-| `./eslint/reactjs`          | `./src/presets/eslint/react.js`            |
 | `./eslint/next`             | `./src/presets/eslint/next.js`             |
-| `./eslint/nextjs`           | `./src/presets/eslint/next.js`             |
 | `./eslint/recipes/tailwind` | `./src/presets/eslint/recipes/tailwind.js` |
 | `./prettier`                | `./src/presets/prettier/index.js`          |
 | `./commitlint`              | `./src/presets/commitlint/index.js`        |
@@ -354,9 +351,9 @@ The package exposes the following public keys in `package.json` `exports`:
 | `./biome/js`                | `./src/presets/biome/js.json`              |
 | `./biome/ts`                | `./src/presets/biome/typescript.json`      |
 | `./biome/react`             | `./src/presets/biome/react.json`           |
-| `./biome/nextjs`            | `./src/presets/biome/next.json`            |
+| `./biome/next`              | `./src/presets/biome/next.json`            |
 
-Removed aliases (kept here for context only — do not re-introduce): `./eslint/common`, `./eslint/base`. They pointed at the same target as `./eslint` and `./eslint/js`.
+Removed aliases (kept here for context only — do not re-introduce): `./eslint/common`, `./eslint/base` (removed earlier), plus the syntax aliases dropped in the current revision: `./eslint/typescript`, `./eslint/reactjs`, `./eslint/nextjs`, and the biome key `./biome/nextjs`. The `eslint` aliases all pointed at the same targets as their short forms (`./eslint/ts`, `./eslint/react`, `./eslint/next`); `./biome/nextjs` is superseded by `./biome/next`.
 
 ## Commit and Release Workflow
 

@@ -40,11 +40,9 @@
     "./eslint": "./src/presets/eslint/javascript.js",
     "./eslint/js": "./src/presets/eslint/javascript.js",
     "./eslint/ts": "./src/presets/eslint/typescript.js",
-    "./eslint/typescript": "./src/presets/eslint/typescript.js",
     "./eslint/react": "./src/presets/eslint/react.js",
-    "./eslint/reactjs": "./src/presets/eslint/react.js",
     "./eslint/next": "./src/presets/eslint/next.js",
-    "./eslint/nextjs": "./src/presets/eslint/next.js",
+    "./eslint/recipes/tailwind": "./src/presets/eslint/recipes/tailwind.js",
     "./prettier": "./src/presets/prettier/index.js",
     "./commitlint": "./src/presets/commitlint/index.js",
     "./stylelint": "./src/presets/stylelint/index.js",
@@ -55,7 +53,7 @@
     "./biome/js": "./src/presets/biome/js.json",
     "./biome/ts": "./src/presets/biome/typescript.json",
     "./biome/react": "./src/presets/biome/react.json",
-    "./biome/nextjs": "./src/presets/biome/next.json"
+    "./biome/next": "./src/presets/biome/next.json"
   },
   "keywords": [
     "config",

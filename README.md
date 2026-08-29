@@ -193,7 +193,7 @@ Then extend a preset from your `biome.json` (or `biome.jsonc`):
 
 ```jsonc
 // biome.json
-{ "extends": ["@vijayhardaha/dev-config/biome/nextjs"] }
+{ "extends": ["@vijayhardaha/dev-config/biome/next"] }
 ```
 
 Available presets:
@@ -201,7 +201,7 @@ Available presets:
 - `@vijayhardaha/dev-config/biome/js` - JavaScript
 - `@vijayhardaha/dev-config/biome/ts` - TypeScript
 - `@vijayhardaha/dev-config/biome/react` - React + TypeScript
-- `@vijayhardaha/dev-config/biome/nextjs` - Next.js + React + TypeScript
+- `@vijayhardaha/dev-config/biome/next` - Next.js + React + TypeScript
 
 Each preset is fully self-contained (Biome cannot transitively compose config files across `node_modules`), so a single `extends` entry pulls in the full rule set. Consumer `biome.json` settings and later `extends` entries override earlier ones via deep merge.
 
