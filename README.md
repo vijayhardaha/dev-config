@@ -11,6 +11,7 @@ Reusable development configuration package for Next.js + TypeScript projects.
 ## Features
 
 - **ESLint** - Modular flat config with support for JavaScript, TypeScript, React, and Next.js
+- **Biome** - Shared `biome.json` presets for JavaScript, TypeScript, React, and Next.js
 - **Prettier** - Consistent code formatting with language-specific rules
 - **Commitlint** - Enforces conventional commit messages
 - **TypeScript** - Base configuration for type checking
@@ -180,6 +181,30 @@ The recipe:
 
 If you also use `prettier-plugin-tailwindcss`, no extra setup is needed — the recipe drops the conflicting rules automatically.
 
+### Biome
+
+Biome presets ship as self-contained `biome.json` files that consumers opt into via `extends`. Install Biome in your project:
+
+```bash
+bun add --dev @biomejs/biome
+```
+
+Then extend a preset from your `biome.json` (or `biome.jsonc`):
+
+```jsonc
+// biome.json
+{ "extends": ["@vijayhardaha/dev-config/biome/nextjs"] }
+```
+
+Available presets:
+
+- `@vijayhardaha/dev-config/biome/js` - JavaScript
+- `@vijayhardaha/dev-config/biome/ts` - TypeScript
+- `@vijayhardaha/dev-config/biome/react` - React + TypeScript
+- `@vijayhardaha/dev-config/biome/nextjs` - Next.js + React + TypeScript
+
+Each preset is fully self-contained (Biome cannot transitively compose config files across `node_modules`), so a single `extends` entry pulls in the full rule set. Consumer `biome.json` settings and later `extends` entries override earlier ones via deep merge.
+
 ### Prettier
 
 Create `prettier.config.mjs` in your project root:
@@ -259,6 +284,17 @@ Available configs:
 - `@vijayhardaha/dev-config/eslint/react` - React + TypeScript
 - `@vijayhardaha/dev-config/eslint/next` - Next.js + React + TypeScript
 
+### Biome
+
+Biome presets are static JSON, so configuration is opt-in by choosing which preset to extend rather than passing options. Override any setting in your own `biome.json`:
+
+```jsonc
+{
+  "extends": ["@vijayhardaha/dev-config/biome/react"],
+  "linter": { "rules": { "correctness": { "noUnusedVariables": "warn" } } }
+}
+```
+
 ## Scripts
 
 | Command                 | Description             |
@@ -276,6 +312,7 @@ Available configs:
 This package includes comprehensive tests for all configuration modules:
 
 - ESLint configs (JavaScript, TypeScript, React, Next.js)
+- Biome presets (JavaScript, TypeScript, React, Next.js)
 - ESLint lib modules (setup, files, build-config, ignores, language-options, rules)
 - Prettier, Commitlint, Stylelint configs
 - Next Sitemap, TypeScript, and JavaScript configs
