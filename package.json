@@ -51,7 +51,11 @@
     "./next-sitemap": "./src/presets/next-sitemap/index.js",
     "./gulp-smacss": "./src/presets/gulp-smacss/index.js",
     "./tsconfig": "./src/presets/tsconfig/index.json",
-    "./jsconfig": "./src/presets/jsconfig/index.json"
+    "./jsconfig": "./src/presets/jsconfig/index.json",
+    "./biome/js": "./src/presets/biome/js.json",
+    "./biome/ts": "./src/presets/biome/typescript.json",
+    "./biome/react": "./src/presets/biome/react.json",
+    "./biome/nextjs": "./src/presets/biome/next.json"
   },
   "keywords": [
     "config",
