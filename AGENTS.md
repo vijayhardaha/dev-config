@@ -6,7 +6,7 @@
 
 `@vijayhardaha/dev-config` is a reusable development configuration package for Next.js + TypeScript projects. It ships modular, configurable presets for ESLint, Biome, Prettier, Commitlint, Stylelint, Next Sitemap, TypeScript, JSConfig, and a SMACSS utility. Consumers import a single preset and spread it into their own config (ESLint via JS), or extend a `biome.json` preset via `extends` (Biome).
 
-**Current version: 2.5.0** (unreleased at the time of this writing — `package.json` still reads `2.4.2`; release-it will bump it on `bun run release`).
+**Current version: 2.6.0** (unreleased at the time of this writing — `package.json` still reads `2.5.0`; release-it will bump it on `bun run release`).
 
 **ESLint requirements:** ESLint >=10, native flat config only. No `FlatCompat`. TypeScript via `typescript-eslint` >=8.
 
@@ -203,7 +203,7 @@ src/
 ### Architectural Notes
 
 - **One preset entry per technology.** Each preset folder exposes either a default export (eslint, prettier, commitlint, stylelint, next-sitemap, gulp-smacss) or a JSON file (tsconfig, jsconfig) plus, where useful, a `createConfig` function for options. The eslint preset additionally has a `recipes/` subdir for opt-in fragments.
-- **Biome presets are self-contained JSON.** Unlike the ESLint presets, Biome has no plugin system and cannot transitively compose config files across `node_modules` (a file being extended cannot itself extend). Each of the four `biome/*.json` files therefore repeats the shared base rules inline rather than using internal `extends`. Consumers opt in via `biome.json` `extends: ["@vijayhardaha/dev-config/biome/<preset>"]`; later entries and consumer settings override earlier ones via deep merge.
+- **Biome presets are self-contained JSON.** Each of the four `biome/*.json` files ships the complete rule set inline without internal `extends`, so a single `extends` entry in the consumer's `biome.json` pulls in everything. Consumers opt in via `biome.json` `extends: ["@vijayhardaha/dev-config/biome/<preset>"]`; later `extends` entries and consumer settings override earlier ones via deep merge.
 - **Constants live in `src/lib/constants/`.** Each technology gets one file (e.g. `eslint.js`, `prettier.js`); import directly from the file you need. The old monolithic `src/config-constants.js` was removed in 2.5.0.
 - **Helpers live in `src/lib/utils/`.** Grouped by domain (object, array, file, validators) instead of one utility per file. Validators are split into 4 small files (primitives, collections, shapes, numeric-range). Import directly from the file you need.
 - **Plugin helpers** are isolated under `src/presets/eslint/lib/plugin-helpers/`. Each helper is a single, pure function with its own test file. The `build-config.js` orchestrator composes them.
@@ -324,6 +324,7 @@ These entry points consume the modular configs and live at the package root:
 - Commitlint: `@commitlint/cli` (>=21), `@commitlint/config-conventional` (>=21), `@commitlint/types` (>=21)
 - Stylelint: `stylelint` (>=17), `stylelint-config-property-sort-order-smacss` (>=11), `stylelint-config-standard-scss` (>=17), `stylelint-order` (>=8)
 - Next Sitemap: `next-sitemap` (>=4)
+- Biome: `@biomejs/biome` (>=2) — required when using the biome presets
 
 The full peer-dependency list with `optional` flags lives in `package.json` under `peerDependencies` and `peerDependenciesMeta`.
 

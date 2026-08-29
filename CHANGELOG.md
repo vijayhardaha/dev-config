@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2026-08-30
+
+### Added
+
+- Add four self-contained Biome presets (`biome/js`, `biome/ts`, `biome/react`, `biome/next`) that consumers opt into via `extends: ["@vijayhardaha/dev-config/biome/<preset>"]`. Each JSON file ships the 2.5.11-schema rule set inline, so a single `extends` entry pulls in everything.
+- Add `@biomejs/biome` (>=2) as an optional peer dependency, required when using the Biome presets.
+- Add the Tailwind ESLint recipe export path `@vijayhardaha/dev-config/eslint/recipes/tailwind`, matching the recipe documented in 2.5.0.
+
+### Changed
+
+- Broaden the Biome `files.includes` to `["**"]` so the formatter covers every file type Biome supports (JS/TS/JSX, JSON, CSS, GraphQL). Formats that Biome does not support (Markdown, YAML, HTML, XML, SVG, and friends) continue to be handled by Prettier.
+- Scope the Biome linter back to source globs via `linter.includes` (`**/*.{js,mjs,cjs}` for the JS preset, `**/*.{ts,tsx,mts,cts}` for the TS/React/Next presets) so linting behavior is unchanged by the widened formatter scope.
+- Respect the consumer's `.gitignore` in the Biome presets via the `vcs` config (`useIgnoreFile: true`), so gitignored artifacts are skipped automatically.
+- Replace the hardcoded 103-entry Biome formatter ignore list with a prettierignore-derived list (lockfiles, CI configs, `assets/`, `public/`, `static/`, minified files, and `.kubeconfig` entries).
+- Enable `css.parser.tailwindDirectives` in the Biome presets so Tailwind v4 stylesheets parsing `@import "tailwindcss"` and `@plugin` directives format without errors.
+
+### Removed
+
+- Drop the redundant ESLint export aliases `./eslint/typescript`, `./eslint/reactjs`, and `./eslint/nextjs`. They pointed at the same targets as the short forms (`./eslint/ts`, `./eslint/react`, `./eslint/next`); no in-repo or downstream consumer used them.
+- Rename the Biome export key `./biome/nextjs` to `./biome/next` for consistency with the ESLint and Biome short-form keys.
+
 ## [2.5.0] - 2026-08-23
 
 ### Added
@@ -518,6 +539,16 @@ This release is a major internal refactoring focused on code organization, maint
 - Remove husky from features list
 - Remove eslint symlinks for cleaner structure
 
+[2.6.0]: https://github.com/vijayhardaha/dev-config/compare/v2.5.0...v2.6.0
+[2.5.0]: https://github.com/vijayhardaha/dev-config/compare/v2.4.2...v2.5.0
+[2.4.2]: https://github.com/vijayhardaha/dev-config/compare/v2.4.1...v2.4.2
+[2.4.1]: https://github.com/vijayhardaha/dev-config/compare/v2.4.0...v2.4.1
+[2.4.0]: https://github.com/vijayhardaha/dev-config/compare/v2.3.1...v2.4.0
+[2.3.1]: https://github.com/vijayhardaha/dev-config/compare/v2.3.0...v2.3.1
+[2.3.0]: https://github.com/vijayhardaha/dev-config/compare/v2.2.1...v2.3.0
+[2.2.1]: https://github.com/vijayhardaha/dev-config/compare/v2.2.0...v2.2.1
+[2.2.0]: https://github.com/vijayhardaha/dev-config/compare/v2.1.1...v2.2.0
+[2.1.1]: https://github.com/vijayhardaha/dev-config/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/vijayhardaha/dev-config/compare/v2.0.4...v2.1.0
 [2.0.4]: https://github.com/vijayhardaha/dev-config/compare/v2.0.3...v2.0.4
 [2.0.3]: https://github.com/vijayhardaha/dev-config/compare/v2.0.2...v2.0.3

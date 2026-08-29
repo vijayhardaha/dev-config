@@ -203,7 +203,9 @@ Available presets:
 - `@vijayhardaha/dev-config/biome/react` - React + TypeScript
 - `@vijayhardaha/dev-config/biome/next` - Next.js + React + TypeScript
 
-Each preset is fully self-contained (Biome cannot transitively compose config files across `node_modules`), so a single `extends` entry pulls in the full rule set. Consumer `biome.json` settings and later `extends` entries override earlier ones via deep merge.
+Each preset is fully self-contained, so a single `extends` entry pulls in the full rule set. Consumer `biome.json` settings and later `extends` entries override earlier ones via deep merge.
+
+The Biome formatter runs on every file type Biome supports (JS/TS/JSX, JSON, CSS, GraphQL) and respects your `.gitignore` plus a prettierignore-derived ignore list (lockfiles, `public/`, `static/`, CI configs, minified files). Markdown, YAML, HTML, XML, SVG, and other formats Biome does not support still need Prettier, so run both tools in your format script.
 
 ### Prettier
 
