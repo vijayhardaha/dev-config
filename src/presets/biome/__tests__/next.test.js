@@ -20,18 +20,27 @@ describe('biome/next.json', () => {
     expect(module.default.linter.domains.next).toBe('recommended');
   });
 
-  it('should enforce next rules', async () => {
+  it('should enforce next rules in their corrected groups', async () => {
     const module = await import('../next.json', { assert: { type: 'json' } });
 
-    expect(module.default.linter.rules.next.noHeadElement).toBe('error');
-    expect(module.default.linter.rules.next.noImgElement).toBe('error');
-    expect(module.default.linter.rules.next.noDocumentImportInPage).toBe('error');
+    expect(module.default.linter.rules.style.noHeadElement).toBe('error');
+    expect(module.default.linter.rules.performance.noImgElement).toBe('error');
+    expect(module.default.linter.rules.suspicious.noDocumentImportInPage).toBe('error');
   });
 
   it('should include react rules for the next stack', async () => {
     const module = await import('../next.json', { assert: { type: 'json' } });
 
-    expect(module.default.linter.rules.react.noUnknownProperty).toBe('error');
-    expect(module.default.linter.rules.nursery.useExhaustiveDependencies).toBe('error');
+    expect(module.default.linter.rules.correctness.noUnknownProperty).toBe('error');
+    expect(module.default.linter.rules.correctness.useHookAtTopLevel).toBe('error');
+  });
+
+  it('should match the migrated prettier formatter settings', async () => {
+    const module = await import('../next.json', { assert: { type: 'json' } });
+
+    expect(module.default.formatter.lineWidth).toBe(120);
+    expect(module.default.formatter.lineEnding).toBe('lf');
+    expect(module.default.javascript.formatter.trailingCommas).toBe('es5');
+    expect(module.default.formatter.includes).toContain('!**/node_modules/');
   });
 });
