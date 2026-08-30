@@ -3,7 +3,6 @@ import path from 'node:path';
 
 import { fixupPluginRules } from '@eslint/compat';
 import { defineConfig, includeIgnoreFile } from 'eslint/config';
-import { createNodeResolver, flatConfigs as importXFlatConfigs } from 'eslint-plugin-import-x';
 import { configs as jsdocConfigs } from 'eslint-plugin-jsdoc';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
@@ -13,13 +12,44 @@ import { globalIgnores } from './ignores.js';
 import { getEnabledPlugins, flattenPlugins, fixupPlugins, stripPlugins, stripParser } from './plugin-helpers/index.js';
 import { commonRules, tailwindSettings } from './rules/index.js';
 
+const debugEnabled = () => process.env.DEBUG?.includes('eslint') || process.env.DEBUG === '*';
+
+let importX;
+try {
+  importX = await import('eslint-plugin-import-x');
+} catch {
+  importX = null;
+  // Graceful degradation for the required-but-missing peer: import ordering
+  // turns off instead of the whole package failing to load.
+  if (debugEnabled()) {
+    console.debug(
+      '[ESLint Config] Required dependency "eslint-plugin-import-x" not found. '
+        + 'Import order rules will be disabled. '
+        + 'Install it with: npm install --save-dev eslint-plugin-import-x'
+    );
+  }
+}
+
+// Older 4.x releases that still satisfy the `>=4` peer range ship neither
+// export, so each degrades independently.
+const createNodeResolver = importX?.createNodeResolver ?? null;
+const importXFlatConfigs = importX?.flatConfigs ?? null;
+
+if (importX && !createNodeResolver && debugEnabled()) {
+  console.debug(
+    '[ESLint Config] The installed "eslint-plugin-import-x" does not export "createNodeResolver". '
+      + 'The "import-x/resolver-next" setting will be disabled. '
+      + 'Upgrade it with: npm install --save-dev eslint-plugin-import-x@latest'
+  );
+}
+
 let createTypeScriptImportResolver;
 try {
   createTypeScriptImportResolver = (await import('eslint-import-resolver-typescript')).createTypeScriptImportResolver;
 } catch {
   createTypeScriptImportResolver = null;
   // Debug logging for optional dependency failure
-  if (process.env.DEBUG?.includes('eslint') || process.env.DEBUG === '*') {
+  if (debugEnabled()) {
     console.debug(
       '[ESLint Config] Optional dependency "eslint-import-resolver-typescript" not found. '
         + 'TypeScript import resolution will be disabled. '
@@ -67,7 +97,9 @@ const buildConfigObject = ({
   const { ignores, rules, settings, extend } = opts;
 
   // Resolve feature flags up front so downstream wiring stays readable.
-  const importOrderEnabled = Boolean(opts.importOrder);
+  // A missing eslint-plugin-import-x disables the order rules too, or they
+  // would reference a plugin that never got registered.
+  const importOrderEnabled = Boolean(opts.importOrder) && Boolean(importX);
   const jsdocEnabled = Boolean(opts.jsdoc);
   const prettierEnabled = Boolean(opts.prettier);
   const typescriptEnabled = Boolean(typescript);
@@ -89,12 +121,13 @@ const buildConfigObject = ({
       ...(typescriptEnabled && { parserOptions: { tsconfigRootDir: process.cwd(), ...parserOptions } }),
     },
     settings: {
-      ...(importOrderEnabled && {
-        'import-x/resolver-next': [
-          createNodeResolver(),
-          ...(createTypeScriptImportResolver ? [createTypeScriptImportResolver()] : []),
-        ],
-      }),
+      ...(importOrderEnabled
+        && createNodeResolver && {
+          'import-x/resolver-next': [
+            createNodeResolver(),
+            ...(createTypeScriptImportResolver ? [createTypeScriptImportResolver()] : []),
+          ],
+        }),
       ...(jsdocEnabled && { jsdoc: { mode: 'typescript' } }),
       ...(tailwindEnabled && tailwindSettings()),
       ...extraSettings,
@@ -150,7 +183,7 @@ export const buildConfig = ({
 
   const mergedPlugins = [
     ...builtinPlugins,
-    opts.importOrder && importXFlatConfigs.recommended,
+    opts.importOrder && importXFlatConfigs?.recommended,
     opts.jsdoc && jsdocConfigs['flat/recommended'],
     opts.prettier && prettierRecommended,
     ...conditionalPluginList,
