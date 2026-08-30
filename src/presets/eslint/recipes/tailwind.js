@@ -13,7 +13,7 @@
  * Usage:
  *   import { createConfig } from '@vijayhardaha/dev-config/eslint/next';
  *   import { tailwind } from '@vijayhardaha/dev-config/eslint/recipes/tailwind';
- *   export default [...createConfig(), tailwind({ entryPoint: 'src/app/globals.css' })];
+ *   export default [...createConfig(), await tailwind({ entryPoint: 'src/app/globals.css' })];
  * =====================================================================
  */
 
@@ -86,7 +86,10 @@ const detectPrettierTailwindPlugin = async (prettierConfigPath) => {
  * `Linter.Config` object that consumers spread into their config array.
  *
  * The returned object is empty (`{ plugins: {}, settings: {}, rules: {} }`)
- * when neither Tailwind plugin is installed in the consumer project.
+ * when neither Tailwind plugin is installed in the consumer project. Rules
+ * for a plugin are only emitted when that plugin loaded, so a partial
+ * install (e.g. only `eslint-plugin-tailwindcss`) never references an
+ * unregistered plugin.
  *
  * @param {object} [options] - Recipe options.
  * @param {string} [options.entryPoint] - Explicit Tailwind entry stylesheet path (relative to `cwd`).
@@ -108,9 +111,15 @@ export const tailwind = async ({ entryPoint, prettierConfigPath, cwd = process.c
 
   const plugins = { ...(better && { 'better-tailwindcss': better }), ...(core && { tailwindcss: core }) };
 
-  const settings = resolvedEntry
-    ? { tailwindcss: { cssConfigPath: resolvedEntry }, 'better-tailwindcss': { entryPoint: resolvedEntry } }
-    : {};
+  const settings = {
+    ...(resolvedEntry && { tailwindcss: { cssConfigPath: resolvedEntry } }),
+    ...(resolvedEntry && better && { 'better-tailwindcss': { entryPoint: resolvedEntry } }),
+  };
+
+  // Guard: if better-tailwindcss plugin is missing, skip its rules (mirrors lib/rules/tailwind.js:131).
+  if (!better) {
+    return { plugins, settings, rules: { ...(core && { 'tailwindcss/no-unnecessary-arbitrary-value': 'warn' }) } };
+  }
 
   const rules = {
     'better-tailwindcss/enforce-canonical-classes': 'warn',
