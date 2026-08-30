@@ -9,8 +9,8 @@ describe('index.js exports', () => {
 
     expect(typeof module.prettier).toBe('object');
     expect(typeof module.commitlint).toBe('object');
-    expect(typeof module.nextSitemap).toBe('object');
 
+    expect(module.nextSitemap).toBeUndefined();
     expect(typeof module.createSitemapConfig).toBe('function');
 
     expect(typeof module.stylelint).toBe('object');

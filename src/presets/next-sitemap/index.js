@@ -15,23 +15,24 @@ import { validateNonEmptyString, validateUrl } from '../../lib/utils/validators/
 /**
  * Creates a sitemap configuration object for next-sitemap.
  *
- * @param {object} [options] - Configuration options.
- * @param {string} [options.siteUrl] - Site base URL.
+ * @param {object} options - Configuration options.
+ * @param {string} options.siteUrl - Site base URL (required).
  * @param {string} [options.outDir] - Output directory for sitemap files.
  * @param {string[]} [options.exclude] - Paths to exclude from sitemap.
  *
  * @returns {import('next-sitemap').IConfig} Sitemap configuration object.
  *
- * @throws {Error} If required parameters are invalid.
+ * @throws {Error} If required parameters are invalid or missing.
  */
 export function createSitemapConfig(options = {}) {
-  const {
-    siteUrl = SITEMAP.DEFAULTS.SITE_URL,
-    outDir = SITEMAP.DEFAULTS.OUTPUT_DIR,
-    exclude = SITEMAP.DEFAULTS.EXCLUDE_PATHS,
-  } = options;
+  const { siteUrl, outDir = SITEMAP.DEFAULTS.OUTPUT_DIR, exclude = SITEMAP.DEFAULTS.EXCLUDE_PATHS } = options;
 
   // ---- Validation ----
+  if (siteUrl === undefined) {
+    throw new Error(
+      'siteUrl is required: pass your production URL, e.g. createSitemapConfig({ siteUrl: "https://yourdomain.com" })'
+    );
+  }
   validateUrl(siteUrl, 'siteUrl');
   validateNonEmptyString(outDir, 'outDir');
   validateStringArray(exclude, 'exclude');
@@ -71,5 +72,3 @@ export function createSitemapConfig(options = {}) {
     },
   };
 }
-
-export default createSitemapConfig();

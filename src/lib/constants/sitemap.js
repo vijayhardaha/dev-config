@@ -6,7 +6,6 @@
 /**
  * @type {{
  *   DEFAULTS: {
- *     SITE_URL: string,
  *     OUTPUT_DIR: string,
  *     EXCLUDE_PATHS: string[],
  *     CHANGE_FREQUENCY: string,
@@ -22,7 +21,6 @@
 export const SITEMAP = {
   // Default values
   DEFAULTS: {
-    SITE_URL: 'https://example.com',
     OUTPUT_DIR: './public',
     EXCLUDE_PATHS: ['/404', '/500'],
     CHANGE_FREQUENCY: 'weekly',

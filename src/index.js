@@ -4,7 +4,7 @@
  * =====================================================================
  * Purpose: Central index file that re-exports all configuration presets
  *          for easy consumption by root-level config files.
- * Docs: https://github.com/vijay/repositories/projects/dev-config
+ * Docs: https://github.com/vijayhardaha/dev-config
  * =====================================================================
  */
 
@@ -30,11 +30,11 @@ export { default as prettier } from './presets/prettier/index.js';
 export { default as commitlint } from './presets/commitlint/index.js';
 
 /**
- * Next.js sitemap configuration.
+ * Next.js sitemap configuration factory.
  *
- * @type {import('next-sitemap').IConfig}
+ * @type {typeof import('./presets/next-sitemap/index.js').createSitemapConfig}
  */
-export { default as nextSitemap, createSitemapConfig } from './presets/next-sitemap/index.js';
+export { createSitemapConfig } from './presets/next-sitemap/index.js';
 
 /**
  * Stylelint configuration.

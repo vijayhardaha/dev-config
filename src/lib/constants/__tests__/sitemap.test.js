@@ -4,7 +4,6 @@ import { SITEMAP } from '../sitemap.js';
 
 describe('constants/sitemap', () => {
   it('has default values', () => {
-    expect(SITEMAP.DEFAULTS.SITE_URL).toBe('https://example.com');
     expect(SITEMAP.DEFAULTS.OUTPUT_DIR).toBe('./public');
     expect(SITEMAP.DEFAULTS.EXCLUDE_PATHS).toContain('/404');
     expect(SITEMAP.DEFAULTS.EXCLUDE_PATHS).toContain('/500');
