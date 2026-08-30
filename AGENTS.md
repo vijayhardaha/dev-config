@@ -12,17 +12,17 @@
 
 ## Development Commands
 
-| Command                 | Description                            |
-| ----------------------- | -------------------------------------- |
-| `bun run lint`          | Run ESLint                             |
-| `bun run lint:fix`      | Run ESLint with auto-fix               |
-| `bun run format`        | Format all files with Prettier         |
-| `bun run format:check`  | Check formatting without modifying     |
-| `bun run test`          | Run tests with Vitest                  |
-| `bun run test:watch`    | Run tests in watch mode                |
-| `bun run test:coverage` | Run tests with coverage (target: 100%) |
-| `bun run release`       | Bump version + publish (release-it)    |
-| `bun run release:dry`   | Dry-run the release (no publish)       |
+| Command                 | Description                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| `bun run lint`          | Run ESLint                                                                                    |
+| `bun run lint:fix`      | Run ESLint with auto-fix                                                                      |
+| `bun run format`        | Format all files with Prettier                                                                |
+| `bun run format:check`  | Check formatting without modifying                                                            |
+| `bun run test`          | Run tests with Vitest                                                                         |
+| `bun run test:watch`    | Run tests in watch mode                                                                       |
+| `bun run test:coverage` | Run tests with coverage (100% enforced via `coverage.thresholds`; the release gate runs this) |
+| `bun run release`       | Bump version + publish (release-it)                                                           |
+| `bun run release:dry`   | Dry-run the release (no publish)                                                              |
 
 **Validation order:** `format` → `format:check` → `lint` → `test:coverage`. Always run the full chain before claiming a change is complete.
 
