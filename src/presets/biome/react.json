@@ -1,11 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.11/schema.json",
-  "files": { "includes": ["**"] },
+  "files": {
+    "includes": ["**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}", "!**/assets", "!**/public", "!**/static", "!**/*.min.js"]
+  },
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "assist": { "enabled": true, "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
-    "includes": ["**/*.{ts,tsx,mts,cts}"],
+    "includes": ["**/*.{ts,tsx,mts,cts,jsx}"],
     "rules": {
       "preset": "recommended",
       "style": { "useImportType": "error" },
@@ -25,29 +27,7 @@
     "bracketSameLine": false,
     "bracketSpacing": true,
     "expand": "never",
-    "useEditorconfig": true,
-    "includes": [
-      "**",
-      "!**/bun.lock",
-      "!**/composer.lock",
-      "!**/package-lock.json",
-      "!**/pnpm-lock.yaml",
-      "!**/yarn.lock",
-      "!**/._circleci/**",
-      "!**/.gitlab/**",
-      "!**/.gitlab-ci.yml",
-      "!**/azure-pipelines.yml",
-      "!**/bitbucket-pipelines.yml",
-      "!**/docker-compose.yaml",
-      "!**/docker-compose.yml",
-      "!**/*.kubeconfig",
-      "!**/assets/**",
-      "!**/public/**",
-      "!**/static/**",
-      "!**/*.min.css",
-      "!**/*.min.js",
-      "!**/*.min.map"
-    ]
+    "useEditorconfig": true
   },
   "javascript": {
     "formatter": {
@@ -57,28 +37,10 @@
       "semicolons": "always",
       "arrowParentheses": "always",
       "bracketSameLine": false,
-      "quoteStyle": "double",
+      "quoteStyle": "single",
       "attributePosition": "auto",
       "bracketSpacing": true,
       "operatorLinebreak": "before"
     }
-  },
-  "css": { "parser": { "tailwindDirectives": true } },
-  "html": { "formatter": { "indentScriptAndStyle": false, "selfCloseVoidElements": "always" } },
-  "overrides": [
-    { "includes": ["**/*.py", "**/*.php"], "formatter": { "indentStyle": "space", "indentWidth": 4 } },
-    {
-      "includes": ["**/*.js", "**/*.ts", "**/*.mjs", "**/*.cjs", "**/*.jsx", "**/*.tsx"],
-      "javascript": { "formatter": { "quoteStyle": "single" } },
-      "formatter": { "indentWidth": 2 }
-    },
-    { "includes": ["**/*.css", "**/*.scss", "**/*.sass"], "formatter": { "indentWidth": 2 } },
-    {
-      "includes": ["**/*.json", "**/*.jsonc", "**/*.yml", "**/*.yaml", "**/*.md", "**/*.mdx"],
-      "javascript": { "formatter": { "trailingCommas": "none" } },
-      "formatter": { "indentWidth": 2 }
-    },
-    { "includes": ["**/*.yml", "**/*.yaml"], "formatter": { "indentWidth": 2 } },
-    { "includes": ["**/*.xml", "**/*.xsd", "**/*.xsl", "**/*.xslt"], "formatter": { "indentWidth": 2 } }
-  ]
+  }
 }

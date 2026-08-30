@@ -13,16 +13,22 @@ describe('biome/typescript.json', () => {
     expect(module.default.$schema).toMatch(/^https:\/\/biomejs\.dev\/schemas\//);
   });
 
-  it('should format all file types at the top level', async () => {
+  it('should scope files to javascript-based types only', async () => {
     const module = await import('../typescript.json', { assert: { type: 'json' } });
 
-    expect(module.default.files.includes).toEqual(['**']);
+    expect(module.default.files.includes).toEqual([
+      '**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}',
+      '!**/assets',
+      '!**/public',
+      '!**/static',
+      '!**/*.min.js',
+    ]);
   });
 
-  it('should scope the linter to TypeScript source files', async () => {
+  it('should scope the linter to TypeScript and JSX source files', async () => {
     const module = await import('../typescript.json', { assert: { type: 'json' } });
 
-    expect(module.default.linter.includes).toEqual(['**/*.{ts,tsx,mts,cts}']);
+    expect(module.default.linter.includes).toEqual(['**/*.{ts,tsx,mts,cts,jsx}']);
   });
 
   it('should enforce import type usage', async () => {
@@ -50,7 +56,6 @@ describe('biome/typescript.json', () => {
     expect(module.default.formatter.lineEnding).toBe('lf');
     expect(module.default.javascript.formatter.trailingCommas).toBe('es5');
     expect(module.default.javascript.formatter.operatorLinebreak).toBe('before');
-    expect(module.default.formatter.includes).toContain('!**/bun.lock');
   });
 
   it('should respect gitignore via the vcs config', async () => {
@@ -59,11 +64,5 @@ describe('biome/typescript.json', () => {
     expect(module.default.vcs.enabled).toBe(true);
     expect(module.default.vcs.clientKind).toBe('git');
     expect(module.default.vcs.useIgnoreFile).toBe(true);
-  });
-
-  it('should parse Tailwind v4 css directives', async () => {
-    const module = await import('../typescript.json', { assert: { type: 'json' } });
-
-    expect(module.default.css.parser.tailwindDirectives).toBe(true);
   });
 });

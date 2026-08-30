@@ -13,10 +13,18 @@ describe('biome/js.json', () => {
     expect(module.default.$schema).toMatch(/^https:\/\/biomejs\.dev\/schemas\//);
   });
 
-  it('should format all file types at the top level', async () => {
+  it('should scope files to javascript-based types only', async () => {
     const module = await import('../js.json', { assert: { type: 'json' } });
 
-    expect(module.default.files.includes).toEqual(['**']);
+    expect(module.default.files.includes).toEqual([
+      '**/*.{js,jsx,mjs,cjs}',
+      '!**/assets',
+      '!**/public',
+      '!**/static',
+      '!**/*.min.js',
+    ]);
+    expect(module.default.formatter.includes).toBeUndefined();
+    expect(module.default.overrides).toBeUndefined();
   });
 
   it('should enable the formatter with space indentation', async () => {
@@ -36,24 +44,11 @@ describe('biome/js.json', () => {
     expect(module.default.javascript.formatter.operatorLinebreak).toBe('before');
   });
 
-  it('should use double quotes by default with a recursive single-quote js override', async () => {
+  it('should use single quotes for js and ts files with double quotes in jsx', async () => {
     const module = await import('../js.json', { assert: { type: 'json' } });
 
-    expect(module.default.javascript.formatter.quoteStyle).toBe('double');
-    const jsOverride = module.default.overrides.find((o) => o.includes.includes('**/*.js'));
-    expect(jsOverride).toBeDefined();
-    expect(jsOverride.javascript.formatter.quoteStyle).toBe('single');
-  });
-
-  it('should carry the prettierignore-derived formatter ignore list', async () => {
-    const module = await import('../js.json', { assert: { type: 'json' } });
-
-    expect(module.default.formatter.includes).toContain('!**/bun.lock');
-    expect(module.default.formatter.includes).toContain('!**/yarn.lock');
-    expect(module.default.formatter.includes).toContain('!**/.gitlab-ci.yml');
-    expect(module.default.formatter.includes).toContain('!**/public/**');
-    expect(module.default.formatter.includes).toContain('!**/*.min.js');
-    expect(module.default.formatter.includes).toContain('!**/*.min.map');
+    expect(module.default.javascript.formatter.quoteStyle).toBe('single');
+    expect(module.default.javascript.formatter.jsxQuoteStyle).toBe('double');
   });
 
   it('should respect gitignore via the vcs config', async () => {
@@ -62,12 +57,6 @@ describe('biome/js.json', () => {
     expect(module.default.vcs.enabled).toBe(true);
     expect(module.default.vcs.clientKind).toBe('git');
     expect(module.default.vcs.useIgnoreFile).toBe(true);
-  });
-
-  it('should parse Tailwind v4 css directives', async () => {
-    const module = await import('../js.json', { assert: { type: 'json' } });
-
-    expect(module.default.css.parser.tailwindDirectives).toBe(true);
   });
 
   it('should enable organizeImports via assist actions', async () => {
@@ -81,7 +70,7 @@ describe('biome/js.json', () => {
     const module = await import('../js.json', { assert: { type: 'json' } });
 
     expect(module.default.linter.enabled).toBe(true);
-    expect(module.default.linter.includes).toEqual(['**/*.{js,mjs,cjs}']);
+    expect(module.default.linter.includes).toEqual(['**/*.{js,mjs,cjs,jsx}']);
     expect(module.default.linter.rules.preset).toBe('recommended');
   });
 });

@@ -51,7 +51,6 @@ describe('biome/react.json', () => {
     expect(module.default.formatter.lineEnding).toBe('lf');
     expect(module.default.javascript.formatter.trailingCommas).toBe('es5');
     expect(module.default.javascript.formatter.operatorLinebreak).toBe('before');
-    expect(module.default.formatter.includes).toContain('!**/bun.lock');
   });
 
   it('should respect gitignore via the vcs config', async () => {
@@ -60,11 +59,5 @@ describe('biome/react.json', () => {
     expect(module.default.vcs.enabled).toBe(true);
     expect(module.default.vcs.clientKind).toBe('git');
     expect(module.default.vcs.useIgnoreFile).toBe(true);
-  });
-
-  it('should parse Tailwind v4 css directives', async () => {
-    const module = await import('../react.json', { assert: { type: 'json' } });
-
-    expect(module.default.css.parser.tailwindDirectives).toBe(true);
   });
 });
