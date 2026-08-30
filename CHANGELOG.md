@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix the Biome presets never linting `.jsx` files: the JS preset lints `**/*.{js,mjs,cjs,jsx}` and the TS/React/Next presets lint `**/*.{ts,tsx,mts,cts,jsx}`.
 - Fix the `._circleci/` typo in `.prettierignore` (the real directory is `.circleci/`).
 - Fix a module-load crash with peer-satisfying but older `eslint-plugin-import-x` releases: `createNodeResolver` and `flatConfigs` are now imported through a guarded dynamic import (matching the existing `eslint-import-resolver-typescript` pattern), so versions that satisfy `>=4` without the newer `createNodeResolver` export — or a missing package entirely — degrade to import ordering being disabled with a DEBUG install hint instead of a syntax error killing every preset.
+- Correct the ESLint preset JSDoc: `options.plugins` is typed as flat config objects/arrays (not `string[]`) and notes that configs registering a preset-registered plugin name are stripped; `options.extend` is documented as a shallow last-word spread where colliding keys (like `rules`) fully replace the accumulated value, with `options.rules`/`options.settings` as the additive paths.
 
 ### Removed
 
