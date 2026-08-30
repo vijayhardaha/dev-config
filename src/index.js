@@ -11,7 +11,7 @@
 /**
  * ESLint configuration for JavaScript files.
  *
- * @type {import('eslint').Linter.Config}
+ * @type {import('eslint').Linter.Config[]}
  */
 export { default as eslint, createConfig as createEslintConfig } from './presets/eslint/javascript.js';
 
