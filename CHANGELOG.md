@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.1] - Unreleased
+
+### Fixed
+
+- Fix the Tailwind ESLint recipe referencing `better-tailwindcss` rules when that plugin is not installed: rules and settings are now emitted only for plugins that actually loaded, so a `tailwindcss`-only install validates cleanly instead of failing ESLint config validation. The usage example also awaits the async `tailwind()` call.
+- Harden `mergeDeep` against prototype pollution via `__proto__` keys: keys are checked with `Object.hasOwn` instead of `in`, only plain objects are merged recursively (so `Date`, `Map`, and class instances pass through by reference instead of being emptied), and non-plain-object targets are returned unchanged instead of being mutated.
+- Fix the Biome presets never linting `.jsx` files: the JS preset lints `**/*.{js,mjs,cjs,jsx}` and the TS/React/Next presets lint `**/*.{ts,tsx,mts,cts,jsx}`.
+- Fix the `._circleci/` typo in `.prettierignore` (the real directory is `.circleci/`).
+
+### Removed
+
+- Remove the non-functional `a11y` option from the Next.js ESLint preset. It was documented and accepted but never wired up — passing `a11y: false` produced the exact same config as the default, while accessibility rules always came from `eslint-config-next/core-web-vitals`. Since the option was a no-op, no consumer output changes.
+
+### Changed
+
+- Scope the Biome presets to JavaScript-based files only: `files.includes` is now an allowlist of JS/TS/JSX globs (`**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}`) — with negations for asset output dirs and minified JS — instead of `["**"]` plus a long formatter negation list. Biome no longer processes JSON, CSS, or HTML; the `css` and `html` config sections (including `css.parser.tailwindDirectives` from 2.6.0) are removed. Overrides for languages Biome cannot format (Python, PHP, YAML, Markdown, XML) and the JSON `trailingCommas` setting that never applied are also removed, the JS quote override is collapsed into a top-level `quoteStyle: "single"`, and folder ignores drop the trailing `/**` per Biome 2.2+ guidance. Formatting for JSON, CSS, SCSS, HTML, Markdown, YAML, and XML remains with Prettier.
+
 ## [2.6.0] - 2026-08-30
 
 ### Added

@@ -6,7 +6,7 @@
 
 `@vijayhardaha/dev-config` is a reusable development configuration package for Next.js + TypeScript projects. It ships modular, configurable presets for ESLint, Biome, Prettier, Commitlint, Stylelint, Next Sitemap, TypeScript, JSConfig, and a SMACSS utility. Consumers import a single preset and spread it into their own config (ESLint via JS), or extend a `biome.json` preset via `extends` (Biome).
 
-**Current version: 2.6.0** (unreleased at the time of this writing — `package.json` still reads `2.5.0`; release-it will bump it on `bun run release`).
+**Current version: 2.6.0** (released). The next patch, 2.6.1, is in progress — `package.json` still reads `2.6.0`; release-it will bump it on `bun run release`.
 
 **ESLint requirements:** ESLint >=10, native flat config only. No `FlatCompat`. TypeScript via `typescript-eslint` >=8.
 
@@ -56,7 +56,6 @@ src/
 │   │   ├── next.js                    - Next.js + React + TypeScript preset
 │   │   ├── __tests__/                 - Tests for the four presets
 │   │   │   ├── index.test.js
-│   │   │   ├── javascript.test.js
 │   │   │   ├── typescript.test.js
 │   │   │   ├── react.test.js
 │   │   │   ├── next.test.js
@@ -202,13 +201,13 @@ src/
 
 ### Architectural Notes
 
-- **One preset entry per technology.** Each preset folder exposes either a default export (eslint, prettier, commitlint, stylelint, next-sitemap, gulp-smacss) or a JSON file (tsconfig, jsconfig) plus, where useful, a `createConfig` function for options. The eslint preset additionally has a `recipes/` subdir for opt-in fragments.
-- **Biome presets are self-contained JSON.** Each of the four `biome/*.json` files ships the complete rule set inline without internal `extends`, so a single `extends` entry in the consumer's `biome.json` pulls in everything. Consumers opt in via `biome.json` `extends: ["@vijayhardaha/dev-config/biome/<preset>"]`; later `extends` entries and consumer settings override earlier ones via deep merge.
+- **One preset entry per technology.** Each preset folder exposes either a default export (eslint, prettier, commitlint, stylelint, next-sitemap), a named export (`smacssOrder` for gulp-smacss), or a JSON file (tsconfig, jsconfig) plus, where useful, a `createConfig` function for options. The eslint preset additionally has a `recipes/` subdir for opt-in fragments.
+- **Biome presets are self-contained JSON.** Each of the four `biome/*.json` files ships the complete rule set inline without internal `extends`, so a single `extends` entry in the consumer's `biome.json` pulls in everything. Consumers opt in via `biome.json` `extends: ["@vijayhardaha/dev-config/biome/<preset>"]`; later `extends` entries and consumer settings override earlier ones via deep merge. Processing is scoped to JavaScript-based files only through a `files.includes` allowlist (`**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}`, with negations for asset output dirs and minified JS); JSON, CSS, and HTML are intentionally not processed and the `css`/`html` config sections are absent. The linter globs additionally cover `.jsx`.
 - **Constants live in `src/lib/constants/`.** Each technology gets one file (e.g. `eslint.js`, `prettier.js`); import directly from the file you need. The old monolithic `src/config-constants.js` was removed in 2.5.0.
 - **Helpers live in `src/lib/utils/`.** Grouped by domain (object, array, file, validators) instead of one utility per file. Validators are split into 4 small files (primitives, collections, shapes, numeric-range). Import directly from the file you need.
 - **Plugin helpers** are isolated under `src/presets/eslint/lib/plugin-helpers/`. Each helper is a single, pure function with its own test file. The `build-config.js` orchestrator composes them.
 - **Rule factories** are split by domain under `src/presets/eslint/lib/rules/`. `tailwind.js` owns the optional-plugin loaders, entry-point probing, Prettier interop, and Tailwind rules; `jsdoc.js` owns the JSDoc rule groups for public/exported APIs; `common.js` composes `tsRules`, `prettierRules`, `importOrderRules`, `jsdocRules`, and `tailwindRules` into the final `commonRules` object. The barrel `rules/index.js` re-exports the public surface (`commonRules`, `getTailwindCentralPlugins`, `tailwindSettings`); each file has a co-located test. `tailwindRules` and `resolveTailwindEntryPoint` are intentionally not re-exported because they are only consumed internally by `common.js` and `tailwindSettings`.
-- **Pure-re-export barrels** (any `index.js` that only re-exports) are excluded from coverage so the 100% target reflects only executable logic. The only remaining barrel is `src/presets/eslint/lib/rules/index.js`; the `constants/` and `utils/` barrels were removed in 2.5.0 because every consumer already imports directly.
+- **Pure-re-export barrels** (any `index.js` that only re-exports) are excluded from coverage so the 100% target reflects only executable logic. Four barrels are excluded in `vitest.config.mjs`: `src/index.js`, `src/presets/eslint/lib/index.js`, `src/presets/eslint/lib/plugin-helpers/index.js`, and `src/presets/eslint/lib/rules/index.js`. The `constants/` and `utils/` barrels were removed in 2.5.0 because every consumer already imports directly.
 - **The Tailwind plugin loaders are lazy.** Both `eslint-plugin-better-tailwindcss` and `eslint-plugin-tailwindcss` are imported inside `recipes/tailwind.js` and `recipes/tailwind-plugins.js` so projects without Tailwind tooling pay no cost. Missing plugins are silently ignored; install hints are logged only under `DEBUG=eslint` or `DEBUG=*`.
 
 ## Configuration Options
@@ -244,7 +243,6 @@ createConfig({
 createConfig({
   prettier: true,
   react: true, // React-specific rule overrides
-  a11y: true,
   importOrder: true,
   jsdoc: true,
   tailwind: false
@@ -313,7 +311,6 @@ These entry points consume the modular configs and live at the package root:
 - `eslint-plugin-jsdoc` (>=63)
 - `@eslint/compat` (>=2)
 - `@prettier/plugin-xml` (>=3) for XML Prettier support
-- `husky` (>=9) for git hooks
 
 **Optional (per-tech):**
 
@@ -324,6 +321,7 @@ These entry points consume the modular configs and live at the package root:
 - Commitlint: `@commitlint/cli` (>=21), `@commitlint/config-conventional` (>=21), `@commitlint/types` (>=21)
 - Stylelint: `stylelint` (>=17), `stylelint-config-property-sort-order-smacss` (>=11), `stylelint-config-standard-scss` (>=17), `stylelint-order` (>=8)
 - Next Sitemap: `next-sitemap` (>=4)
+- Git hooks: `husky` (>=9)
 - Biome: `@biomejs/biome` (>=2) — required when using the biome presets
 
 The full peer-dependency list with `optional` flags lives in `package.json` under `peerDependencies` and `peerDependenciesMeta`.

@@ -6,7 +6,7 @@
 
 Reusable development configuration package for Next.js + TypeScript projects.
 
-> **v2.1.0** — Requires ESLint >=10. Native flat config only. No FlatCompat.
+> **v2.6.0** — Requires ESLint >=10. Native flat config only. No FlatCompat.
 
 ## Features
 
@@ -205,7 +205,7 @@ Available presets:
 
 Each preset is fully self-contained, so a single `extends` entry pulls in the full rule set. Consumer `biome.json` settings and later `extends` entries override earlier ones via deep merge.
 
-The Biome formatter runs on every file type Biome supports (JS/TS/JSX, JSON, CSS, GraphQL) and respects your `.gitignore` plus a prettierignore-derived ignore list (lockfiles, `public/`, `static/`, CI configs, minified files). Markdown, YAML, HTML, XML, SVG, and other formats Biome does not support still need Prettier, so run both tools in your format script.
+The Biome presets process only JavaScript-based files — `**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}` — via a `files.includes` allowlist that also excludes asset output dirs (`assets/`, `public/`, `static/`) and minified JS, and respects your `.gitignore`. The linter covers `.jsx` alongside each preset's source globs. JSON, CSS, SCSS, HTML, Markdown, YAML, XML, and other formats Biome no longer touches remain with Prettier (and Stylelint for CSS), so run both tools in your format script.
 
 ### Prettier
 
