@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Make `siteUrl` required in `createSitemapConfig` and remove the import-time default export. The preset previously shipped `export default createSitemapConfig()`, which silently baked in `https://example.com` for any consumer importing the default (including the root `nextSitemap` re-export), producing a sitemap and robots.txt pointing at the wrong domain. `createSitemapConfig` now throws a clear error when `siteUrl` is missing, the default export and the root `nextSitemap` re-export are removed, and the unused `SITEMAP.DEFAULTS.SITE_URL` constant is dropped. Call `createSitemapConfig({ siteUrl: "https://yourdomain.com" })` instead.
 - Scope the Biome presets to JavaScript-based files only: `files.includes` is now an allowlist of JS/TS/JSX globs (`**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}`) — with negations for asset output dirs and minified JS — instead of `["**"]` plus a long formatter negation list. Biome no longer processes JSON, CSS, or HTML; the `css` and `html` config sections (including `css.parser.tailwindDirectives` from 2.6.0) are removed. Overrides for languages Biome cannot format (Python, PHP, YAML, Markdown, XML) and the JSON `trailingCommas` setting that never applied are also removed, the JS quote override is collapsed into a top-level `quoteStyle: "single"`, and folder ignores drop the trailing `/**` per Biome 2.2+ guidance. Formatting for JSON, CSS, SCSS, HTML, Markdown, YAML, and XML remains with Prettier.
 
 ## [2.6.0] - 2026-08-30
