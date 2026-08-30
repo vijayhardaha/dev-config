@@ -11,4 +11,8 @@ describe('constants/stylelint', () => {
   it('has plugins defined', () => {
     expect(STYLELINT.PLUGINS.ORDER).toBe('stylelint-order');
   });
+
+  it('does not carry an unused customSyntax config', () => {
+    expect(STYLELINT.CONFIG).toBeUndefined();
+  });
 });

@@ -5,8 +5,7 @@
 /**
  * @type {{
  *   DEFAULTS: { extends: string[] },
- *   PLUGINS: { ORDER: string },
- *   CONFIG: { customSyntax: string }
+ *   PLUGINS: { ORDER: string }
  * }}
  */
 export const STYLELINT = {
@@ -15,7 +14,4 @@ export const STYLELINT = {
 
   // Plugins
   PLUGINS: { ORDER: 'stylelint-order' },
-
-  // Configuration
-  CONFIG: { customSyntax: 'postcss-scss' },
 };
