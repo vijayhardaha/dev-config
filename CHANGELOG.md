@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Harden `mergeDeep` against prototype pollution via `__proto__` keys: keys are checked with `Object.hasOwn` instead of `in`, only plain objects are merged recursively (so `Date`, `Map`, and class instances pass through by reference instead of being emptied), and non-plain-object targets are returned unchanged instead of being mutated.
 - Fix the Biome presets never linting `.jsx` files: the JS preset lints `**/*.{js,mjs,cjs,jsx}` and the TS/React/Next presets lint `**/*.{ts,tsx,mts,cts,jsx}`.
 - Fix the `._circleci/` typo in `.prettierignore` (the real directory is `.circleci/`).
+- Fix a module-load crash with peer-satisfying but older `eslint-plugin-import-x` releases: `createNodeResolver` and `flatConfigs` are now imported through a guarded dynamic import (matching the existing `eslint-import-resolver-typescript` pattern), so versions that satisfy `>=4` without the newer `createNodeResolver` export — or a missing package entirely — degrade to import ordering being disabled with a DEBUG install hint instead of a syntax error killing every preset.
 
 ### Removed
 
