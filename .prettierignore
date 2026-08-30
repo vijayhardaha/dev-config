@@ -151,7 +151,7 @@ next-env.d.ts
 # Common Auto-Generated YAML
 # ----------------------------------------------------------------------
 # These are typically generated or CI-related - not meant to be formatted.
-._circleci/
+.circleci/
 .gitlab/
 .gitlab-ci.yml
 azure-pipelines.yml
