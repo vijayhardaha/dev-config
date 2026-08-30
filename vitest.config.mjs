@@ -39,6 +39,11 @@ const config = {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.{js,mjs,cjs,ts,tsx}'],
+
+      // Enforce the documented 100% target: vitest exits non-zero when any
+      // metric in any file drops below it, instead of only printing numbers.
+      thresholds: { statements: 100, branches: 100, functions: 100, lines: 100 },
+
       exclude: [
         'node_modules/',
         'vitest.config.mjs',
