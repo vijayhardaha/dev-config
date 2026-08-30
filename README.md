@@ -18,6 +18,7 @@ Reusable development configuration package for Next.js + TypeScript projects.
 - **JSConfig** - IntelliSense support for JavaScript projects
 - **Stylelint** - CSS/SCSS linting configuration
 - **Next Sitemap** - Sitemap generation configuration
+- **SMACSS** - Ordered CSS property array for `stylelint-order`
 
 ## What's new in v2.3.0
 
@@ -25,10 +26,10 @@ This release focuses on **improved code organization, maintainability, and testa
 
 ### New Modules
 
-- **Configuration Constants** (`src/config-constants.js`) - Centralized defaults for all configurations with 8 organized modules (ESLINT, PRETTIER, SITEMAP, COMMITLINT, STYLELINT, TYPESCRIPT, JSCONFIG, HUSKY)
-- **Validators** (`src/lib/validators.js`) - 13 reusable validation functions for parameter validation across all config builders
-- **Config Utilities** (`src/lib/config-utils.js`) - 11 shared utility functions for common configuration patterns
-- **Plugin Helpers** (`src/eslint/lib/plugin-helpers/`) - 5 modular functions extracted from build-config.js for better plugin manipulation
+- **Configuration Constants** (`src/lib/constants/`) - Centralized defaults for all configurations with per-technology modules (ESLINT, PRETTIER, SITEMAP, COMMITLINT, STYLELINT, TYPESCRIPT, JSCONFIG, HUSKY); relocated from the original `src/config-constants.js` in v2.5.0
+- **Validators** (`src/lib/utils/validators/`) - 13 reusable validation functions for parameter validation across all config builders, grouped into four modules; relocated from `src/lib/validators.js` in v2.5.0
+- **Config Utilities** (`src/lib/utils/`) - 11 shared utility functions for common configuration patterns, grouped by domain (object, array, file); relocated from `src/lib/config-utils.js` in v2.5.0
+- **Plugin Helpers** (`src/presets/eslint/lib/plugin-helpers/`) - 5 modular functions extracted from build-config.js for better plugin manipulation; moved under `src/presets/` in v2.5.0
 
 ### Improvements
 
@@ -41,6 +42,20 @@ This release focuses on **improved code organization, maintainability, and testa
 ### Backward Compatibility
 
 ✅ 100% backward compatible - Public API unchanged, all existing code continues to work without modifications
+
+## What's new in v2.1.0
+
+- **Root import no longer loads optional ESLint integrations** — use ESLint subpath imports for TypeScript, React, and Next.js presets.
+- **JavaScript recommended rules restored** — the base JavaScript preset now includes `@eslint/js` recommended rules.
+- **Next.js peer dependency declared** — the Next.js preset requires `next` because `eslint-config-next` resolves Next's bundled ESLint parser.
+- **Custom file patterns honored consistently** — TypeScript, React, and Next.js presets merge `options.files` into their generated file patterns.
+
+## What's new in v2.0.4
+
+- **`eslint-config-prettier` restored** — added back to peer deps (required by `eslint-plugin-prettier/recommended`)
+- **`eslint-import-resolver-typescript` restored** — added back as optional peer for TypeScript import resolution
+- **All packages declared as peer deps** — every config module's dependencies are declared with proper `peerDependenciesMeta`
+- **Flat config resolver fix** — switched from string-based `import-x/resolver` to `import-x/resolver-next` with `createTypeScriptImportResolver` for ESLint 10 compatibility
 
 ## Installation
 
@@ -113,20 +128,6 @@ v2 drops FlatCompat and uses native ESLint 10 flat configs throughout.
 1. Install ESLint 10+: `bun add --dev eslint@10`
 2. Replace `eslint-plugin-import` with `eslint-plugin-import-x`
 3. Remove unused deps: `@eslint/eslintrc`, `eslint-plugin-import`
-
-### What's new in v2.0.4
-
-- **`eslint-config-prettier` restored** — added back to peer deps (required by `eslint-plugin-prettier/recommended`)
-- **`eslint-import-resolver-typescript` restored** — added back as optional peer for TypeScript import resolution
-- **All packages declared as peer deps** — every config module's dependencies are declared with proper `peerDependenciesMeta`
-- **Flat config resolver fix** — switched from string-based `import-x/resolver` to `import-x/resolver-next` with `createTypeScriptImportResolver` for ESLint 10 compatibility
-
-### What's new in v2.1.0
-
-- **Root import no longer loads optional ESLint integrations** — use ESLint subpath imports for TypeScript, React, and Next.js presets.
-- **JavaScript recommended rules restored** — the base JavaScript preset now includes `@eslint/js` recommended rules.
-- **Next.js peer dependency declared** — the Next.js preset requires `next` because `eslint-config-next` resolves Next's bundled ESLint parser.
-- **Custom file patterns honored consistently** — TypeScript, React, and Next.js presets merge `options.files` into their generated file patterns.
 
 ## Quick Start
 
@@ -239,6 +240,17 @@ export default stylelintConfig;
 
 Stylelint parses standard CSS by default. When linting `.scss` files, make sure `postcss-scss` is installed and pass `--custom-syntax postcss-scss` on the CLI (or set `customSyntax` in your own config) — the preset intentionally leaves that choice to you.
 
+### SMACSS Property Order
+
+Import the ordered property array and wire it into `stylelint-order` yourself:
+
+```javascript
+import { smacssOrder } from "@vijayhardaha/dev-config/gulp-smacss";
+import stylelintConfig from "@vijayhardaha/dev-config/stylelint";
+
+export default { ...stylelintConfig, rules: { ...stylelintConfig.rules, "order/properties-order": smacssOrder } };
+```
+
 ### Next Sitemap
 
 Create `next-sitemap.config.mjs` in your project root:
@@ -256,6 +268,8 @@ Create `tsconfig.json` in your project root:
 ```json
 { "extends": "@vijayhardaha/dev-config/tsconfig" }
 ```
+
+Both configs include a `paths` alias mapping `@/*` to `./src/*`. If your project uses a different layout, override `compilerOptions.paths` in your own file.
 
 ### JavaScript
 
