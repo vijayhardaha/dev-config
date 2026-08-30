@@ -160,7 +160,7 @@ const buildConfigObject = ({
  * @param {object} [config.parserOptions] - Parser options.
  * @param {object} [config.settings] - Settings object.
  * @param {object} [config.rules] - Additional rules.
- * @param {object} [config.options] - User-provided options. Tailwind rules are disabled by default and can be enabled with `tailwind: true`.
+ * @param {object} [config.options] - User-provided options. Tailwind rules are disabled by default and can be enabled with `tailwind: true`. `options.extend` is shallowly spread onto the final config object after everything else, so colliding keys fully replace the accumulated value; `options.rules` and `options.settings` merge additively.
  * @param {boolean} [config.typescript] - Enable TypeScript support.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.

@@ -25,9 +25,9 @@ import { buildConfig, files } from './lib/index.js';
  * @param {object} [options.settings] - Additional settings.
  * @param {string[]} [options.files] - Additional file patterns to lint.
  * @param {object} [options.languageOptions] - Additional language options.
- * @param {string[]} [options.plugins] - Additional plugin configs to extend.
+ * @param {(object|object[])[]} [options.plugins] - Additional flat config objects or arrays to include. A config registering a plugin whose name matches a preset-registered plugin is stripped to avoid redefinition errors.
  * @param {string[]} [options.globalIgnores] - Additional global ignore patterns.
- * @param {object} [options.extend] - Additional config properties to extend.
+ * @param {object} [options.extend] - Properties shallowly spread onto the final config object after everything else. Colliding keys (like `rules`) fully replace the accumulated value; use `options.rules` or `options.settings` for additive changes.
  *
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
