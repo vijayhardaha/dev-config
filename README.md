@@ -237,6 +237,8 @@ import stylelintConfig from "@vijayhardaha/dev-config/stylelint";
 export default stylelintConfig;
 ```
 
+Stylelint parses standard CSS by default. When linting `.scss` files, make sure `postcss-scss` is installed and pass `--custom-syntax postcss-scss` on the CLI (or set `customSyntax` in your own config) — the preset intentionally leaves that choice to you.
+
 ### Next Sitemap
 
 Create `next-sitemap.config.mjs` in your project root:

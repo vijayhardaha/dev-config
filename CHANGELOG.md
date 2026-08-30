@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Remove the unused `STYLELINT.CONFIG` constant (`customSyntax: 'postcss-scss'`). It was defined in the constants but never applied by the stylelint preset, falsely implying the preset handles SCSS parsing. Applying it would have silently required `postcss-scss` in every consumer project, so the constant is removed instead and the README documents how SCSS parsing is enabled.
 - Remove the non-functional `a11y` option from the Next.js ESLint preset. It was documented and accepted but never wired up — passing `a11y: false` produced the exact same config as the default, while accessibility rules always came from `eslint-config-next/core-web-vitals`. Since the option was a no-op, no consumer output changes.
 
 ### Changed
