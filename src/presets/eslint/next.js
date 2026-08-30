@@ -36,7 +36,6 @@ const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/ty
  * @param {object} [options] - Configuration options.
  * @param {boolean} [options.prettier] - Enable Prettier integration.
  * @param {boolean} [options.react] - Enable React-specific rules.
- * @param {boolean} [options.a11y] - Enable accessibility rules.
  * @param {boolean} [options.importOrder] - Enable import order rules.
  * @param {boolean} [options.jsdoc] - Enable JSDoc rules for public/exported APIs.
  * @param {boolean} [options.tailwind] - Enable Tailwind CSS class rules (default: false).
@@ -52,7 +51,7 @@ const prepareNextConfig = (configs) => configs.filter((c) => c.name !== 'next/ty
  * @returns {import('eslint').Linter.Config[]} ESLint configuration array.
  */
 export const createConfig = (options = {}) => {
-  const { prettier = true, react = true, a11y = true, importOrder = true, jsdoc = true, tailwind = false } = options;
+  const { prettier = true, react = true, importOrder = true, jsdoc = true, tailwind = false } = options;
 
   return buildConfig({
     files: [...files.withTs, ...(options.files || [])],
@@ -72,7 +71,7 @@ export const createConfig = (options = {}) => {
       }),
     },
     typescript: true,
-    options: { ...options, prettier, react, a11y, importOrder, jsdoc, tailwind },
+    options: { ...options, prettier, react, importOrder, jsdoc, tailwind },
   });
 };
 
